@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Verses That Impacted Me</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+        <p th:text="'Hello, ' + ${impacted.firstName} + ' ' + ${impacted.lastName} + '!'" />
+        <br>
+        <table border='1'>
+            <tr>
+                <th>Verse</th>
+                <th>Song</th>
+                <th>Artist</th>
+                <th>My Reaction</th>
+                <th>My tags</th>                
+            </tr>
+            <tr th:each="verse : ${impacted.verses}" style="height: 55px;">
+                <td th:text="${verse.lyrics}">1</td>
+                <td th:text="${verse.song}">Song</td>
+                <td><a href="#" th:text="${verse.artist}">Artist</a></td>
+                <td th:text="${verse.reaction}">Reaction</td>
+                <td>
+                    <span th:each="tag : ${verse.tags}" style="background-color:red; color:white; padding:10px; margin:10px" th:text="${tag.label}"></span>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

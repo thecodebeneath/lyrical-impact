@@ -8,12 +8,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.tag.Tag;
 
 /**
  * The section of a song that impacted someone. This could be a single line, chorus or verse.
  */
 @Entity
+@Getter
+@Setter
+@ToString
 public class Verse {
 
     @Id
@@ -23,6 +31,10 @@ public class Verse {
     private String song;
     private String artist;
     private String reaction;
+    
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Impacted impacted;
+    
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Tag> tags = new HashSet<>();
 
@@ -36,57 +48,12 @@ public class Verse {
         this.reaction = reaction;
     }
 
-    public Verse(String lyrics, String song, String artist, String reaction, Set<Tag> tags) {
+    public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted) {
         this.lyrics = lyrics;
         this.song = song;
         this.artist = artist;
         this.reaction = reaction;
-        this.tags = tags;
+        this.impacted = impacted;
     }
 
-    public String getLyrics() {
-        return lyrics;
-    }
-
-    public void setLyrics(String lyrics) {
-        this.lyrics = lyrics;
-    }
-
-    public String getSong() {
-        return song;
-    }
-
-    public void setSong(String song) {
-        this.song = song;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getReaction() {
-        return reaction;
-    }
-
-    public void setReaction(String reaction) {
-        this.reaction = reaction;
-    }
-
-    public Set<Tag> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<Tag> tags) {
-        this.tags = tags;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Verse[id=%d, lyrics='%s', song='%s', artist='%s']",
-                id, getLyrics(), getSong(), getArtist());
-    }
 }

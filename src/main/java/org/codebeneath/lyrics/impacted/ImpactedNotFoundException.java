@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ResponseStatus(HttpStatus.NOT_FOUND)
 class ImpactedNotFoundException extends RuntimeException {
 
-    public ImpactedNotFoundException(String firstName) {
-        super("Could not find a impacted user named '" + firstName + "'.");
+    public ImpactedNotFoundException(Long id) {
+        super("Could not find a impacted user id '" + id + "'.");
     }
 
 }

@@ -11,24 +11,24 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class ImpactedController {
 
-    private ImpactedRepository repo;
+    private final ImpactedRepository repo;
 
     public ImpactedController(ImpactedRepository repo) {
         this.repo = repo;
     }
 
-    @GetMapping("/impacted/{firstName}")
-    public String impactedVerses(@PathVariable(required = true) String firstName, Model model) {
-        validateImpacted(firstName);
+    @GetMapping("/impacted/{id}")
+    public String impactedVerses(@PathVariable(required = true) Long id, Model model) {
+        validateImpacted(id);
 
-        Impacted jeff = repo.findByFirstName(firstName).get(0);
+        Impacted jeff = repo.findById(id).get();
         model.addAttribute("impacted", jeff);
         return "impacted";
     }
 
-    private void validateImpacted(String firstName) {
-        if (repo.findByFirstName(firstName).isEmpty()) {
-            throw new ImpactedNotFoundException(firstName);
+    private void validateImpacted(Long id) {
+        if (!repo.findById(id).isPresent()) {
+            throw new ImpactedNotFoundException(id);
         }
     }
 }

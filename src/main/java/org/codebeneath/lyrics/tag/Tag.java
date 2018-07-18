@@ -1,20 +1,24 @@
 package org.codebeneath.lyrics.tag;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.codebeneath.lyrics.impacted.Impacted;
 
 /**
  * Tags that an impacted user might use to remember or group verses.
  */
 @Entity
-@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"label", "impacted_id"}))
+@Getter
+@Setter
+@ToString
 public class Tag {
 
     @Id
@@ -23,7 +27,7 @@ public class Tag {
     
     private String label;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @NotNull
     private Impacted impacted;
 
@@ -35,16 +39,4 @@ public class Tag {
         this.impacted = impacted;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public void setLabel(String label) {
-        this.label = label;
-    }
-
-    @Override
-    public String toString() {
-        return String.format("Tag[id=%d, label=%s, impacted=%d]", id, label, impacted.getId());
-    }
 }

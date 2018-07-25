@@ -1,19 +1,16 @@
 package org.codebeneath.lyrics.verse;
 
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import java.util.List;
+import javax.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.tag.Tag;
+import org.springframework.web.util.HtmlUtils;
 
 /**
  * The section of a song that impacted someone. This could be a single line, chorus or verse.
@@ -27,6 +24,7 @@ public class Verse {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @Column(columnDefinition = "TEXT")
     private String lyrics;
     private String song;
     private String artist;
@@ -36,7 +34,7 @@ public class Verse {
     private Impacted impacted;
     
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Tag> tags = new HashSet<>();
+    private List<Tag> tags = new ArrayList<>();
 
     protected Verse() {
     }
@@ -56,4 +54,16 @@ public class Verse {
         this.impacted = impacted;
     }
 
+    public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted, List<Tag> tags) {
+        this.lyrics = lyrics;
+        this.song = song;
+        this.artist = artist;
+        this.reaction = reaction;
+        this.impacted = impacted;
+        this.tags = tags;
+    }
+
+    public String getLyricsAsHtml() {
+        return HtmlUtils.htmlEscape(lyrics);
+    }
 }

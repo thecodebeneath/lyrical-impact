@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lyrical Impact</title>
+    <link rel="stylesheet" href="/impacted.css">
+</head>
+<body>
+<div class="topnav">
+    <a href="/impacted/1">My Impacted</a>
+    <a href="#">About</a>
+    <a href="#">Logout</a>
+</div>
+<div class="content">
+    <h3>Add a verse that impacted you!</h3>
+    <form action="#" method="POST" th:action="@{/verse}" th:object="${verse}">
+        <table>
+            <tr>
+                <td>Lyrics: <textarea th:field="*{lyrics}"  rows="20" cols="150"/></td>
+            </tr>
+            <tr>
+                <td>Song: <input type="text" th:field="*{song}"/></td>
+            </tr>
+            <tr>
+                <td>Artist: <input type="text" th:field="*{artist}"/></td>
+            </tr>
+            <tr>
+                <td>Your Reaction: <input type="text" th:field="*{reaction}"/></td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Submit"/></td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

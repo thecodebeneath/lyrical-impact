@@ -1,6 +1,5 @@
 package org.codebeneath.lyrics.experiments;
 
-import org.codebeneath.lyrics.Application;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JpaExperiments {
 
-    private static final Logger LOG = LoggerFactory.getLogger(Application.class);
+    private static final Logger LOG = LoggerFactory.getLogger(JpaExperiments.class);
     
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;

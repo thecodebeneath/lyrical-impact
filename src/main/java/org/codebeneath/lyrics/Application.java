@@ -2,6 +2,7 @@ package org.codebeneath.lyrics;
 
 import org.codebeneath.lyrics.experiments.JpaExperiments;
 import org.codebeneath.lyrics.experiments.RestTemplateExperiments;
+import org.codebeneath.lyrics.experiments.SeedData;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,9 +19,10 @@ public class Application {
     }
 
     @Bean
-    public CommandLineRunner experiments(JpaExperiments jpaEx, RestTemplateExperiments restEx) {
+    public CommandLineRunner experiments(SeedData seedData, JpaExperiments jpaEx, RestTemplateExperiments restEx) {
         return (args) -> {
-            jpaEx.experiment();
+            seedData.load();
+//            jpaEx.experiment();
             restEx.experiment();
         };
     }

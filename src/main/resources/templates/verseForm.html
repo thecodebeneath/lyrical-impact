@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Lyrical Impact</title>
-    <link rel="stylesheet" href="/impacted.css">
+    <link rel="stylesheet" href="/impacted.css"/>
 </head>
 <body>
 <div class="topnav">
@@ -15,19 +15,22 @@
     <form action="#" method="POST" th:action="@{/verse}" th:object="${verse}">
         <table>
             <tr>
-                <td>Lyrics: <textarea th:field="*{lyrics}"  rows="20" cols="150"/></td>
+                <td><span class="formLabel"></span> <span style="background-color: red;" th:if="${#fields.hasErrors('lyrics')}" th:errors="*{lyrics}">Lyrics Error</span></td>
             </tr>
             <tr>
-                <td>Song: <input type="text" th:field="*{song}"/></td>
+                <td><span class="formLabel">Lyrics:</span> <textarea th:field="*{lyrics}"  rows="10" cols="150"/></td>
             </tr>
             <tr>
-                <td>Artist: <input type="text" th:field="*{artist}"/></td>
+                <td><span class="formLabel">Song Title:</span> <input type="text" th:field="*{song}" size="150"/></td>
             </tr>
             <tr>
-                <td>Your Reaction: <input type="text" th:field="*{reaction}"/></td>
+                <td><span class="formLabel">Song Artist:</span> <input type="text" th:field="*{artist}" size="150"/></td>
             </tr>
             <tr>
-                <td><input type="submit" value="Submit"/></td>
+                <td><span class="formLabel">Your Reaction:</span> <textarea th:field="*{reaction}"  rows="5" cols="150"/></td>
+            </tr>
+            <tr>
+                <td style="text-align: center;"><input type="submit" value="Submit" /></td>
             </tr>
         </table>
     </form>

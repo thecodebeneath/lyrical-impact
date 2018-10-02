@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Lyrical Impact</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/impacted.css">
+    <meta charset="UTF-8"></meta>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+    <link rel="stylesheet" href="/impacted.css"/>
 </head>
 <body>
 <div class="topnav">
@@ -15,12 +15,13 @@
 <div class="content">
     <p th:text="'How were you impacted today ' + ${impacted.firstName} + ' ' + ${impacted.lastName} + '?'"/>
     <a href="/verse">[+] Add impacted verse</a>
-    <hr>
+    <hr/>
 
     <div class="tagsList">
-        <span class="impactedTag" th:each="tag : ${tags}" th:text="${tag.getLabel()}"/>
+        <a class="impactedTag" href="/">[Show All]</a>
+        <a class="impactedTag" th:each="tag : ${tags}" th:text="${tag.label}" th:href="|/?tag=${tag.label}|"/>
     </div>
-    <hr>
+    <hr/>
 
     <table width="100%" border='1'>
         <tr style="background-color: antiquewhite;">
@@ -36,8 +37,8 @@
             <td><a href="#" th:text="${verse.artist}">Artist</a></td>
             <td th:text="${verse.reaction}">Reaction</td>
             <td>
-                <span th:each="tag : ${verse.tags}" style="background-color:red; color:white; padding:10px; margin:10px"
-                      th:text="${tag.label}"></span>
+                <a class="impactedTag" href="/">[Tag With]</a>
+                <span class="impactedTag" th:each="tag : ${verse.tags}" th:text="${tag.label}"></span>
             </td>
         </tr>
     </table>

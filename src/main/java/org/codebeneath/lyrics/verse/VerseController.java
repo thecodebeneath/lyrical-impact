@@ -3,6 +3,7 @@ package org.codebeneath.lyrics.verse;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.TagRepository;
+import org.codebeneath.lyrics.impacted.ImpactedNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
+import javax.validation.Valid;
+import org.springframework.validation.BindingResult;
 
 @Controller
 public class VerseController {
@@ -40,11 +43,33 @@ public class VerseController {
     }
 
     @PostMapping("/verse")
-    public String addVerse(@ModelAttribute Verse verse, Model model) {
-        Impacted jeff = impactedRepo.findById(1L).get();
-        verse.setImpacted(jeff);
+    public String addVerse(@Valid Verse verse, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "verseForm";
+        }
+        Impacted impactedUser = getImpactedUser(1L);
+        verse.setImpacted(impactedUser);
         verseRepo.save(verse);
 
-        return "redirect:/impacted/" + jeff.getId();
+        return "redirect:/";
+    }
+    
+//    @PostMapping("/verse")
+//    public String addVerse(@ModelAttribute Verse verse, Model model) {
+//        Impacted impactedUser = getImpactedUser(1L);
+//        verse.setImpacted(impactedUser);
+//        verseRepo.save(verse);
+//
+//        return "redirect:/";
+//    }
+
+    private Impacted getImpactedUser(Long id) {
+        // TODO: hardcoded for now...
+        id = 1L;
+
+        if (!impactedRepo.findById(id).isPresent()) {
+            throw new ImpactedNotFoundException(id);
+        }
+        return impactedRepo.findById(id).get();
     }
 }

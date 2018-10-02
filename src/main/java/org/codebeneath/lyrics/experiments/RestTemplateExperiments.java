@@ -46,7 +46,7 @@ public class RestTemplateExperiments {
         final String poetryDbUrl = "http://poetrydb.org/lines/{lines}";
         PoetryDbEntry[] p = restTemplate.getForObject(poetryDbUrl, PoetryDbEntry[].class, "foe to my own friends");
         for (int x = 0; x < p.length; x++) {
-            LOG.info("poetrydb: " + p[x].toString());
+            // LOG.info("poetrydb: " + p[x].toString());
         }
 
         // --------------

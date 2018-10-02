@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,15 +26,17 @@ public class Verse {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
+    @NotNull
+    @Size(min = 1, max = 5000)
     @Column(columnDefinition = "TEXT")
     private String lyrics;
     private String song;
     private String artist;
     private String reaction;
-    
+
     @ManyToOne(fetch = FetchType.LAZY)
     private Impacted impacted;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Tag> tags = new ArrayList<>();
 

@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -53,15 +52,6 @@ public class VerseController {
 
         return "redirect:/";
     }
-    
-//    @PostMapping("/verse")
-//    public String addVerse(@ModelAttribute Verse verse, Model model) {
-//        Impacted impactedUser = getImpactedUser(1L);
-//        verse.setImpacted(impactedUser);
-//        verseRepo.save(verse);
-//
-//        return "redirect:/";
-//    }
 
     private Impacted getImpactedUser(Long id) {
         // TODO: hardcoded for now...

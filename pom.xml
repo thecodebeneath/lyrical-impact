@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.3.RELEASE</version>
+        <version>2.0.5.RELEASE</version>
     </parent>
 
     <groupId>org.codebeneath</groupId>
@@ -23,6 +23,7 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-endpoints-enabling-endpoints -->
+        <!-- curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "INFO"}' http://localhost:8080/actuator/loggers/ROOT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>

@@ -1,5 +1,7 @@
 package org.codebeneath.lyrics.verse;
 
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.Metrics;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.TagRepository;
@@ -20,6 +22,7 @@ import org.springframework.validation.BindingResult;
 public class VerseController {
 
     private static final Logger LOG = LoggerFactory.getLogger(VerseController.class);
+    private final Counter createdCounter = Metrics.counter("verses.created");
 
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
@@ -49,7 +52,8 @@ public class VerseController {
         Impacted impactedUser = getImpactedUser(1L);
         verse.setImpacted(impactedUser);
         verseRepo.save(verse);
-
+        createdCounter.increment();
+        
         return "redirect:/";
     }
 

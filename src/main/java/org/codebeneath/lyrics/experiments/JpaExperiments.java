@@ -1,22 +1,20 @@
 package org.codebeneath.lyrics.experiments;
 
+import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
  *
  */
+@Slf4j
 @Component
 public class JpaExperiments {
-
-    private static final Logger LOG = LoggerFactory.getLogger(JpaExperiments.class);
     
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
@@ -30,7 +28,7 @@ public class JpaExperiments {
 
     public void experiment() {
         
-        //            Set<Verse> verses = new HashSet<>();
+//            Set<Verse> verses = new HashSet<>();
 //            verses.add(new Verse("once I was young", "Busted", "Pink", ""));
 //            verses.add(new Verse("round and round", "Round and Round", "Ratt", "makes me dizzy!"));
 //
@@ -44,25 +42,25 @@ public class JpaExperiments {
 //            Tag happyTag = tagRepo.save(new Tag("happy", savedJeff));
 //            Tag otherTag = tagRepo.save(new Tag("other", savedJeff));
 //            tagRepo.findAll().forEach(t -> {
-//                LOG.info("...tag...." + t.toString());
+//                log.info("...tag.... {}", t.toString());
 //            });
 //
-//            LOG.info("Impacted found with findAll():");
-//            LOG.info("-------------------------------");
+//            log.info("Impacted found with findAll():");
+//            log.info("-------------------------------");
 //            impactedRepo.findAll().forEach(i -> {
-//                LOG.info(i.toString());
-//                LOG.info("-verses------------------------------");
+//                log.info(i.toString());
+//                log.info("-verses------------------------------");
 //                i.getVerses().forEach(v -> {
-//                    LOG.info(v.toString());
+//                    log.info(v.toString());
 //                });
 //            });
 //
 //            impactedRepo.findById(savedJeff.getId())
 //                    .ifPresent(i -> {
-//                        LOG.info("Impacted found with findById(1L):");
-//                        LOG.info("--------------------------------");
-//                        LOG.info(i.toString());
-//                        LOG.info("");
+//                        log.info("Impacted found with findById(1L):");
+//                        log.info("--------------------------------");
+//                        log.info(i.toString());
+//                        log.info("");
 //
 //                        Set<Tag> tags = new HashSet<>();
 //                        tags.add(happyTag);
@@ -71,15 +69,15 @@ public class JpaExperiments {
 ////                        i.getVerses().add(new Verse("wild and free", "Shadows", "Metric", "", tags));
 //                        impactedRepo.save(i);
 //
-//                        LOG.info("......tags for jeff... " + i.toString());
+//                        log.info("......tags for jeff... {}", i.toString());
 //                        tagRepo.findByImpacted(i).forEach(t -> {
-//                            LOG.info(t.toString());
+//                            log.info(t.toString());
 //                        });
 //                    });
 //
 //            Impacted jeffAgain = impactedRepo.findById(savedJeff.getId()).get();
 //
-//            LOG.info("......tagging verses...");
+//            log.info("......tagging verses...");
 //            jeffAgain.getVerses().forEach(v -> {
 //                if (v.getArtist().equals("Metric")) {
 //                    v.getTags().add(sadTag);
@@ -92,19 +90,19 @@ public class JpaExperiments {
 //                verseRepo.save(v);
 //            });
 //
-//            LOG.info("All happy tagged verses");
-//            LOG.info("-------------------------------");
+//            log.info("All happy tagged verses");
+//            log.info("-------------------------------");
 //            verseRepo.findAllByTagsLabel("happy").forEach(v -> {
-//                LOG.info(v.toString());
+//                log.info(v.toString());
 //            });
 //            
-//            LOG.info("Impacted found with findAll():");
-//            LOG.info("-------------------------------");
+//            log.info("Impacted found with findAll():");
+//            log.info("-------------------------------");
 //            impactedRepo.findAll().forEach(i -> {
-//                LOG.info(i.toString());
-//                LOG.info("-verses------------------------------");
+//                log.info(i.toString());
+//                log.info("-verses------------------------------");
 //                i.getVerses().forEach(v -> {
-//                    LOG.info(v.toString());
+//                    log.info(v.toString());
 //                });
 //            });
 
@@ -128,8 +126,8 @@ public class JpaExperiments {
         v2.getTags().add(sad2Tag);
         v2 = verseRepo.save(v2);
 
-        LOG.info("...Tex verses 3?..." + verseRepo.findByImpactedId(i2.getId()).size());
-        LOG.info("...Tex sads 2?..." + verseRepo.findByImpactedIdAndTagsLabel(i2.getId(), "sad").size());
-        LOG.info("...All sads 3?..." + verseRepo.countByTagsLabel("sad"));
+        log.info("...Tex verses 3?... {}", verseRepo.findByImpactedId(i2.getId()).size());
+        log.info("...Tex sads 2?... {}", verseRepo.findByImpactedIdAndTagsLabel(i2.getId(), "sad").size());
+        log.info("...All sads 3?... {}", verseRepo.countByTagsLabel("sad"));
     }
 }

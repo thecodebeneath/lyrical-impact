@@ -6,8 +6,6 @@ import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.impacted.ImpactedNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 import javax.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 
+@Slf4j
 @Controller
 public class VerseController {
-
-    private static final Logger LOG = LoggerFactory.getLogger(VerseController.class);
+    
     private final Counter createdCounter = Metrics.counter("verses.created");
 
     private final ImpactedRepository impactedRepo;

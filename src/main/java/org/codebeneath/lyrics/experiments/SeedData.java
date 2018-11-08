@@ -2,22 +2,22 @@ package org.codebeneath.lyrics.experiments;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
-import java.util.stream.IntStream;
-
+@Slf4j
 @Component
 public class SeedData {
-    private static final Logger LOG = LoggerFactory.getLogger(SeedData.class);
     private static final Random rnd = new Random();
 
     private final ImpactedRepository impactedRepo;
@@ -33,7 +33,7 @@ public class SeedData {
     public void load() {
         Lorem lorem = LoremIpsum.getInstance();
         Impacted jeff = impactedRepo.save(new Impacted("jeff@codebeneath.com", "Jeff", "Black"));
-        LOG.info("======= Seed Jeff Id is: " + jeff.getId());
+        log.info("======= Seed Jeff Id is: {}", jeff.getId());
 
         Tag happyTag = tagRepo.save(new Tag("happy", jeff));
         Tag sad2Tag = tagRepo.save(new Tag("sad", jeff));

@@ -48,7 +48,7 @@ public class SeedData {
                         "A distant ship smoke on the horizon\n" +
                         "You are only coming through in waves\n" +
                         "Your lips move but I can't hear what you're saying",
-                        "Comfortably Numb", "Pink Floyd", "makes me happy", jeff, numbTags));
+                        "Comfortably Numb", "Pink Floyd", "This song makes me happy!", jeff, numbTags));
         for (int v = 0; v < 20; v++) {
             int tagId = rnd.nextInt(allTags.size() - 1);
             List<Tag> verseTags = allTags.subList(tagId, tagId + 1);

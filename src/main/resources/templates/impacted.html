@@ -1,51 +1,83 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Lyrical Impact</title>
-    <meta charset="UTF-8"></meta>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
-    <link rel="stylesheet" href="/impacted.css"/>
-</head>
-<body>
-<div class="topnav">
-    <a href="/impacted/1">My Impacted</a>
-    <a href="#">About</a>
-    <a href="#">Logout</a>
-</div>
-<div class="content">
-    <p th:text="'How were you impacted today ' + ${impacted.firstName} + ' ' + ${impacted.lastName} + '?'"/>
-    <a href="/verse">[+] Add impacted verse</a>
-    <hr/>
+    <head>
+        <title>Lyrical Impact</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <!-- https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_social&stacked=h -->
+        <link rel="stylesheet" href="/w3.css"/>
+        <link rel="stylesheet" href="/w3-theme-blue-grey.css"/>
+        <style>
+            html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+        </style>
+    </head>
+    <body class="w3-theme-l5">
+        <div class="w3-top">
+            <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
+                <a href="/impacted/1" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Lyrical Impact</a>
+                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="About"><i class="fa fa-globe">About</i></a>
+                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Logout"><i class="fa fa-user">Logout</i></a>
+                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Profile">
+                    <img src="/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
+                </a>
+            </div>
+        </div>
+        <!-- Page Container -->
+        <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+            <!-- The Grid -->
+            <div class="w3-row">
+                <!-- Left Column -->
+                <div class="w3-col m3">
+                    <!-- Tags --> 
+                    <div class="w3-card w3-round w3-white w3-hide-small">
+                        <div class="w3-container">
+                            <p>Filter by My Tags</p>
+                            <p>
+                                <a class="w3-tag w3-small w3-theme-11" href="/">[Show All]</a>
+                                <a class="w3-tag w3-small w3-theme" th:each="tag : ${tags}" th:text="${tag.label}" th:href="|/?tag=${tag.label}|"/>
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <!-- Suggestion -->
+                    <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+                        <p>
+                            <strong>Someone was impacted by this verse. If you are too, then </strong>
+                            <button type="button" class="w3-button w3-theme"><a th:href="@{'/verse?randomVerseId=' + ${randomVerse.id}}">[+] Add impacted verse</a></button>
+                        </p>
+                        <p th:text="${randomVerse.lyrics}"/>
+                    </div>
+                </div>
+                <!-- Verses Column -->
+                <div class="w3-col m9">
 
-    <div class="tagsList">
-        <a class="impactedTag" href="/">[Show All]</a>
-        <a class="impactedTag" th:each="tag : ${tags}" th:text="${tag.label}" th:href="|/?tag=${tag.label}|"/>
-    </div>
-    <hr/>
+                    <div class="w3-row-padding">
+                        <div class="w3-col m12">
+                            <div class="w3-card w3-round w3-white">
+                                <div class="w3-container w3-padding">
+                                    <h3 class="w3-opacity" th:text="'How were you impacted today ' + ${impacted.firstName} + ' ' + ${impacted.lastName} + '?'"/>
+                                    <button type="button" class="w3-button w3-theme"><a href="/verse">[+] Add impacted verse</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-    <table width="100%" border='1'>
-        <tr style="background-color: antiquewhite;">
-            <th width="50%">Verse</th>
-            <th>Song</th>
-            <th>Artist</th>
-            <th>My Reaction</th>
-            <th>Tagged As</th>
-        </tr>
-        <tr th:each="verse : ${verses}" style="height: 55px;">
-            <td th:text="${verse.lyricsAsHtml}">1</td>
-            <td th:text="${verse.song}">Song</td>
-            <td><a href="#" th:text="${verse.artist}">Artist</a></td>
-            <td th:text="${verse.reaction}">Reaction</td>
-            <td>
-                <a class="impactedTag" href="/">[Tag With]</a>
-                <span class="impactedTag" th:each="tag : ${verse.tags}" th:text="${tag.label}"></span>
-            </td>
-        </tr>
-    </table>
-</div>
-<div class="footer">
-    <p>Someone was impacted by this verse. If you are too, <a th:href="@{'/verse?randomVerseId=' + ${randomVerse.id}}">[+] Add impacted verse</a></p>
-    <p th:text="${randomVerse.lyrics}"/>
-</div>
-</body>
+                    <div class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
+                        <span class="w3-right">
+                            <span class="w3-tag w3-small w3-theme" th:each="tag : ${verse.tags}" th:text="${tag.label}"></span>
+                        </span>
+                        <h5 th:text="${verse.song}">Song</h5>
+                        <h6 th:text="'By ' + ${verse.artist}">Artist</h6>
+                        <hr class="w3-clear"/>
+                        <p th:text="${verse.lyricsAsHtml}"/>
+                        <hr class="w3-clear"/>
+                        <p>My reaction is</p>
+                        <p th:text="${verse.reaction}"/>
+                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Edit</button> 
+                    </div>  
+
+                </div>
+            </div>
+        </div>
+    </body>
 </html>

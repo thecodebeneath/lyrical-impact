@@ -45,7 +45,7 @@
                             <strong>Someone was impacted by this verse. If you are too, then </strong>
                             <button type="button" class="w3-button w3-theme"><a th:href="@{'/verse?randomVerseId=' + ${randomVerse.id}}">[+] Add impacted verse</a></button>
                         </p>
-                        <p th:text="${randomVerse.lyrics}"/>
+                        <pre class="w3-rest" th:text="${randomVerse.lyrics}"/>
                     </div>
                 </div>
                 <!-- Verses Column -->
@@ -66,10 +66,10 @@
                         <span class="w3-right">
                             <span class="w3-tag w3-small w3-theme" th:each="tag : ${verse.tags}" th:text="${tag.label}"></span>
                         </span>
-                        <h5 th:text="${verse.song}">Song</h5>
+                        <h5 th:text="|'${verse.song}'|">Song</h5>
                         <h6 th:text="'By ' + ${verse.artist}">Artist</h6>
                         <hr class="w3-clear"/>
-                        <p th:text="${verse.lyricsAsHtml}"/>
+                        <pre class="w3-rest" th:text="${verse.lyrics}"/>
                         <hr class="w3-clear"/>
                         <p>My reaction is</p>
                         <p th:text="${verse.reaction}"/>

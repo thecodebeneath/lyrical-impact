@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class SeedData {
     private static final Random rnd = new Random();
+    private static final Lorem lorem = LoremIpsum.getInstance();
 
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
@@ -31,7 +32,6 @@ public class SeedData {
     }
 
     public void load() {
-        Lorem lorem = LoremIpsum.getInstance();
         Impacted jeff = impactedRepo.save(new Impacted("jeff@codebeneath.com", "Jeff", "Black"));
         log.info("======= Seed Jeff Id is: {}", jeff.getId());
 
@@ -49,13 +49,25 @@ public class SeedData {
                         "You are only coming through in waves\n" +
                         "Your lips move but I can't hear what you're saying",
                         "Comfortably Numb", "Pink Floyd", "This song makes me happy!", jeff, numbTags));
+
         for (int v = 0; v < 20; v++) {
             int tagId = rnd.nextInt(allTags.size() - 1);
             List<Tag> verseTags = allTags.subList(tagId, tagId + 1);
             verseRepo.save(
-                    new Verse(lorem.getParagraphs(1, 2), lorem.getWords(1, 3), lorem.getWords(1, 3),
+                    new Verse(createRandomVerse(), lorem.getWords(1, 3), lorem.getWords(1, 3),
                             "", jeff, verseTags));
         }
+    }
 
+    private String createRandomVerse() {
+        StringBuilder sb = new StringBuilder();
+        for (int n = 0; n < rnd.nextInt(3)+1; n++) {
+            for (int v = 0; v < rnd.nextInt(6)+2; v++) {
+                sb.append(lorem.getWords(5, 10));
+                sb.append("\n");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }

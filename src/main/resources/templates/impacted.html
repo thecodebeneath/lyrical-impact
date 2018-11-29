@@ -66,14 +66,16 @@
                         <span class="w3-right">
                             <span class="w3-tag w3-small w3-theme" th:each="tag : ${verse.tags}" th:text="${tag.label}"></span>
                         </span>
-                        <h5 th:text="|'${verse.song}'|">Song</h5>
-                        <h6 th:text="'By ' + ${verse.artist}">Artist</h6>
+                        <h5 th:text="*{verse.song != ''}? |'*{verse.song}'| : 'Unknown Song'|">Song</h5>
+                        <h6 th:text="*{verse.artist != ''}? *{verse.artist} : 'Unknown Artist'">Artist</h6>
                         <hr class="w3-clear"/>
                         <pre class="w3-rest" th:text="${verse.lyrics}"/>
                         <hr class="w3-clear"/>
                         <p>My reaction is</p>
-                        <p th:text="${verse.reaction}"/>
-                        <button type="button" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Edit</button> 
+                        <p th:text="*{verse.reaction != ''}? *{verse.reaction} : 'I havent written a reaction yet.'"/>
+                        <form>
+                            <button th:formaction="@{'/verse/' + ${verse.id}}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Edit</button>
+                        </form>
                     </div>  
 
                 </div>

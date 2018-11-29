@@ -43,6 +43,7 @@
                                         <h5>Lyrics:</h5> <textarea th:field="*{lyrics}"  rows="8" cols="130"/>
                                         <h5>Your Reaction:</h5> <textarea th:field="*{reaction}" rows="4" cols="130"/>
                                         <hr class="w3-clear"/>
+                                        <input type="hidden" th:if="${id > 0}" th:field="*{id}"/>
                                         <button type="button" class="w3-button w3-theme">
                                             <input type="submit" value="[+] Add impacted verse" />
                                         </button>

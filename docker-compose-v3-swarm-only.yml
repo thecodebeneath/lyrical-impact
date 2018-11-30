@@ -1,0 +1,14 @@
+version: "3"
+services:
+  lyricimpact:
+    build: .
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 256M        
+      restart_policy:
+        condition: on-failure
+    ports:
+      - "8080:8080"

@@ -1,0 +1,9 @@
+version: "2.1"
+services:
+  lyricimpact:
+    build: .
+    mem_limit: 256m
+    mem_reservation: 256m
+    ports:
+      - "8080:8080"
+    

@@ -72,7 +72,7 @@
                         <pre class="w3-rest" th:text="${verse.lyrics}"/>
                         <hr class="w3-clear"/>
                         <p>My reaction is</p>
-                        <p th:text="*{verse.reaction != ''}? *{verse.reaction} : 'I havent written a reaction yet.'"/>
+                        <p th:text="*{verse.reaction != ''}? *{verse.reaction} : 'I haven\'t put my reaction into words yet.'"/>
                         <form>
                             <button th:formaction="@{'/verse/' + ${verse.id}}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Edit</button>
                         </form>

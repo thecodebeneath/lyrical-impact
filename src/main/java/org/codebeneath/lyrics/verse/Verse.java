@@ -27,11 +27,14 @@ public class Verse {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotNull
-    @Size(min = 1, max = 5000)
+    @Size(min = 1, max = 1000)
     @Column(columnDefinition = "TEXT")
     private String lyrics;
+    @Size(min = 0, max = 100)
     private String song;
+    @Size(min = 0, max = 100)
     private String artist;
+    @Size(min = 0, max = 500)
     private String reaction;
 
     @ManyToOne(fetch = FetchType.LAZY)

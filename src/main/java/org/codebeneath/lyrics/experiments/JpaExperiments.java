@@ -7,14 +7,17 @@ import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 /**
  *
  */
 @Slf4j
+@Order(value = 2)
 @Component
-public class JpaExperiments {
+public class JpaExperiments implements CommandLineRunner {
     
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
@@ -26,8 +29,8 @@ public class JpaExperiments {
         this.tagRepo = tagRepo;
     }
 
-    public void experiment() {
-        
+    @Override
+    public void run(String... args) throws Exception {        
 //            Set<Verse> verses = new HashSet<>();
 //            verses.add(new Verse("once I was young", "Busted", "Pink", ""));
 //            verses.add(new Verse("round and round", "Round and Round", "Ratt", "makes me dizzy!"));

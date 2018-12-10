@@ -9,6 +9,8 @@ import org.codebeneath.lyrics.service.songs.xml.User;
 import org.jmusixmatch.MusixMatch;
 import org.jmusixmatch.entity.track.Track;
 import org.jmusixmatch.entity.track.TrackData;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -16,10 +18,12 @@ import org.springframework.web.client.RestTemplate;
  *
  */
 @Slf4j
+@Order(value = 3)
 @Component
-public class RestTemplateExperiments {
+public class RestTemplateExperiments implements CommandLineRunner {
 
-    public void experiment() throws Exception {
+    @Override
+    public void run(String... args) throws Exception {        
 
         RestTemplate restTemplate = new RestTemplate();
 
@@ -43,9 +47,10 @@ public class RestTemplateExperiments {
 
         final String poetryDbUrl = "http://poetrydb.org/lines/{lines}";
         PoetryDbEntry[] p = restTemplate.getForObject(poetryDbUrl, PoetryDbEntry[].class, "foe to my own friends");
-        for (int x = 0; x < p.length; x++) {
-            // log.info("poetrydb: {}", p[x].toString());
-        }
+        log.info("poetrydb: {}", p[0].getLines().get(0));
+//        for (int x = 0; x < p.length; x++) {
+//            log.info("poetrydb: {}", p[x].toString());
+//        }
 
         // --------------
 //        MusixMatch musixMatch = new MusixMatch("inject.real.key.here");

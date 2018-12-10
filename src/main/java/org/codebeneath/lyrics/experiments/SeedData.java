@@ -14,12 +14,15 @@ import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
 import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 
 @Slf4j
+@Order(value = 1)
 @Component
-public class SeedData {
-    private static final Random rnd = new Random();
-    private static final Lorem lorem = LoremIpsum.getInstance();
+public class SeedData implements CommandLineRunner {
+    private static final Random RND = new Random();
+    private static final Lorem LOREM = LoremIpsum.getInstance();
 
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
@@ -31,7 +34,8 @@ public class SeedData {
         this.tagRepo = tagRepo;
     }
 
-    public void load() {
+    @Override
+    public void run(String... args) throws Exception {
         Impacted jeff = impactedRepo.save(new Impacted("jeff@codebeneath.com", "Jeff", "Black"));
         log.info("======= Seed Jeff Id is: {}", jeff.getId());
 
@@ -51,23 +55,24 @@ public class SeedData {
                         "Comfortably Numb", "Pink Floyd", "This song makes me happy!", jeff, numbTags));
 
         for (int v = 0; v < 20; v++) {
-            int tagId = rnd.nextInt(allTags.size() - 1);
+            int tagId = RND.nextInt(allTags.size() - 1);
             List<Tag> verseTags = allTags.subList(tagId, tagId + 1);
             verseRepo.save(
-                    new Verse(createRandomVerse(), lorem.getWords(1, 3), lorem.getWords(1, 3),
+                    new Verse(createRandomVerse(), LOREM.getWords(1, 3), LOREM.getWords(1, 3),
                             "", jeff, verseTags));
         }
     }
 
     private String createRandomVerse() {
         StringBuilder sb = new StringBuilder();
-        for (int n = 0; n < rnd.nextInt(3)+1; n++) {
-            for (int v = 0; v < rnd.nextInt(6)+2; v++) {
-                sb.append(lorem.getWords(5, 10));
+        for (int n = 0; n < RND.nextInt(3)+1; n++) {
+            for (int v = 0; v < RND.nextInt(6)+2; v++) {
+                sb.append(LOREM.getWords(5, 10));
                 sb.append("\n");
             }
             sb.append("\n");
         }
         return sb.toString();
     }
+
 }

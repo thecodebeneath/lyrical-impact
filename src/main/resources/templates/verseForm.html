@@ -11,17 +11,8 @@
         </style>
     </head>
     <body class="w3-theme-l5">
-        <div class="w3-top">
-            <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-                <a href="/impacted/1" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>My Impacted</a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="About"><i class="fa fa-globe">About</i></a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="Logout"><i class="fa fa-user">Logout</i></a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white" title="My Account">
-                    <img src="/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
-                </a>
-            </div>
-        </div>
-
+        <div th:replace="fragments/header :: header"></div>
+        
         <!-- Page Container -->
         <div class="w3-container w3-content" style="max-width:1260px;margin-top:80px">   
             <!-- The Grid -->

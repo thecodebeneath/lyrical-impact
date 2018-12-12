@@ -55,6 +55,11 @@ public class ImpactedController {
         return "impacted";
     }
 
+    @GetMapping("/about")
+    public String aboutPage(Model model) {
+        return "about";
+    }
+
     private Impacted getImpactedUser(Long id) {
         // TODO: hardcoded for now...
         id = 1L;

@@ -36,6 +36,7 @@ public class VerseController {
 
     @GetMapping("/verse")
     public String getVerseForm(Model model, @RequestParam Optional<Long> randomVerseId) {
+        model.addAttribute("impacted", getImpactedUser(1L));
         Verse verseToPopulateWith = new Verse();
         if (randomVerseId.isPresent()) {
             Verse sourceVerse = verseRepo.findById(randomVerseId.get()).get();
@@ -49,6 +50,7 @@ public class VerseController {
 
     @GetMapping("/verse/{id}")
     public String getVerseForm(Model model, @PathVariable Long id){
+        model.addAttribute("impacted", getImpactedUser(1L));
         Optional<Verse> verseToPopulateWith = verseRepo.findById(id);
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get());

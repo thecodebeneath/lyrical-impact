@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Lyrical Impact Account</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <!-- https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_social&stacked=h -->
+        <link rel="stylesheet" href="/css/w3.css"/>
+        <link rel="stylesheet" href="/css/w3-theme-blue-grey.css"/>
+        <style>
+            html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+        </style>
+    </head>
+    <body class="w3-theme-l5">
+        <div th:replace="fragments/header-lite :: header-lite"></div>
+
+        <!-- Page Container -->
+        <div class="w3-container w3-content" style="max-width:1260px;margin-top:80px">   
+            <!-- The Grid -->
+            <div class="w3-row">
+
+                <!-- Form Column -->
+                <div class="w3-col m11">
+
+                    <div class="w3-row-padding">
+                        <div class="w3-col m12">
+                            <div class="w3-card w3-round w3-white">
+                                <div class="w3-container w3-padding">
+
+                                    <h3 class="w3-opacity">Login Page</h3>
+                                    <div class="w3-theme-l4">
+                                        <form th:action="@{/login}" method="post">
+                                            <div th:if="${param.error}">
+                                                <h5 class="w3-tag" style="background-color: red;">
+                                                    Invalid username or password.
+                                                </h5>
+                                            </div>
+                                            <div th:if="${param.logout}">
+                                                <h5 class="w3-tag" style="background-color: red;">
+                                                    You have been logged out.
+                                                </h5>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="username">Username</label>:
+                                                <input type="text"
+                                                       id="username"
+                                                       name="username"
+                                                       class="form-control"
+                                                       autofocus="autofocus"
+                                                       placeholder="Username"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="password">Password</label>:
+                                                <input type="password"
+                                                       id="password"
+                                                       name="password"
+                                                       class="form-control"
+                                                       placeholder="Password"/>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-sm-6 col-sm-offset-3">
+                                                        <input type="submit"
+                                                               name="login-submit"
+                                                               id="login-submit"
+                                                               class="form-control btn btn-info"
+                                                               value="Log In"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+    </body>
+</html>

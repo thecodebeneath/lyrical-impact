@@ -48,10 +48,10 @@ public class VerseController {
         return "verseForm";
     }
 
-    @GetMapping("/verse/{id}")
-    public String getVerseForm(Model model, @PathVariable Long id){
+    @GetMapping("/verse/{vid}")
+    public String getVerseForm(Model model, @PathVariable Long vid){
         model.addAttribute("impacted", getImpactedUser(1L));
-        Optional<Verse> verseToPopulateWith = verseRepo.findById(id);
+        Optional<Verse> verseToPopulateWith = verseRepo.findById(vid);
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get());
             return "verseForm";
@@ -76,12 +76,12 @@ public class VerseController {
             updatedCounter.increment();
         }
         
-        return "redirect:/";
+        return "redirect:/impacted/1";
     }
 
     private Impacted getImpactedUser(Long id) {
         // TODO: hardcoded for now...
-        id = 1L;
+        // id = 1L;
 
         if (!impactedRepo.findById(id).isPresent()) {
             throw new ImpactedNotFoundException(id);

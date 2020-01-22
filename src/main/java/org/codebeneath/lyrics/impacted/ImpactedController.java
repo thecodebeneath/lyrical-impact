@@ -1,5 +1,6 @@
 package org.codebeneath.lyrics.impacted;
 
+import java.security.Principal;
 import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  */
+@Slf4j
 @Controller
 public class ImpactedController {
 
@@ -29,14 +32,40 @@ public class ImpactedController {
         this.tagRepo = tRepo;
     }
 
-    @GetMapping("/")
-    public String impactedVerses(Model model) {
-        model.addAttribute("attribute", "forwardWithForwardPrefix");
-        return "forward:/impacted/1";
+    @GetMapping("/impacted")
+    public String impactedVerses(Model model, Principal principal,
+                                 @RequestParam(name = "tag", required = false) String tag) {
+        
+        log.info("Principal: {}", principal);
+        log.info("Name: {}", principal.getName());
+
+        Impacted impactedUser = getImpactedUserForPrincipal(principal);
+
+        List<Verse> verses;
+        if (tag != null) {
+            verses = verseRepo.findByImpactedIdAndTagsLabel(impactedUser.getId(), tag);
+        } else {
+            verses = verseRepo.findByImpactedId(impactedUser.getId());
+        }
+        Collections.reverse(verses);
+        List<Tag> tags = tagRepo.findByImpacted(impactedUser);
+        model.addAttribute("impacted", impactedUser);
+        model.addAttribute("verses", verses);
+        model.addAttribute("tags", tags);
+        model.addAttribute("randomVerse", verseRepo.getRandomVerse());
+
+        return "impacted";
     }
     
+    // TODO: testing only to get other users by url
     @GetMapping("/impacted/{id}")
-    public String impactedVerses(@PathVariable(required = true) Long id, Model model, @RequestParam(name = "tag", required = false) String tag) {
+    public String impactedVerses(Model model, Principal principal,
+                                 @PathVariable(required = true) Long id, 
+                                 @RequestParam(name = "tag", required = false) String tag) {
+        
+        log.info("Principal: {}", principal);
+        log.info("Name: {}", principal.getName());
+        
         Impacted impactedUser = getImpactedUser(id);
         
         List<Verse> verses;        
@@ -56,10 +85,22 @@ public class ImpactedController {
         return "impacted";
     }
 
+    @GetMapping("/about")
+    public String aboutPage(Model model) {
+        return "about";
+    }
+
+    private Impacted getImpactedUserForPrincipal(Principal p) {
+        Impacted impacted = null;
+        if (p.getName().equals("jeff")) {
+            impacted = getImpactedUser(1L);
+        } else if (p.getName().equals("alan")) {
+            impacted = getImpactedUser(2L);
+        }
+        return impacted;
+    }
+
     private Impacted getImpactedUser(Long id) {
-        // TODO: hardcoded for now...
-        id = 1L;
-        
         if (!impactedRepo.findById(id).isPresent()) {
             throw new ImpactedNotFoundException(id);
         }

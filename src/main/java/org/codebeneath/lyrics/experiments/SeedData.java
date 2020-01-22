@@ -2,23 +2,27 @@ package org.codebeneath.lyrics.experiments;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import java.util.stream.IntStream;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.core.annotation.Order;
 
-import java.util.*;
-import java.util.stream.IntStream;
-
+@Slf4j
+@Order(value = 1)
 @Component
-public class SeedData {
-    private static final Logger LOG = LoggerFactory.getLogger(SeedData.class);
-    private static final Random rnd = new Random();
+public class SeedData implements CommandLineRunner {
+    private static final Random RND = new Random();
+    private static final Lorem LOREM = LoremIpsum.getInstance();
 
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
@@ -30,10 +34,11 @@ public class SeedData {
         this.tagRepo = tagRepo;
     }
 
-    public void load() {
-        Lorem lorem = LoremIpsum.getInstance();
+    @Override
+    public void run(String... args) throws Exception {
         Impacted jeff = impactedRepo.save(new Impacted("jeff@codebeneath.com", "Jeff", "Black"));
-        LOG.info("======= Seed Jeff Id is: " + jeff.getId());
+        Impacted alan = impactedRepo.save(new Impacted("alan@codebeneath.com", "Alan", "Smithe"));
+        log.info("======= Seed Jeff Id is: {}", jeff.getId());
 
         Tag happyTag = tagRepo.save(new Tag("happy", jeff));
         Tag sad2Tag = tagRepo.save(new Tag("sad", jeff));
@@ -53,23 +58,35 @@ public class SeedData {
                         "me\n" +
                         "happy!", jeff, numbTags));
         Verse scripts = verseRepo.save(
-                new Verse("<b>oops</b><script>alert('ve');<script>",
-                        "<b>oops</b><script>alert('so');<script>", "<b>oops</b><script>alert('ar');<script>",
-                        "<b>oops</b><script>alert('re');<script>", jeff, numbTags));
+                new Verse("<b>ve-oops</b><script>alert('ve');</script>",
+                        "<b>so-oops</b><script>alert('so');</script>", "<b>ar-oops</b><script>alert('ar');</script>",
+                        "<b>re-oops</b><script>alert('re');</script>", jeff, numbTags));
         Verse i18n = verseRepo.save(
-                new Verse("由 匿名 (未验证) 提交于 \n The façade pattern's a software-design \"£\" pattern. \n 提交于",
+                new Verse("由 匿名 (未验证) 提交于\nThe façade pattern's a software-design \"£\" pattern.\n提交于",
                         "i18n 由", "i18n 由",
-                        "由 匿名 (未验证) 提交于 \n" +
-                        "The façade pattern's a software-design \"£\" pattern. \n 提交于", jeff, numbTags));
+                        "由 匿名 (未验证) 提交于\n" +
+                        "The façade pattern's a software-design \"£\" pattern.\n提交于", jeff, numbTags));
         
         for (int v = 0; v < 3; v++) {
-            int tagId = rnd.nextInt(allTags.size() - 1);
+            int tagId = RND.nextInt(allTags.size() - 1);
             List<Tag> verseTags = allTags.subList(tagId, tagId + 1);
             verseRepo.save(
-                    new Verse(lorem.getWords(1, 8) + "\n" + lorem.getWords(1, 4) + "\n" + lorem.getWords(1, 5) + "\n" + lorem.getWords(1, 6),
-                            lorem.getWords(1, 3), lorem.getWords(1, 3),
-                            lorem.getWords(1, 5), jeff, verseTags));
+                    new Verse(createRandomVerse(),
+                            LOREM.getWords(1, 3), LOREM.getWords(1, 3),
+                            LOREM.getWords(1, 5), jeff, verseTags));
         }
-
     }
+
+    private String createRandomVerse() {
+        StringBuilder sb = new StringBuilder();
+        for (int n = 0; n < RND.nextInt(3)+1; n++) {
+            for (int v = 0; v < RND.nextInt(6)+2; v++) {
+                sb.append(LOREM.getWords(5, 10));
+                sb.append("\n");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
+
 }

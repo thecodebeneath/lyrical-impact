@@ -1,39 +1,66 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Lyrical Impact</title>
-    <link rel="stylesheet" href="/impacted.css"/>
-</head>
-<body>
-<div class="topnav">
-    <a href="/impacted/1">My Impacted</a>
-    <a href="#">About</a>
-    <a href="#">Logout</a>
-</div>
-<div class="content">
-    <h3>Add a verse that impacted you!</h3>
-    <form action="#" method="POST" th:action="@{/verse}" th:object="${verse}">
-        <table>
-            <tr>
-                <td><span class="formLabel"></span> <span style="background-color: red;" th:if="${#fields.hasErrors('lyrics')}" th:errors="*{lyrics}">Lyrics Error</span></td>
-            </tr>
-            <tr>
-                <td><span class="formLabel">Lyrics:</span> <textarea th:field="*{lyrics}"  rows="10" cols="150"/></td>
-            </tr>
-            <tr>
-                <td><span class="formLabel">Song Title:</span> <input type="text" th:field="*{song}" size="150"/></td>
-            </tr>
-            <tr>
-                <td><span class="formLabel">Song Artist:</span> <input type="text" th:field="*{artist}" size="150"/></td>
-            </tr>
-            <tr>
-                <td><span class="formLabel">Your Reaction:</span> <textarea th:field="*{reaction}"  rows="5" cols="150"/></td>
-            </tr>
-            <tr>
-                <td style="text-align: center;"><input type="submit" value="Submit" /></td>
-            </tr>
-        </table>
-    </form>
-</div>
-</body>
+    <head>
+        <title>Lyrical Impact</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <!-- https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_social&stacked=h -->
+        <link rel="stylesheet" href="/css/w3.css"/>
+        <link rel="stylesheet" href="/css/w3-theme-blue-grey.css"/>
+        <style>
+            html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+        </style>
+    </head>
+    <body class="w3-theme-l5">
+        <div th:replace="fragments/header :: header"></div>
+        
+        <!-- Page Container -->
+        <div class="w3-container w3-content" style="max-width:1260px;margin-top:80px">   
+            <!-- The Grid -->
+            <div class="w3-row">
+
+                <!-- Form Column -->
+                <div class="w3-col m11">
+
+                    <div class="w3-row-padding">
+                        <div class="w3-col m12">
+                            <div class="w3-card w3-round w3-white">
+                                <div class="w3-container w3-padding">
+
+                                    <h3 class="w3-opacity">Add a verse that impacted you!</h3>
+                                    <form action="#" method="POST" th:action="@{/verse}" th:object="${verse}">
+                                        <span class="w3-right">
+                                            <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('lyrics')}" th:errors="*{lyrics}">lyrics error</span>
+                                        </span>
+                                        <h5>* Verse:</h5> <textarea th:field="*{lyrics}" th:placeholder="'Just the punchy, important bits that impacted you the most, not the whole song...'" style="width: 100%; height: 200px"/>
+
+                                        <span class="w3-right">
+                                            <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('reaction')}" th:errors="*{reaction}">reaction error</span>
+                                        </span>
+                                        <h5>Your reaction:</h5> <textarea th:field="*{reaction}" th:placeholder="'You can come back later if you want to think about it more...'" style="width: 100%; height: 95px"/>
+
+                                        <span class="w3-right">
+                                            <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('song')}" th:errors="*{song}">song error</span>
+                                        </span>
+                                        <h5>Title this verse is part of:</h5> <input type="text" th:field="*{song}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%"/>
+
+                                        <span class="w3-right">
+                                            <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}">artist error</span>
+                                        </span>
+                                        <h5>Artist who wrote this verse:</h5> <input type="text" th:field="*{artist}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%"/>
+                                        
+                                        <hr class="w3-clear"/>
+                                        <input type="hidden" th:if="${id > 0}" th:field="*{id}"/>
+                                        <button type="button" class="w3-button w3-theme">
+                                            <input type="submit" value="[+] Add impacted verse" />
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+        </div>
+
+    </body>
 </html>

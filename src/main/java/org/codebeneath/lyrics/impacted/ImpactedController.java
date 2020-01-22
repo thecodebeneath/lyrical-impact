@@ -51,6 +51,7 @@ public class ImpactedController {
         model.addAttribute("verses", verses);
         model.addAttribute("tags", tags);
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
+        model.addAttribute("newLineChar", '\n');
 
         return "impacted";
     }

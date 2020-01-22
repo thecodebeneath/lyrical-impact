@@ -25,27 +25,27 @@
 
     <table width="100%" border='1'>
         <tr style="background-color: antiquewhite;">
-            <th width="50%">Verse</th>
+            <th width="33%">Verse</th>
             <th>Song</th>
             <th>Artist</th>
             <th>My Reaction</th>
             <th>Tagged As</th>
         </tr>
         <tr th:each="verse : ${verses}" style="height: 55px;">
-            <td th:text="${verse.lyricsAsHtml}">1</td>
-            <td th:text="${verse.song}">Song</td>
-            <td><a href="#" th:text="${verse.artist}">Artist</a></td>
-            <td th:text="${verse.reaction}">Reaction</td>
+            <td th:utext="${#strings.replace( #strings.escapeXml(verse.lyrics), newLineChar, '&lt;br /&gt;')}">1</td>
+            <td th:utext="${#strings.escapeXml(verse.song)}">Song</td>
+            <td><a href="#" th:utext="${#strings.escapeXml(verse.artist)}">Artist</a></td>
+            <td th:utext="${#strings.replace( #strings.escapeXml(verse.reaction), newLineChar, '&lt;br /&gt;')}">Reaction</td>
             <td>
-                <a class="impactedTag" href="/">[Tag With]</a>
-                <span class="impactedTag" th:each="tag : ${verse.tags}" th:text="${tag.label}"></span>
+                <a class="impactedTag" href="/">[Add Tag]</a>
+                <span class="impactedTag" th:each="tag : ${verse.tags}" th:utext="${tag.label}"></span>
             </td>
         </tr>
     </table>
 </div>
 <div class="footer">
     <p>Someone was impacted by this verse. If you are too, <a th:href="@{'/verse?randomVerseId=' + ${randomVerse.id}}">[+] Add impacted verse</a></p>
-    <p th:text="${randomVerse.lyrics}"/>
+    <p th:utext="${#strings.replace( #strings.escapeXml(randomVerse.lyrics), newLineChar, '&lt;br /&gt;')}"/>
 </div>
 </body>
 </html>

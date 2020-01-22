@@ -43,18 +43,32 @@ public class SeedData {
         numbTags.add(sad2Tag);
         List<Tag> allTags = tagRepo.findByImpactedId(jeff.getId());
 
-        Verse v1 = verseRepo.save(
+        Verse multiline = verseRepo.save(
                 new Verse("There is no pain, you are receding\n" +
                         "A distant ship smoke on the horizon\n" +
                         "You are only coming through in waves\n" +
                         "Your lips move but I can't hear what you're saying",
-                        "Comfortably Numb", "Pink Floyd", "makes me happy", jeff, numbTags));
-        for (int v = 0; v < 20; v++) {
+                        "Comfortably Numb", "Pink Floyd",
+                        "makes\n" +
+                        "me\n" +
+                        "happy!", jeff, numbTags));
+        Verse scripts = verseRepo.save(
+                new Verse("<b>oops</b><script>alert('ve');<script>",
+                        "<b>oops</b><script>alert('so');<script>", "<b>oops</b><script>alert('ar');<script>",
+                        "<b>oops</b><script>alert('re');<script>", jeff, numbTags));
+        Verse i18n = verseRepo.save(
+                new Verse("由 匿名 (未验证) 提交于 \n The façade pattern's a software-design \"£\" pattern. \n 提交于",
+                        "i18n 由", "i18n 由",
+                        "由 匿名 (未验证) 提交于 \n" +
+                        "The façade pattern's a software-design \"£\" pattern. \n 提交于", jeff, numbTags));
+        
+        for (int v = 0; v < 3; v++) {
             int tagId = rnd.nextInt(allTags.size() - 1);
             List<Tag> verseTags = allTags.subList(tagId, tagId + 1);
             verseRepo.save(
-                    new Verse(lorem.getParagraphs(1, 2), lorem.getWords(1, 3), lorem.getWords(1, 3),
-                            "", jeff, verseTags));
+                    new Verse(lorem.getWords(1, 8) + "\n" + lorem.getWords(1, 4) + "\n" + lorem.getWords(1, 5) + "\n" + lorem.getWords(1, 6),
+                            lorem.getWords(1, 3), lorem.getWords(1, 3),
+                            lorem.getWords(1, 5), jeff, verseTags));
         }
 
     }

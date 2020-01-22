@@ -9,6 +9,8 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface ImpactedRepository extends CrudRepository<Impacted, Long> {
     
+    Optional<Impacted> findByUserName(String userName);
+
     Optional<Impacted> findByEmail(String email);
     
     List<Impacted> findByFirstNameAndLastName(String firstName, String lastName);

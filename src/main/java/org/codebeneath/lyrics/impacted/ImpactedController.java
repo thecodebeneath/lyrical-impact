@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  *
@@ -39,7 +41,7 @@ public class ImpactedController {
         log.info("Principal: {}", principal);
         log.info("Name: {}", principal.getName());
 
-        Impacted impactedUser = getImpactedUserForPrincipal(principal);
+        Impacted impactedUser = getImpactedUser(principal);
 
         List<Verse> verses;
         if (tag != null) {
@@ -53,11 +55,12 @@ public class ImpactedController {
         model.addAttribute("verses", verses);
         model.addAttribute("tags", tags);
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
-
+        model.addAttribute("newLineChar", '\n');
+        
         return "impacted";
     }
     
-    // TODO: testing only to get other users by url
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/impacted/{id}")
     public String impactedVerses(Model model, Principal principal,
                                  @PathVariable(required = true) Long id, 
@@ -90,20 +93,19 @@ public class ImpactedController {
         return "about";
     }
 
-    private Impacted getImpactedUserForPrincipal(Principal p) {
-        Impacted impacted = null;
-        if (p.getName().equals("jeff")) {
-            impacted = getImpactedUser(1L);
-        } else if (p.getName().equals("alan")) {
-            impacted = getImpactedUser(2L);
+    private Impacted getImpactedUser(Principal p) {
+        Optional<Impacted> impacted = impactedRepo.findByUserName(p.getName());
+        if (!impacted.isPresent()) {
+            throw new ImpactedNotFoundException(p.getName());
         }
-        return impacted;
+        return impacted.get();
     }
 
     private Impacted getImpactedUser(Long id) {
-        if (!impactedRepo.findById(id).isPresent()) {
+        Optional<Impacted> impacted = impactedRepo.findById(id);
+        if (!impacted.isPresent()) {
             throw new ImpactedNotFoundException(id);
         }
-        return impactedRepo.findById(id).get();
+        return impacted.get();
     }
 }

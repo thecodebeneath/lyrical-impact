@@ -9,16 +9,14 @@ import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
-import static org.hamcrest.CoreMatchers.any;
-//import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.containsString;
 import org.junit.Before;
-import org.junit.Ignore;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -55,7 +53,6 @@ public class ImpactedControllerTest {
     @Before
     public void setUp() {
         newUser = EnhancedRandom.random(Impacted.class);
-        newUser.setId(2L);
         randomVerse = EnhancedRandom.random(Verse.class);
     }
     
@@ -67,15 +64,16 @@ public class ImpactedControllerTest {
                 .andExpect(content().string(containsString("About")));
     }
 
-    @WithMockUser(value = "alan")
+    @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void newUserReturnsNoVersesOrTags() throws Exception {
-        when(irepo.findById(newUser.getId())).thenReturn(Optional.of(newUser));
+        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(newUser));
         when(vrepo.findByImpactedId(newUser.getId())).thenReturn(newUserVerses);
         when(vrepo.getRandomVerse()).thenReturn(randomVerse);
         when(trepo.findByImpacted(newUser)).thenReturn(newUserTags);
-                
-        this.mockMvc.perform(get("/impacted", newUser.getId()))
+        
+        this.mockMvc.perform(get("/impacted"))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(content().string(containsString(newUser.getFirstName())));

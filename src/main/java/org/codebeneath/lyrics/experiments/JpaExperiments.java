@@ -109,13 +109,13 @@ public class JpaExperiments implements CommandLineRunner {
 //                });
 //            });
 
-        Impacted i = impactedRepo.save(new Impacted("c@c.com", "Chloe", "O'Brian"));
+        Impacted i = impactedRepo.save(new Impacted("chloe", "c@c.com", "Chloe", "O'Brian"));
         Tag sadTag = tagRepo.save(new Tag("sad", i));
         Verse vi1 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i));
         vi1.getTags().add(sadTag);
         verseRepo.save(vi1);
 
-        Impacted i2 = impactedRepo.save(new Impacted("z@z.com", "Tex", "O'Brian"));
+        Impacted i2 = impactedRepo.save(new Impacted("tex", "z@z.com", "Tex", "O'Brian"));
         Tag happyTag = tagRepo.save(new Tag("happy", i2));
         Tag sad2Tag = tagRepo.save(new Tag("sad", i2));
         Verse v1 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i2));

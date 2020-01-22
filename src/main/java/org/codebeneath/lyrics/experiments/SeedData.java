@@ -36,8 +36,8 @@ public class SeedData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Impacted jeff = impactedRepo.save(new Impacted("jeff@codebeneath.com", "Jeff", "Black"));
-        Impacted alan = impactedRepo.save(new Impacted("alan@codebeneath.com", "Alan", "Smithe"));
+        Impacted jeff = impactedRepo.save(new Impacted("jeff", "jeff@codebeneath.com", "Jeff", "Black"));
+        Impacted alan = impactedRepo.save(new Impacted("alan", "alan@codebeneath.com", "Alan", "Smithe"));
         log.info("======= Seed Jeff Id is: {}", jeff.getId());
 
         Tag happyTag = tagRepo.save(new Tag("happy", jeff));

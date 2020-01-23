@@ -45,15 +45,15 @@ public class ImpactedController {
 
         List<Verse> verses;
         if (tag != null) {
-            verses = verseRepo.findByImpactedIdAndTagsLabel(impactedUser.getId(), tag);
+            verses = verseRepo.findByImpactedIdAndTags(impactedUser.getId(), tag);
         } else {
             verses = verseRepo.findByImpactedId(impactedUser.getId());
         }
         Collections.reverse(verses);
-        List<Tag> tags = tagRepo.findByImpacted(impactedUser);
+        List<Tag> tags = (List<Tag>) tagRepo.findAll();
         model.addAttribute("impacted", impactedUser);
         model.addAttribute("verses", verses);
-        model.addAttribute("tags", tags);
+        model.addAttribute("allTags", tags);
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
         
@@ -73,15 +73,15 @@ public class ImpactedController {
         
         List<Verse> verses;        
         if (tag != null) {
-            verses = verseRepo.findByImpactedIdAndTagsLabel(impactedUser.getId(), tag);
+            verses = verseRepo.findByImpactedIdAndTags(impactedUser.getId(), tag);
         } else {
             verses = verseRepo.findByImpactedId(impactedUser.getId());
         }
         Collections.reverse(verses);
-        List<Tag> tags = tagRepo.findByImpacted(impactedUser);
+        List<Tag> tags = (List<Tag>) tagRepo.findAll();
         model.addAttribute("impacted", impactedUser);
         model.addAttribute("verses", verses);
-        model.addAttribute("tags", tags);
+        model.addAttribute("allTags", tags);
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
 

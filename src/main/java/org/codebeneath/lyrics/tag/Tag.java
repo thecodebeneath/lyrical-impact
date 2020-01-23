@@ -1,19 +1,15 @@
 package org.codebeneath.lyrics.tag;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.codebeneath.lyrics.impacted.Impacted;
 
 /**
- * Tags that an impacted user might use to remember or group verses.
+ * Tags that an impacted user might use to remember or group verses. Global to all users.
  */
 @Entity
 @Getter
@@ -27,16 +23,11 @@ public class Tag {
     
     private String label;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    private Impacted impacted;
-
     protected Tag() {
     }
 
-    public Tag(String label, Impacted impacted) {
+    public Tag(String label) {
         this.label = label;
-        this.impacted = impacted;
     }
 
 }

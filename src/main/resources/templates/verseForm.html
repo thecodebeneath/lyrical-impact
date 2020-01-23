@@ -9,6 +9,10 @@
         <style>
             html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         </style>
+        
+        <link rel="stylesheet" href="/css/docsupport/style.css"/>
+        <link rel="stylesheet" href="/css/docsupport/prism.css"/>
+        <link rel="stylesheet" href="/css/chosen.css"/>
     </head>
     <body class="w3-theme-l5">
         <div th:replace="fragments/header :: header"></div>
@@ -31,28 +35,32 @@
                                         <span class="w3-right">
                                             <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('lyrics')}" th:errors="*{lyrics}">lyrics error</span>
                                         </span>
-                                        <h5>* Verse:</h5> <textarea th:field="*{lyrics}" th:placeholder="'Just the punchy, important bits that impacted you the most, not the whole song...'" style="width: 100%; height: 200px"/>
+                                        <h5>* Verse:</h5> <textarea th:field="*{lyrics}" th:placeholder="'Just the punchy, important bits that impacted you the most, not the whole song...'" style="width: 100%; height: 200px" tabindex="1"/>
 
                                         <span class="w3-right">
                                             <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('reaction')}" th:errors="*{reaction}">reaction error</span>
                                         </span>
-                                        <h5>Your reaction:</h5> <textarea th:field="*{reaction}" th:placeholder="'You can come back later if you want to think about it more...'" style="width: 100%; height: 95px"/>
+                                        <h5>Your reaction:</h5> <textarea th:field="*{reaction}" th:placeholder="'You can come back later if you want to think about it more...'" style="width: 100%; height: 95px" tabindex="2"/>
 
                                         <span class="w3-right">
                                             <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('song')}" th:errors="*{song}">song error</span>
                                         </span>
-                                        <h5>Title this verse is part of:</h5> <input type="text" th:field="*{song}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%"/>
+                                        <h5>Title this verse is part of:</h5> <input type="text" th:field="*{song}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="3"/>
 
                                         <span class="w3-right">
                                             <span class="w3-tag w3-small w3-theme" style="background-color: red;" th:if="${#fields.hasErrors('artist')}" th:errors="*{artist}">artist error</span>
                                         </span>
-                                        <h5>Artist who wrote this verse:</h5> <input type="text" th:field="*{artist}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%"/>
+                                        <h5>Artist who wrote this verse:</h5> <input type="text" th:field="*{artist}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="4"/>
+                                        
+                                        <h5>Tag this verse so that you can find similar impacts later:</h5>
+                                        <select th:placeholder="Tags..." th:field="*{tags}" class="chosen-select-width" multiple="true" tabindex="5">
+                                            <option value=""></option>
+                                            <option th:each="tag: ${allTags}" th:value="${tag.label}" th:text="${tag.label}"/>>
+                                        </select>
                                         
                                         <hr class="w3-clear"/>
-                                        <input type="hidden" th:if="${id > 0}" th:field="*{id}"/>
-                                        <button type="button" class="w3-button w3-theme">
-                                            <input type="submit" value="[+] Add impacted verse" />
-                                        </button>
+                                        <input type="hidden" th:if="*{id > 0}" th:field="*{id}"/>
+                                        <button type="submit" class="w3-button w3-theme" name="save" th:text="*{id > 0}? 'Update impacted verse' : 'Save impacted verse'" tabindex="6">Save</button>
                                     </form>
                                 </div>
                             </div>
@@ -61,6 +69,9 @@
                 </div> 
             </div>
         </div>
-
+        <script src="/js/docsupport/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/chosen.jquery.js" type="text/javascript"></script>
+        <script src="/js/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+        <script src="/js/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
     </body>
 </html>

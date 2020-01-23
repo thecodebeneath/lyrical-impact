@@ -1,7 +1,6 @@
 package org.codebeneath.lyrics.verse;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -11,7 +10,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.tag.Tag;
 import org.springframework.web.util.HtmlUtils;
 
 /**
@@ -40,8 +38,8 @@ public class Verse {
     @ManyToOne(fetch = FetchType.LAZY)
     private Impacted impacted;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    private List<Tag> tags = new ArrayList<>();
+    @ElementCollection
+    private List<String> tags = new ArrayList<>();
 
     protected Verse() {
     }
@@ -61,7 +59,7 @@ public class Verse {
         this.impacted = impacted;
     }
 
-    public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted, List<Tag> tags) {
+    public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted, List<String> tags) {
         this.lyrics = lyrics;
         this.song = song;
         this.artist = artist;

@@ -109,28 +109,28 @@ public class JpaExperiments implements CommandLineRunner {
 //                });
 //            });
 
+        Tag sadTag = tagRepo.save(new Tag("jpasad"));
+        Tag happyTag = tagRepo.save(new Tag("jpahappy"));
+
         Impacted i = impactedRepo.save(new Impacted("chloe", "c@c.com", "Chloe", "O'Brian"));
-        Tag sadTag = tagRepo.save(new Tag("sad", i));
         Verse vi1 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i));
-        vi1.getTags().add(sadTag);
+        vi1.getTags().add("sad");
         verseRepo.save(vi1);
 
         Impacted i2 = impactedRepo.save(new Impacted("tex", "z@z.com", "Tex", "O'Brian"));
-        Tag happyTag = tagRepo.save(new Tag("happy", i2));
-        Tag sad2Tag = tagRepo.save(new Tag("sad", i2));
         Verse v1 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i2));
         Verse v2 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i2));
         Verse v3 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i2));
 
-        v1.getTags().add(sad2Tag);
+        v1.getTags().add("sad");
         v1 = verseRepo.save(v1);
 
-        v2.getTags().add(happyTag);
-        v2.getTags().add(sad2Tag);
+        v2.getTags().add("happy");
+        v2.getTags().add("sad");
         v2 = verseRepo.save(v2);
 
         log.info("...Tex verses 3?... {}", verseRepo.findByImpactedId(i2.getId()).size());
-        log.info("...Tex sads 2?... {}", verseRepo.findByImpactedIdAndTagsLabel(i2.getId(), "sad").size());
-        log.info("...All sads 3?... {}", verseRepo.countByTagsLabel("sad"));
+        log.info("...Tex sads 2?... {}", verseRepo.findByImpactedIdAndTags(i2.getId(), "sad").size());
+        log.info("...All sads 3?... {}", verseRepo.countByTags("sad"));
     }
 }

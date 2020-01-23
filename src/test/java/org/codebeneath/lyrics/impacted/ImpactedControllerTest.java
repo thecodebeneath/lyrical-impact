@@ -48,7 +48,7 @@ public class ImpactedControllerTest {
     Impacted newUser;
     Verse randomVerse;
     List<Verse> newUserVerses = Collections.emptyList();
-    List<Tag> newUserTags = Collections.emptyList();
+    List<Tag> tags = Collections.emptyList();
     
     @Before
     public void setUp() {
@@ -66,14 +66,13 @@ public class ImpactedControllerTest {
 
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
-    public void newUserReturnsNoVersesOrTags() throws Exception {
+    public void newUserReturnsNoVerses() throws Exception {
         when(irepo.findByUserName(anyString())).thenReturn(Optional.of(newUser));
         when(vrepo.findByImpactedId(newUser.getId())).thenReturn(newUserVerses);
         when(vrepo.getRandomVerse()).thenReturn(randomVerse);
-        when(trepo.findByImpacted(newUser)).thenReturn(newUserTags);
         
         this.mockMvc.perform(get("/impacted"))
-                .andDo(print())
+                // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(content().string(containsString(newUser.getFirstName())));

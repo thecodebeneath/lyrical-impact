@@ -36,17 +36,18 @@ public class SeedData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
+
+        Tag happyTag = tagRepo.save(new Tag("happy"));
+        Tag sadTag = tagRepo.save(new Tag("sad"));
+        IntStream.range(0, 10).forEach(x -> tagRepo.save(new Tag("tag-" + x)));
+
         Impacted jeff = impactedRepo.save(new Impacted("jeff", "jeff@codebeneath.com", "Jeff", "Black"));
         Impacted alan = impactedRepo.save(new Impacted("alan", "alan@codebeneath.com", "Alan", "Smithe"));
         log.info("======= Seed Jeff Id is: {}", jeff.getId());
 
-        Tag happyTag = tagRepo.save(new Tag("happy", jeff));
-        Tag sad2Tag = tagRepo.save(new Tag("sad", jeff));
-        IntStream.range(0, 10).forEach(x -> tagRepo.save(new Tag("tag-" + x, jeff)));
-        List<Tag> numbTags = new ArrayList<>();
-        numbTags.add(happyTag);
-        numbTags.add(sad2Tag);
-        List<Tag> allTags = tagRepo.findByImpactedId(jeff.getId());
+        List<String> numbTags = new ArrayList<>();
+        numbTags.add("happy");
+        numbTags.add("sad");
 
         Verse multiline = verseRepo.save(
                 new Verse("There is no pain, you are receding\n" +
@@ -67,9 +68,11 @@ public class SeedData implements CommandLineRunner {
                         "由 匿名 (未验证) 提交于\n" +
                         "The façade pattern's a software-design \"£\" pattern.\n提交于", jeff, numbTags));
         
+        List<Tag> allTags = (List<Tag>) tagRepo.findAll();
         for (int v = 0; v < 3; v++) {
             int tagId = RND.nextInt(allTags.size() - 1);
-            List<Tag> verseTags = allTags.subList(tagId, tagId + 1);
+            List<String> verseTags = new ArrayList<>(); 
+            verseTags.add(allTags.get(tagId).getLabel());
             verseRepo.save(
                     new Verse(createRandomVerse(),
                             LOREM.getWords(1, 3), LOREM.getWords(1, 3),

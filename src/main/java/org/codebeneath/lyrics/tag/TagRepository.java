@@ -1,7 +1,5 @@
 package org.codebeneath.lyrics.tag;
 
-import java.util.List;
-import org.codebeneath.lyrics.impacted.Impacted;
 import org.springframework.data.repository.CrudRepository;
 
 /**
@@ -9,7 +7,4 @@ import org.springframework.data.repository.CrudRepository;
  */
 public interface TagRepository extends CrudRepository<Tag, String> {
 
-    List<Tag> findByImpacted(Impacted impacted);
-
-    List<Tag> findByImpactedId(Long id);
 }

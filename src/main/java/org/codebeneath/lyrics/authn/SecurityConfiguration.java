@@ -42,7 +42,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/img/**",
                             "/webjars/**").permitAll()
                     .antMatchers("/user/**").hasRole(ROLE_USER)
-                    .antMatchers("/admin/**").hasRole(ROLE_ADMIN)
+                    .antMatchers("/admin/**", "/h2-console/**").hasRole(ROLE_ADMIN)
                     .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -58,6 +58,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .exceptionHandling()
                     .accessDeniedHandler(accessDeniedHandler);
+        
+        // dev only, h2-console access...
+        http.csrf().disable();
+        http.headers().frameOptions().disable();
 }
     
     @Bean

@@ -2,6 +2,8 @@ package org.codebeneath.lyrics.verse;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;
+import java.security.Principal;
+import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,7 @@ import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.impacted.ImpactedNotFoundException;
+import org.codebeneath.lyrics.tag.Tag;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -16,8 +19,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Slf4j
+//@SessionAttributes("myRequestObject")
 @Controller
 public class VerseController {
     
@@ -35,8 +40,10 @@ public class VerseController {
     }
 
     @GetMapping("/verse")
-    public String getVerseForm(Model model, @RequestParam Optional<Long> randomVerseId) {
-        model.addAttribute("impacted", getImpactedUser(1L));
+    public String getVerseForm(Model model, Principal principal, @RequestParam Optional<Long> randomVerseId) {
+        Impacted impactedUser = getImpactedUser(principal);
+        model.addAttribute("impacted", impactedUser);
+        
         Verse verseToPopulateWith = new Verse();
         if (randomVerseId.isPresent()) {
             Verse sourceVerse = verseRepo.findById(randomVerseId.get()).get();
@@ -45,15 +52,23 @@ public class VerseController {
             verseToPopulateWith.setLyrics(sourceVerse.getLyrics());            
         }
         model.addAttribute("verse", verseToPopulateWith);
+        
+        List<Tag> tags = (List<Tag>) tagRepo.findAll();
+        model.addAttribute("allTags", tags);
+        
         return "verseForm";
     }
 
     @GetMapping("/verse/{vid}")
-    public String getVerseForm(Model model, @PathVariable Long vid){
-        model.addAttribute("impacted", getImpactedUser(1L));
+    public String getVerseForm(Model model, Principal principal, @PathVariable Long vid){
+        Impacted impactedUser = getImpactedUser(principal);
+        model.addAttribute("impacted", impactedUser);
+        
         Optional<Verse> verseToPopulateWith = verseRepo.findById(vid);
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get());
+            List<Tag> tags = (List<Tag>) tagRepo.findAll();
+            model.addAttribute("allTags", tags);
             return "verseForm";
         } else {
             return "redirect:/";
@@ -61,11 +76,13 @@ public class VerseController {
     }
     
     @PostMapping("/verse")
-    public String addVerse(@Valid Verse verse, BindingResult bindingResult) {
+    public String addVerse(@Valid Verse verse, Principal principal, BindingResult bindingResult) {
+        Impacted impactedUser = getImpactedUser(principal);
+        
         if (bindingResult.hasErrors()) {
             return "verseForm";
         }
-        Impacted impactedUser = getImpactedUser(1L);
+
         boolean newVerse = verse.getId() == null; 
         verse.setImpacted(impactedUser);
         verseRepo.save(verse);
@@ -76,16 +93,22 @@ public class VerseController {
             updatedCounter.increment();
         }
         
-        return "redirect:/impacted/1";
+        return "redirect:/impacted";
     }
 
-    private Impacted getImpactedUser(Long id) {
-        // TODO: hardcoded for now...
-        // id = 1L;
-
-        if (!impactedRepo.findById(id).isPresent()) {
-            throw new ImpactedNotFoundException(id);
+    private Impacted getImpactedUser(Principal p) {
+        Optional<Impacted> impacted = impactedRepo.findByUserName(p.getName());
+        if (!impacted.isPresent()) {
+            throw new ImpactedNotFoundException(p.getName());
         }
-        return impactedRepo.findById(id).get();
+        return impacted.get();
     }
+
+//    private Impacted getImpactedUser(Long id) {
+//        Optional<Impacted> impacted = impactedRepo.findById(id);
+//        if (!impacted.isPresent()) {
+//            throw new ImpactedNotFoundException(id);
+//        }
+//        return impacted.get();
+//    }
 }

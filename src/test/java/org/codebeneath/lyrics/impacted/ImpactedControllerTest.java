@@ -78,4 +78,22 @@ public class ImpactedControllerTest {
                 .andExpect(content().string(containsString(newUser.getFirstName())));
     }
 
+//    @WithMockUser(username = "test", roles = {"USER"})
+//    @Test
+//    public void userCannotSeeOtherUserVerses() throws Exception {
+//        this.mockMvc.perform(get("/impacted/999"))
+//                .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().string(containsString("Access denied")));
+//    }
+
+//    @WithMockUser(username = "testAdmin", roles = {"ADMIN"})
+//    @Test
+//    public void adminCanSeeOtherUserVerses() throws Exception {
+//        this.mockMvc.perform(get("/impacted/999"))
+//                // .andDo(print())
+//                .andExpect(status().isOk())
+//                .andExpect(content().string(containsString("How were")));
+//    }
+
 }

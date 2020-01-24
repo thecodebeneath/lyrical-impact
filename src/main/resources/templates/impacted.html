@@ -25,7 +25,7 @@
                         <div class="w3-container">
                             <p>Filter by My Tags</p>
                             <p>
-                                <a class="w3-tag w3-small w3-theme-11" href="/">[Show All]</a>
+                                <a class="w3-tag w3-small w3-theme-11" href="/impacted">[Show All]</a>
                                 <a class="w3-tag w3-small w3-theme" th:each="tag : ${allTags}" th:text="${tag.label}" th:href="|?tag=${tag.label}|"/>
                             </p>
                         </div>
@@ -56,7 +56,7 @@
 
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
                         <span class="w3-right">
-                            <span class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}"></span>
+                            <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
                         </span>
                         <h5 th:utext="*{verse.song != ''}? |'*{#strings.escapeXml(verse.song)}'| : 'Unknown Song'|">Song</h5>
                         <h6 th:utext="*{verse.artist != ''}? *{#strings.escapeXml(verse.artist)} : 'Unknown Artist'">Artist</h6>

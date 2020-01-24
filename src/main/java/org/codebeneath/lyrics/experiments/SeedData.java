@@ -37,17 +37,17 @@ public class SeedData implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
-        Tag happyTag = tagRepo.save(new Tag("happy"));
-        Tag sadTag = tagRepo.save(new Tag("sad"));
-        IntStream.range(0, 10).forEach(x -> tagRepo.save(new Tag("tag-" + x)));
+        Tag happyTag = tagRepo.findByLabel("happy").get();
+        Tag sadTag = tagRepo.findByLabel("sad").get();
+        // IntStream.range(0, 10).forEach(x -> tagRepo.save(new Tag("tag-" + x)));
 
         Impacted jeff = impactedRepo.save(new Impacted("jeff", "jeff@codebeneath.com", "Jeff", "Black"));
         Impacted alan = impactedRepo.save(new Impacted("alan", "alan@codebeneath.com", "Alan", "Smithe"));
         log.info("======= Seed Jeff Id is: {}", jeff.getId());
 
         List<String> numbTags = new ArrayList<>();
-        numbTags.add("happy");
-        numbTags.add("sad");
+        numbTags.add(happyTag.getLabel());
+        numbTags.add(sadTag.getLabel());
 
         Verse multiline = verseRepo.save(
                 new Verse("There is no pain, you are receding\n" +

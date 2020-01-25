@@ -38,9 +38,6 @@ public class ImpactedController {
     public String impactedVerses(Model model, Principal principal,
                                  @RequestParam(name = "tag", required = false) String tag) {
         
-        log.info("Principal: {}", principal);
-        log.info("Name: {}", principal.getName());
-
         Impacted impactedUser = getImpactedUser(principal);
 
         List<Verse> verses;
@@ -57,7 +54,29 @@ public class ImpactedController {
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
         
-        return "impacted";
+        return "impacted/impacted";
+    }
+
+    @GetMapping("/impacted/global")
+    public String impactedVersesGlobal(Model model, Principal principal,
+                                 @RequestParam(name = "tag", required = false) String tag) {
+        
+        Impacted impactedUser = getImpactedUser(principal);
+
+        List<Verse> verses;
+        if (tag != null) {
+            verses = verseRepo.findByTags(tag);
+        } else {
+            verses = (List<Verse>)verseRepo.findAll();
+        }
+        Collections.reverse(verses);
+        List<Tag> tags = (List<Tag>) tagRepo.findAll();
+        model.addAttribute("impacted", impactedUser);
+        model.addAttribute("verses", verses);
+        model.addAttribute("allTags", tags);
+        model.addAttribute("newLineChar", '\n');
+        
+        return "impacted/impactedGlobalTag";
     }
     
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -65,9 +84,6 @@ public class ImpactedController {
     public String impactedVerses(Model model, Principal principal,
                                  @PathVariable(required = true) Long id, 
                                  @RequestParam(name = "tag", required = false) String tag) {
-        
-        log.info("Principal: {}", principal);
-        log.info("Name: {}", principal.getName());
         
         Impacted impactedUser = getImpactedUser(id);
         
@@ -85,7 +101,7 @@ public class ImpactedController {
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
 
-        return "impacted";
+        return "impacted/impacted";
     }
 
     @GetMapping("/about")

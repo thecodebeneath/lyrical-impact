@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <title>Lyrical Impact</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <!-- https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_social&stacked=h -->
+        <link rel="stylesheet" href="/css/w3.css"/>
+        <link rel="stylesheet" href="/css/w3-theme-blue-grey.css"/>
+        <style>
+            html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+        </style>
+    </head>
+    <body class="w3-theme-l5">
+        <div th:replace="fragments/header :: header"></div>
+
+        <!-- Page Container -->
+        <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
+            <!-- The Grid -->
+            <div class="w3-row">
+                <!-- Left Column -->
+                <div class="w3-col m3">
+                    <!-- Tags --> 
+                    <div class="w3-card w3-round w3-white w3-hide-small">
+                        <div class="w3-container">
+                            <p>Filter: Global verses by tags</p>
+                            <p>
+                                <a class="w3-tag w3-small w3-theme-11" href="/impacted/global">[Show All]</a>
+                                <a class="w3-tag w3-small w3-theme" th:each="tag : ${allTags}" th:text="${tag.label}" th:href="|?tag=${tag.label}|"/>
+                            </p>
+                        </div>
+                    </div>
+                    <br/>
+                    <!-- Suggestion -->
+                    <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
+                        <strong>Global tag distribution %</strong>
+                        <ul>
+                            <li th:each="tag : ${allTags}">
+                                <span class="w3-tag w3-small w3-theme" th:text="${tag.label}"/> ... 99%
+                            </li>
+                        </ul>                            
+                    </div>
+                </div>
+                <!-- Verses Column -->
+                <div class="w3-col m9">
+
+                    <div class="w3-row-padding">
+                        <div class="w3-col m12">
+                            <div class="w3-card w3-round w3-white">
+                                <div class="w3-container w3-padding">
+                                    <h3 class="w3-opacity" th:text="'Globally impacting verses'"/>
+                                    <button type="button" class="w3-button w3-theme"><a href="/impacted">Return to my impacted verses</a></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
+                        <span class="w3-right">
+                            <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
+                        </span>
+                        <h5 th:utext="*{verse.song != ''}? |'*{#strings.escapeXml(verse.song)}'| : 'Unknown Song'|">Song</h5>
+                        <h6 th:utext="*{verse.artist != ''}? *{#strings.escapeXml(verse.artist)} : 'Unknown Artist'">Artist</h6>
+                        <hr class="w3-clear"/>
+                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.lyrics), newLineChar, '&lt;br /&gt;')}"/>
+                        <hr class="w3-clear"/>
+                        <div class="w3-margin">
+                            <button type="button" class="w3-button w3-theme"><a th:href="@{'/verse/global/' + ${verse.id}}">[+] Add my reaction</a></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+</html>

@@ -56,7 +56,7 @@ public class VerseController {
         List<Tag> tags = (List<Tag>) tagRepo.findAll();
         model.addAttribute("allTags", tags);
         
-        return "verseForm";
+        return "impacted/verseForm";
     }
 
     @GetMapping("/verse/{vid}")
@@ -64,14 +64,33 @@ public class VerseController {
         Impacted impactedUser = getImpactedUser(principal);
         model.addAttribute("impacted", impactedUser);
         
-        Optional<Verse> verseToPopulateWith = verseRepo.findById(vid);
+        Optional<Verse> verseToPopulateWith = verseRepo.findByIdAndImpactedId(vid, impactedUser.getId());
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get());
             List<Tag> tags = (List<Tag>) tagRepo.findAll();
             model.addAttribute("allTags", tags);
-            return "verseForm";
+            return "impacted/verseForm";
         } else {
-            return "redirect:/";
+            return "redirect:/impacted";
+        }
+    }
+
+    @GetMapping("/verse/global/{vid}")
+    public String getVerseFormFromGlobal(Model model, Principal principal, @PathVariable Long vid){
+        Impacted impactedUser = getImpactedUser(principal);
+        model.addAttribute("impacted", impactedUser);
+        
+        Optional<Verse> verseToPopulateWith = verseRepo.findById(vid);
+        if (verseToPopulateWith.isPresent()) {
+            Verse verse = verseToPopulateWith.get();
+            verse.setId(null);
+            verse.setImpacted(null);
+            model.addAttribute("verse", verse);
+            List<Tag> tags = (List<Tag>) tagRepo.findAll();
+            model.addAttribute("allTags", tags);
+            return "impacted/verseForm";
+        } else {
+            return "redirect:/impacted/global";
         }
     }
     
@@ -80,7 +99,7 @@ public class VerseController {
         Impacted impactedUser = getImpactedUser(principal);
         
         if (bindingResult.hasErrors()) {
-            return "verseForm";
+            return "impacted/verseForm";
         }
 
         boolean newVerse = verse.getId() == null; 

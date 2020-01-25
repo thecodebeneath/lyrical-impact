@@ -23,7 +23,7 @@
                     <!-- Tags --> 
                     <div class="w3-card w3-round w3-white w3-hide-small">
                         <div class="w3-container">
-                            <p>Filter by My Tags</p>
+                            <p>Filter: My verses by tags</p>
                             <p>
                                 <a class="w3-tag w3-small w3-theme-11" href="/impacted">[Show All]</a>
                                 <a class="w3-tag w3-small w3-theme" th:each="tag : ${allTags}" th:text="${tag.label}" th:href="|?tag=${tag.label}|"/>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
@@ -40,8 +41,11 @@ public class SeedData implements CommandLineRunner {
 
         Tag happyTag = tagRepo.findByLabel("happy").get();
         Tag sadTag = tagRepo.findByLabel("sad").get();
-        // IntStream.range(0, 10).forEach(x -> tagRepo.save(new Tag("tag-" + x)));
-
+//        IntStream.range(0, 10).forEach(x -> tagRepo.save(new Tag("tag-" + x)));
+//        Stream.of("a", "b", "c").forEach(e -> {
+//            e.toUpperCase();
+//        });
+                
         Impacted jeff = impactedRepo.findByUserName("jeff").get();
         Impacted alan = impactedRepo.findByUserName("alan").get();
         Impacted sue = impactedRepo.findByUserName("sue").get();

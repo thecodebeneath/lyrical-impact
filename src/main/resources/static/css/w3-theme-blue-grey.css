@@ -20,3 +20,6 @@
 .w3-hover-theme:hover {color:#fff !important; background-color:#607d8b !important}
 .w3-hover-text-theme:hover {color:#607d8b !important}
 .w3-hover-border-theme:hover {border-color:#607d8b !important}
+
+.w3-right-tags {float: right!important; margin-right: 15px;}
+h5 {margin-top: -2px;}

@@ -56,10 +56,10 @@
                     </div>
 
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
-                        <span class="w3-right">
+                        <span class="w3-right-tags">
                             <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
                         </span>
-                        <h5 th:utext="*{verse.song != ''}? |'*{#strings.escapeXml(verse.song)}'| : 'Unknown Song'|">Song</h5>
+                        <h5 class="w3-theme-l3" th:utext="*{verse.song != ''}? |'*{#strings.escapeXml(verse.song)}'| : 'Unknown Song'|">Song</h5>
                         <h6 th:utext="*{verse.artist != ''}? *{#strings.escapeXml(verse.artist)} : 'Unknown Artist'">Artist</h6>
                         <hr class="w3-clear"/>
                         <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.lyrics), newLineChar, '&lt;br /&gt;')}"/>

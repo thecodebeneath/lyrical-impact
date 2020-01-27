@@ -5,15 +5,13 @@ import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.springframework.web.util.HtmlUtils;
 
 /**
- * The section of a song that impacted someone. This could be a single line, chorus or verse.
+ * The section of song/poem that impacted someone. This could be a single line, chorus or verse.
  */
 @Entity
 @Getter
@@ -27,11 +25,11 @@ public class Verse {
     @NotNull
     @Size(min = 1, max = 1000)
     @Column(columnDefinition = "TEXT")
-    private String lyrics;
+    private String text;
     @Size(min = 0, max = 100)
-    private String song;
+    private String title;
     @Size(min = 0, max = 100)
-    private String artist;
+    private String author;
     @Size(min = 0, max = 500)
     private String reaction;
 
@@ -44,32 +42,32 @@ public class Verse {
     protected Verse() {
     }
 
-    public Verse(String lyrics, String song, String artist, String reaction) {
-        this.lyrics = replaceLinefeed(lyrics);
-        this.song = song;
-        this.artist = artist;
+    public Verse(String text, String title, String author, String reaction) {
+        this.text = replaceLinefeed(text);
+        this.title = title;
+        this.author = author;
         this.reaction = replaceLinefeed(reaction);
     }
 
-    public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted) {
-        this.lyrics = replaceLinefeed(lyrics);
-        this.song = song;
-        this.artist = artist;
+    public Verse(String text, String title, String author, String reaction, Impacted impacted) {
+        this.text = replaceLinefeed(text);
+        this.title = title;
+        this.author = author;
         this.reaction = replaceLinefeed(reaction);
         this.impacted = impacted;
     }
 
-    public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted, List<String> tags) {
-        this.lyrics = replaceLinefeed(lyrics);
-        this.song = song;
-        this.artist = artist;
+    public Verse(String text, String title, String author, String reaction, Impacted impacted, List<String> tags) {
+        this.text = replaceLinefeed(text);
+        this.title = title;
+        this.author = author;
         this.reaction = replaceLinefeed(reaction);
         this.impacted = impacted;
         this.tags = tags;
     }
 
-    public void setLyrics(String lyrics) {
-        this.lyrics = replaceLinefeed(lyrics);
+    public void setText(String text) {
+        this.text = replaceLinefeed(text);
     }
 
     public void setReaction(String reaction) {
@@ -83,9 +81,9 @@ public class Verse {
     
     public Verse anonymizeVerse() {
         Verse verse = new Verse();
-        verse.setLyrics(this.getLyrics());
-        verse.setArtist(this.getArtist());
-        verse.setSong(this.getSong());
+        verse.setText(this.getText());
+        verse.setAuthor(this.getAuthor());
+        verse.setTitle(this.getTitle());
         return verse;
     }
 }

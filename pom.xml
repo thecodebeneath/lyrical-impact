@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <name>Lyrical Impact</name>
-    <description>A webapp to share how lyrics and versed have impacted you.</description>
+    <description>A webapp that allows people to remember the lyrical verses that have impacted them in some way.</description>
 
     <dependencies>
         <dependency>

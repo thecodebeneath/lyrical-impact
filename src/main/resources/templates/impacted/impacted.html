@@ -37,7 +37,7 @@
                             <strong>Someone was impacted by this verse. If you are too, then </strong>
                             <button type="button" class="w3-button w3-theme"><a th:href="@{'/verse?randomVerseId=' + ${randomVerse.id}}">[+] Add impacted verse</a></button>
                         </p>
-                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(randomVerse.lyrics), newLineChar, '&lt;br /&gt;')}"/>
+                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(randomVerse.text), newLineChar, '&lt;br /&gt;')}"/>
                     </div>
                 </div>
                 <!-- Verses Column -->
@@ -58,10 +58,10 @@
                         <span class="w3-right-tags">
                             <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
                         </span>
-                        <h5 class="w3-theme-l3" th:utext="*{verse.song != ''}? |'*{#strings.escapeXml(verse.song)}'| : 'Unknown Song'|">Song</h5>
-                        <h6 th:utext="*{verse.artist != ''}? *{#strings.escapeXml(verse.artist)} : 'Unknown Artist'">Artist</h6>
+                        <h5 class="w3-theme-l3" th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|">Title</h5>
+                        <h6 th:utext="*{verse.author != ''}? *{#strings.escapeXml(verse.author)} : 'Unknown Author'">Author</h6>
                         <hr class="w3-clear"/>
-                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.lyrics), newLineChar, '&lt;br /&gt;')}"/>
+                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
                         <hr class="w3-clear"/>
                         <p>My reaction is:</p>
                         <p th:utext="*{verse.reaction != ''}? *{#strings.replace( #strings.escapeXml(verse.reaction), newLineChar, '&lt;br /&gt;')} : 'I haven\'t put my reaction into words yet.'"/>

@@ -47,9 +47,7 @@ public class VerseController {
         Verse verseToPopulateWith = new Verse();
         if (randomVerseId.isPresent()) {
             Verse sourceVerse = verseRepo.findById(randomVerseId.get()).get();
-            verseToPopulateWith.setSong(sourceVerse.getSong());
-            verseToPopulateWith.setArtist(sourceVerse.getArtist());
-            verseToPopulateWith.setLyrics(sourceVerse.getLyrics());            
+            verseToPopulateWith = sourceVerse.anonymizeVerse();
         }
         model.addAttribute("verse", verseToPopulateWith);
         
@@ -92,10 +90,10 @@ public class VerseController {
     }
     
     @PostMapping("/verse")
-    public String addVerse(@Valid Verse verse, Principal principal, BindingResult bindingResult) {
+    public String addVerse(@Valid Verse verse, BindingResult bindingResult, Model model, Principal principal) {
         Impacted impactedUser = getImpactedUser(principal);
-        
         if (bindingResult.hasErrors()) {
+            model.addAttribute("impacted", impactedUser);
             return "impacted/verseForm";
         }
 

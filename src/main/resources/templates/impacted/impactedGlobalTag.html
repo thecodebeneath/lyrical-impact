@@ -31,12 +31,12 @@
                         </div>
                     </div>
                     <br/>
-                    <!-- Suggestion -->
+                    <!-- Tag Counts -->
                     <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
                         <strong>Global tag distribution %</strong>
                         <ul>
-                            <li th:each="tag : ${allTags}">
-                                <span class="w3-tag w3-small w3-theme" th:text="${tag.label}"/> ... 99%
+                            <li th:each="entry : ${allTagsCounts}" style="width: 40%">
+                                <span class="w3-tag w3-small w3-theme" th:text="${entry.key}"/> ..... <span class="w3-right w3-theme" th:text="${entry.value}"/>
                             </li>
                         </ul>                            
                     </div>
@@ -55,6 +55,14 @@
                         </div>
                     </div>
 
+                    <!-- no verses to show -->
+                    <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
+                        <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Nobody has tagged and verses with &quot;' + ${param.tag} + '&quot;. Try filtering for verses with another tag.'">empty message</h3>
+                        <h3 class="w3-opacity" th:if="${(param.tag == null)}" th:text="'Nobody has added any verses. Add some of your own when you are ready.'">empty message</h3>
+                        <div class=" ">&nbsp;</div>
+                    </div>
+
+                    <!-- verses to show -->
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
                         <span class="w3-right-tags">
                             <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>

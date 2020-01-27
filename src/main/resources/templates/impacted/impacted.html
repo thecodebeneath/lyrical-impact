@@ -54,12 +54,20 @@
                         </div>
                     </div>
 
+                    <!-- no verses to show -->
+                    <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
+                        <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'You don\'t have any verses tagged with &quot;' + ${param.tag} + '&quot;. Change your tag filter or try tagging some verses.'">empty message</h3>
+                        <h3 class="w3-opacity" th:if="${(param.tag == null)}" th:text="'You haven\'t added any verses. Add some when you are ready.'">empty message</h3>
+                        <div class=" ">&nbsp;</div>
+                    </div>
+
+                    <!-- verses to show -->
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
                         <span class="w3-right-tags">
                             <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
                         </span>
                         <h5 class="w3-theme-l3" th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|">Title</h5>
-                        <h6 th:utext="*{verse.author != ''}? *{#strings.escapeXml(verse.author)} : 'Unknown Author'">Author</h6>
+                        <h6 th:utext="*{verse.author != ''}? 'By: ' + *{#strings.escapeXml(verse.author)} : 'By: Unknown Author'">Author</h6>
                         <hr class="w3-clear"/>
                         <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
                         <hr class="w3-clear"/>

@@ -19,13 +19,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Slf4j
 //@SessionAttributes("myRequestObject")
 @Controller
 public class VerseController {
-    
+
     private final Counter createdCounter = Metrics.counter("verses.created");
     private final Counter updatedCounter = Metrics.counter("verses.updated");
 
@@ -43,25 +42,25 @@ public class VerseController {
     public String getVerseForm(Model model, Principal principal, @RequestParam Optional<Long> randomVerseId) {
         Impacted impactedUser = getImpactedUser(principal);
         model.addAttribute("impacted", impactedUser);
-        
+
         Verse verseToPopulateWith = new Verse();
         if (randomVerseId.isPresent()) {
             Verse sourceVerse = verseRepo.findById(randomVerseId.get()).get();
             verseToPopulateWith = sourceVerse.anonymizeVerse();
         }
         model.addAttribute("verse", verseToPopulateWith);
-        
+
         List<Tag> tags = (List<Tag>) tagRepo.findAll();
         model.addAttribute("allTags", tags);
-        
+
         return "impacted/verseForm";
     }
 
     @GetMapping("/verse/{vid}")
-    public String getVerseForm(Model model, Principal principal, @PathVariable Long vid){
+    public String getVerseForm(Model model, Principal principal, @PathVariable Long vid) {
         Impacted impactedUser = getImpactedUser(principal);
         model.addAttribute("impacted", impactedUser);
-        
+
         Optional<Verse> verseToPopulateWith = verseRepo.findByIdAndImpactedId(vid, impactedUser.getId());
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get());
@@ -74,10 +73,10 @@ public class VerseController {
     }
 
     @GetMapping("/verse/global/{vid}")
-    public String getVerseFormFromGlobal(Model model, Principal principal, @PathVariable Long vid){
+    public String getVerseFormFromGlobal(Model model, Principal principal, @PathVariable Long vid) {
         Impacted impactedUser = getImpactedUser(principal);
         model.addAttribute("impacted", impactedUser);
-        
+
         Optional<Verse> verseToPopulateWith = verseRepo.findById(vid);
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get().anonymizeVerse());
@@ -88,7 +87,7 @@ public class VerseController {
             return "redirect:/impacted/global";
         }
     }
-    
+
     @PostMapping("/verse")
     public String addVerse(@Valid Verse verse, BindingResult bindingResult, Model model, Principal principal) {
         Impacted impactedUser = getImpactedUser(principal);
@@ -97,7 +96,7 @@ public class VerseController {
             return "impacted/verseForm";
         }
 
-        boolean newVerse = verse.getId() == null; 
+        boolean newVerse = verse.getId() == null;
         verse.setImpacted(impactedUser);
         verseRepo.save(verse);
 
@@ -106,7 +105,7 @@ public class VerseController {
         } else {
             updatedCounter.increment();
         }
-        
+
         return "redirect:/impacted";
     }
 

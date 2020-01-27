@@ -65,14 +65,14 @@ public class SeedData implements CommandLineRunner {
                         + "me\n"
                         + "happy!", jeff, numbTags));
         Verse scripts = verseRepo.save(
-                new Verse("<b>ve-oops</b><script>alert('ve');</script>",
-                        "<b>so-oops</b><script>alert('so');</script>", "<b>ar-oops</b><script>alert('ar');</script>",
-                        "<b>re-oops</b><script>alert('re');</script>", jeff, numbTags));
+                new Verse("<b>ve-oops</b><script>alert('versetext');</script>",
+                        "<b>so-oops</b><script>alert('versetitle');</script>", "<b>ar-oops</b><script>alert('verseauthor');</script>",
+                        "<b>re-oops</b><script>alert('versereaction');</script>", jeff, numbTags));
         Verse i18n = verseRepo.save(
                 new Verse("由 匿名 (未验证) 提交于\nThe façade pattern's a software-design \"£\" pattern.\n提交于",
                         "i18n 由", "i18n 由",
                         "由 匿名 (未验证) 提交于\n"
-                        + "The façade pattern's a software-design \"£\" pattern.\n提交于", jeff, numbTags));
+                        + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", jeff, numbTags));
 
         List<Tag> allTags = (List<Tag>) tagRepo.findAll();
         createImpactedVersesFor(alan, allTags, 15);

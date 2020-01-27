@@ -45,30 +45,47 @@ public class Verse {
     }
 
     public Verse(String lyrics, String song, String artist, String reaction) {
-        this.lyrics = lyrics;
+        this.lyrics = replaceLinefeed(lyrics);
         this.song = song;
         this.artist = artist;
-        this.reaction = reaction;
+        this.reaction = replaceLinefeed(reaction);
     }
 
     public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted) {
-        this.lyrics = lyrics;
+        this.lyrics = replaceLinefeed(lyrics);
         this.song = song;
         this.artist = artist;
-        this.reaction = reaction;
+        this.reaction = replaceLinefeed(reaction);
         this.impacted = impacted;
     }
 
     public Verse(String lyrics, String song, String artist, String reaction, Impacted impacted, List<String> tags) {
-        this.lyrics = lyrics;
+        this.lyrics = replaceLinefeed(lyrics);
         this.song = song;
         this.artist = artist;
-        this.reaction = reaction;
+        this.reaction = replaceLinefeed(reaction);
         this.impacted = impacted;
         this.tags = tags;
     }
 
-    public String getLyricsAsHtml() {
-        return HtmlUtils.htmlEscape(lyrics);
+    public void setLyrics(String lyrics) {
+        this.lyrics = replaceLinefeed(lyrics);
+    }
+
+    public void setReaction(String reaction) {
+        this.reaction = replaceLinefeed(reaction);
+    }
+
+    // intent is to replace \r\n with just \n, such as when text comes from a <textarea> form element
+    private String replaceLinefeed(String txt) {
+        return txt.replaceAll("[\r]", "");
+    }   
+    
+    public Verse anonymizeVerse() {
+        Verse verse = new Verse();
+        verse.setLyrics(this.getLyrics());
+        verse.setArtist(this.getArtist());
+        verse.setSong(this.getSong());
+        return verse;
     }
 }

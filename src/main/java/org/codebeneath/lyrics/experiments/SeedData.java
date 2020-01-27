@@ -21,6 +21,7 @@ import org.springframework.core.annotation.Order;
 @Order(value = 1)
 @Component
 public class SeedData implements CommandLineRunner {
+
     private static final Random RND = new Random();
     private static final Lorem LOREM = LoremIpsum.getInstance();
 
@@ -41,23 +42,24 @@ public class SeedData implements CommandLineRunner {
         Tag sadTag = tagRepo.findByLabel("sad").get();
         // IntStream.range(0, 10).forEach(x -> tagRepo.save(new Tag("tag-" + x)));
 
-        Impacted jeff = impactedRepo.save(new Impacted("jeff", "jeff@codebeneath.com", "Jeff", "Black"));
-        Impacted alan = impactedRepo.save(new Impacted("alan", "alan@codebeneath.com", "Alan", "Smithe"));
-        log.info("======= Seed Jeff Id is: {}", jeff.getId());
+        Impacted jeff = impactedRepo.findByUserName("jeff").get();
+        Impacted alan = impactedRepo.findByUserName("alan").get();
+        Impacted sue = impactedRepo.findByUserName("sue").get();
+        Impacted dan = impactedRepo.findByUserName("dan").get();
 
         List<String> numbTags = new ArrayList<>();
         numbTags.add(happyTag.getLabel());
         numbTags.add(sadTag.getLabel());
 
         Verse multiline = verseRepo.save(
-                new Verse("There is no pain, you are receding\n" +
-                        "A distant ship smoke on the horizon\n" +
-                        "You are only coming through in waves\n" +
-                        "Your lips move but I can't hear what you're saying",
+                new Verse("There is no pain, you are receding\n"
+                        + "A distant ship smoke on the horizon\n"
+                        + "You are only coming through in waves\n"
+                        + "Your lips move but I can't hear what you're saying",
                         "Comfortably Numb", "Pink Floyd",
-                        "makes\n" +
-                        "me\n" +
-                        "happy!", jeff, numbTags));
+                        "makes\n"
+                        + "me\n"
+                        + "happy!", jeff, numbTags));
         Verse scripts = verseRepo.save(
                 new Verse("<b>ve-oops</b><script>alert('ve');</script>",
                         "<b>so-oops</b><script>alert('so');</script>", "<b>ar-oops</b><script>alert('ar');</script>",
@@ -65,25 +67,31 @@ public class SeedData implements CommandLineRunner {
         Verse i18n = verseRepo.save(
                 new Verse("由 匿名 (未验证) 提交于\nThe façade pattern's a software-design \"£\" pattern.\n提交于",
                         "i18n 由", "i18n 由",
-                        "由 匿名 (未验证) 提交于\n" +
-                        "The façade pattern's a software-design \"£\" pattern.\n提交于", jeff, numbTags));
-        
+                        "由 匿名 (未验证) 提交于\n"
+                        + "The façade pattern's a software-design \"£\" pattern.\n提交于", jeff, numbTags));
+
         List<Tag> allTags = (List<Tag>) tagRepo.findAll();
-        for (int v = 0; v < 3; v++) {
+        createImpactedVersesFor(alan, allTags, 15);
+        createImpactedVersesFor(sue, allTags, 3);
+        createImpactedVersesFor(dan, allTags, 5);
+    }
+
+    private void createImpactedVersesFor(Impacted user, List<Tag> allTags, int count) {
+        for (int v = 0; v < count; v++) {
             int tagId = RND.nextInt(allTags.size() - 1);
-            List<String> verseTags = new ArrayList<>(); 
+            List<String> verseTags = new ArrayList<>();
             verseTags.add(allTags.get(tagId).getLabel());
             verseRepo.save(
                     new Verse(createRandomVerse(),
                             LOREM.getWords(1, 3), LOREM.getWords(1, 3),
-                            LOREM.getWords(1, 5), jeff, verseTags));
+                            LOREM.getWords(1, 5), user, verseTags));
         }
     }
 
     private String createRandomVerse() {
         StringBuilder sb = new StringBuilder();
-        for (int n = 0; n < RND.nextInt(3)+1; n++) {
-            for (int v = 0; v < RND.nextInt(6)+2; v++) {
+        for (int n = 0; n < RND.nextInt(3) + 1; n++) {
+            for (int v = 0; v < RND.nextInt(6) + 2; v++) {
                 sb.append(LOREM.getWords(5, 10));
                 sb.append("\n");
             }

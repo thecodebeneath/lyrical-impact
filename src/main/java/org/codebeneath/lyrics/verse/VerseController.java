@@ -82,16 +82,21 @@ public class VerseController {
         
         Optional<Verse> verseToPopulateWith = verseRepo.findById(vid);
         if (verseToPopulateWith.isPresent()) {
-            Verse verse = verseToPopulateWith.get();
-            verse.setId(null);
-            verse.setImpacted(null);
-            model.addAttribute("verse", verse);
+            model.addAttribute("verse", anonymizeVerse(verseToPopulateWith.get()));
             List<Tag> tags = (List<Tag>) tagRepo.findAll();
             model.addAttribute("allTags", tags);
             return "impacted/verseForm";
         } else {
             return "redirect:/impacted/global";
         }
+    }
+
+    private Verse anonymizeVerse(Verse sourceVerse) {
+        Verse verse = new Verse();
+        verse.setLyrics(sourceVerse.getLyrics());
+        verse.setArtist(sourceVerse.getArtist());
+        verse.setSong(sourceVerse.getSong());
+        return verse;
     }
     
     @PostMapping("/verse")

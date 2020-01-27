@@ -112,12 +112,12 @@ public class JpaExperiments implements CommandLineRunner {
         Tag happyTag = tagRepo.findByLabel("happy").get();
         Tag sadTag = tagRepo.findByLabel("sad").get();
 
-        Impacted i = impactedRepo.save(new Impacted("chloe", "c@c.com", "Chloe", "O'Brian"));
+        Impacted i = impactedRepo.findByUserName("chloe").get();
         Verse vi1 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i));
         vi1.getTags().add(sadTag.getLabel());
         verseRepo.save(vi1);
 
-        Impacted i2 = impactedRepo.save(new Impacted("tex", "z@z.com", "Tex", "O'Brian"));
+        Impacted i2 = impactedRepo.findByUserName("tex").get();
         Verse v1 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i2));
         Verse v2 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i2));
         Verse v3 = verseRepo.save(new Verse("wild and free", "Shadows", "Metric", "makes me happy", i2));

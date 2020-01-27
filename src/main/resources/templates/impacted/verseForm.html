@@ -53,9 +53,8 @@
                                         <h5>Artist who wrote this verse:</h5> <input type="text" th:field="*{artist}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="4"/>
                                         
                                         <h5>Tag this verse so that you can find similar impacts later:</h5>
-                                        <select th:placeholder="Tags..." th:field="*{tags}" class="chosen-select-width" multiple="true" tabindex="5">
-                                            <option value=""></option>
-                                            <option th:each="tag: ${allTags}" th:value="${tag.label}" th:text="${tag.label}"/>>
+                                        <select th:field="*{tags}" data-placeholder="Tags..." class="chosen-select-width" multiple="true" tabindex="5">
+                                            <option th:each="tag: ${allTags}" th:value="${tag.label}" th:text="${tag.label}"/>
                                         </select>
                                         
                                         <hr class="w3-clear"/>

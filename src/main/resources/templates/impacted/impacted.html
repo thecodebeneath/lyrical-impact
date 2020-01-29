@@ -56,7 +56,7 @@
 
                     <!-- no verses to show -->
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
-                        <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'You don\'t have any verses tagged with &quot;' + ${param.tag} + '&quot;. Change your tag filter or try tagging some verses.'">empty message</h3>
+                        <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'You don\'t have any verses tagged as &quot;' + ${param.tag} + '&quot;. Change your tag filter or try tagging some verses.'">empty message</h3>
                         <h3 class="w3-opacity" th:if="${(param.tag == null)}" th:text="'You haven\'t added any verses. Add some when you are ready.'">empty message</h3>
                         <div class=" ">&nbsp;</div>
                     </div>

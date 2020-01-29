@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -75,7 +73,6 @@ public class ImpactedController {
         model.addAttribute("impacted", impactedUser);
         model.addAttribute("verses", verses);
         model.addAttribute("allTags", tags);
-        model.addAttribute("allTagsCounts", allTagCounts(tags));
         model.addAttribute("newLineChar", '\n');
 
         return "impacted/impactedGlobalTag";
@@ -109,14 +106,6 @@ public class ImpactedController {
     @GetMapping("/about")
     public String aboutPage(Model model) {
         return "about";
-    }
-
-    private Map<String, Long> allTagCounts(List<Tag> allTags) {
-        Map<String, Long> allTagCounts = new HashMap<>();
-        allTags.stream().forEach(t -> {
-            allTagCounts.put(t.getLabel(), verseRepo.countByTags(t.getLabel()));
-        });
-        return allTagCounts;
     }
 
     private Impacted getImpactedUser(Principal p) {

@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.impacted;
+package org.codebeneath.lyrics.verse;
 
 import java.util.List;
 import lombok.Getter;
@@ -11,15 +11,15 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class ChartTagCount {
+public class ChartVerseTagCount {
 
     private List<String> labels;
     private List<Long> series;
     
-    public ChartTagCount() {
+    public ChartVerseTagCount() {
     }
 
-    public ChartTagCount(List<String> labels, List<Long> series) {
+    public ChartVerseTagCount(List<String> labels, List<Long> series) {
         this.labels = labels;
         this.series = series;
     }

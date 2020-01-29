@@ -1,39 +1,43 @@
-package org.codebeneath.lyrics.impacted;
+package org.codebeneath.lyrics.home;
 
 import java.security.Principal;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
+import org.codebeneath.lyrics.impacted.Impacted;
+import org.codebeneath.lyrics.impacted.ImpactedNotFoundException;
+import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.access.prepost.PreAuthorize;
 
 /**
  *
+ * @author black
  */
 @Slf4j
 @Controller
-public class ImpactedController {
+public class HomeController {
 
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
     private final TagRepository tagRepo;
 
-    public ImpactedController(ImpactedRepository iRepo, VerseRepository vRepo, TagRepository tRepo) {
+    public HomeController(ImpactedRepository iRepo, VerseRepository vRepo, TagRepository tRepo) {
         this.impactedRepo = iRepo;
         this.verseRepo = vRepo;
         this.tagRepo = tRepo;
     }
 
-    @GetMapping("/impacted")
+    @GetMapping("/my")
     public String impactedVerses(Model model, Principal principal,
             @RequestParam(name = "tag", required = false) String tag) {
 
@@ -53,10 +57,10 @@ public class ImpactedController {
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
 
-        return "impacted/impacted";
+        return "impacted/my";
     }
 
-    @GetMapping("/impacted/global")
+    @GetMapping("/global")
     public String impactedVersesGlobal(Model model, Principal principal,
             @RequestParam(name = "tag", required = false) String tag) {
 
@@ -75,11 +79,11 @@ public class ImpactedController {
         model.addAttribute("allTags", tags);
         model.addAttribute("newLineChar", '\n');
 
-        return "impacted/impactedGlobalTag";
+        return "impacted/globalTag";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/impacted/{id}")
+    @GetMapping("/my/{id}")
     public String impactedVerses(Model model, Principal principal,
             @PathVariable(required = true) Long id,
             @RequestParam(name = "tag", required = false) String tag) {
@@ -100,7 +104,7 @@ public class ImpactedController {
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
 
-        return "impacted/impacted";
+        return "impacted/my";
     }
 
     @GetMapping("/about")

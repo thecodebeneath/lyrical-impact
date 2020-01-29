@@ -28,7 +28,7 @@
                         <div class="w3-container">
                             <p>Filter: Global verses by tags</p>
                             <p>
-                                <a class="w3-tag w3-small w3-theme-11" href="/impacted/global">[Show All]</a>
+                                <a class="w3-tag w3-small w3-theme-11" href="/global">[Show All]</a>
                                 <a class="w3-tag w3-small w3-theme" th:each="tag : ${allTags}" th:text="${tag.label}" th:href="|?tag=${tag.label}|"/>
                             </p>
                         </div>
@@ -37,8 +37,8 @@
                     <!-- Tag Donut Chart -->
                     <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
                         <h3>Global tag distribution</h3>
-                        <h6>You know, for the kids...</h6>
                         <div class="ct-chart ct-square" style="padding-bottom:40px"></div>
+                        <h6>You know, for kids...</h6>
                     </div>
                 </div>
                 <!-- Verses Column -->
@@ -48,7 +48,7 @@
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
                                     <h3 class="w3-opacity" th:text="'Globally impacting verses'"/>
-                                    <button type="button" class="w3-button w3-theme"><a href="/impacted">Return to my impacted verses</a></button>
+                                    <button type="button" class="w3-button w3-theme"><a href="/my">Return to my impacted verses</a></button>
                                 </div>
                             </div>
                         </div>
@@ -56,9 +56,9 @@
 
                     <!-- no verses to show -->
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
-                        <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Nobody has tagged any verses as &quot;' + ${param.tag} + '&quot;. Try filtering for verses with another tag.'">empty message</h3>
+                        <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Nobody has tagged any verses as &quot;' + ${param.tag} + '&quot;.'">empty message</h3>
+                        <h4 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Try filtering for verses with another tag.'">empty message</h4>
                         <h3 class="w3-opacity" th:if="${(param.tag == null)}" th:text="'Nobody has added any verses. Add some of your own when you are ready.'">empty message</h3>
-                        <div class=" ">&nbsp;</div>
                     </div>
 
                     <!-- verses to show -->
@@ -97,7 +97,7 @@
             var tagDonut = new Chartist.Pie('.ct-chart', data, options);
 
             $(document).ready(function() {
-                $.ajax("/impacted/metrics/tags", {
+                $.ajax("/verse/metrics/tags", {
                     success:function(response) {
                         var data = response;
                         tagDonut.update(data);

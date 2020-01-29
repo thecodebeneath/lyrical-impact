@@ -68,7 +68,7 @@ public class VerseController {
             model.addAttribute("allTags", tags);
             return "impacted/verseForm";
         } else {
-            return "redirect:/impacted";
+            return "redirect:/my";
         }
     }
 
@@ -84,7 +84,7 @@ public class VerseController {
             model.addAttribute("allTags", tags);
             return "impacted/verseForm";
         } else {
-            return "redirect:/impacted/global";
+            return "redirect:/global";
         }
     }
 
@@ -106,7 +106,7 @@ public class VerseController {
             updatedCounter.increment();
         }
 
-        return "redirect:/impacted";
+        return "redirect:/my";
     }
 
     private Impacted getImpactedUser(Principal p) {

@@ -1,10 +1,12 @@
-package org.codebeneath.lyrics.impacted;
+package org.codebeneath.lyrics.home;
 
 import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
+import org.codebeneath.lyrics.impacted.Impacted;
+import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
@@ -12,7 +14,6 @@ import org.codebeneath.lyrics.verse.VerseRepository;
 import static org.hamcrest.Matchers.containsString;
 import org.junit.Before;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,8 +28,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(ImpactedController.class)
-public class ImpactedControllerTest {
+@WebMvcTest(HomeController.class)
+public class HomeControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -71,7 +72,7 @@ public class ImpactedControllerTest {
         when(vrepo.findByImpactedId(newUser.getId())).thenReturn(newUserVerses);
         when(vrepo.getRandomVerse()).thenReturn(randomVerse);
         
-        this.mockMvc.perform(get("/impacted"))
+        this.mockMvc.perform(get("/my"))
                 // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
@@ -81,7 +82,7 @@ public class ImpactedControllerTest {
 //    @WithMockUser(username = "test", roles = {"USER"})
 //    @Test
 //    public void userCannotSeeOtherUserVerses() throws Exception {
-//        this.mockMvc.perform(get("/impacted/999"))
+//        this.mockMvc.perform(get("/my/999"))
 //                .andDo(print())
 //                .andExpect(status().isOk())
 //                .andExpect(content().string(containsString("Access denied")));
@@ -90,7 +91,7 @@ public class ImpactedControllerTest {
 //    @WithMockUser(username = "testAdmin", roles = {"ADMIN"})
 //    @Test
 //    public void adminCanSeeOtherUserVerses() throws Exception {
-//        this.mockMvc.perform(get("/impacted/999"))
+//        this.mockMvc.perform(get("/my/999"))
 //                // .andDo(print())
 //                .andExpect(status().isOk())
 //                .andExpect(content().string(containsString("How were")));

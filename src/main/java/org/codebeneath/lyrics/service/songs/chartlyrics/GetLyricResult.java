@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.songs.xml;
+package org.codebeneath.lyrics.service.songs.chartlyrics;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -13,8 +13,8 @@ import lombok.ToString;
  * http://www.cajunlyrics.com/?page=api
  * Note: Does not marshal from XML to Object because of multiple namespaces:prefixes
  */
-@Getter
-@Setter
+//@Getter
+//@Setter
 @ToString
 @XmlRootElement(name = "GetLyricResult", namespace = "http://api.chartlyrics.com/")
 @XmlAccessorType(XmlAccessType.FIELD)

@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.songs.json;
+package org.codebeneath.lyrics.service.songs.musixmatch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
@@ -13,8 +13,8 @@ import lombok.ToString;
 @Setter
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Body {
+public class Lyrics {
 
-    private Lyrics lyrics;
-    
+    private String lyrics_body;
+
 }

@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.songs.xml;
+package org.codebeneath.lyrics.service.songs.cajunlyrics;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -11,13 +11,12 @@ import lombok.ToString;
 /**
  * Song API : Cajun Lyrics
  * http://www.cajunlyrics.com/?page=api
- * Note: Does not work because response has invalid mime type "text/xml;charset=Off": unsupported charset 'Off'
  */
 @Getter
 @Setter
 @ToString
 @XmlRootElement(name = "GetLyricResult", namespace = "http://api.cajunlyrics.com/")
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.NONE)
 public class CajunGetLyricResult {
 
     @XmlElement(name = "Id")
@@ -29,11 +28,11 @@ public class CajunGetLyricResult {
     @XmlElement(name = "ArtistUrl")
     private String artistUrl;
 
+    @XmlElement(name = "Artist")
+    private String artist;
+
     @XmlElement(name = "Title")
     private String title;
-
-    @XmlElement(name = "Artist")
-    private String Artist;
 
     @XmlElement(name = "Lyric")
     private String lyric;

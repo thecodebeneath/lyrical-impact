@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.songs.json;
+package org.codebeneath.lyrics.service.songs.musixmatch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;

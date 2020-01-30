@@ -26,7 +26,7 @@
                     <!-- Tags --> 
                     <div class="w3-card w3-round w3-white w3-hide-small">
                         <div class="w3-container">
-                            <p>Filter: Global verses by tags</p>
+                            <h3>Filter: Global verses by tag</h3>
                             <p>
                                 <a class="w3-tag w3-small w3-theme-11" href="/global">[Show All]</a>
                                 <a class="w3-tag w3-small w3-theme" th:each="tag : ${allTags}" th:text="${tag.label}" th:href="|?tag=${tag.label}|"/>
@@ -38,7 +38,7 @@
                     <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
                         <h3>Global tag distribution</h3>
                         <div class="ct-chart ct-square" style="padding-bottom:40px"></div>
-                        <h6>You know, for kids...</h6>
+                        <h5>You know... for kids!</h5>
                     </div>
                 </div>
                 <!-- Verses Column -->
@@ -47,7 +47,7 @@
                         <div class="w3-col m12">
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
-                                    <h3 class="w3-opacity" th:text="'Globally impacting verses'"/>
+                                    <h3 th:text="'Globally impacting verses'"/>
                                     <button type="button" class="w3-button w3-theme"><a href="/my">Return to my impacted verses</a></button>
                                 </div>
                             </div>
@@ -76,7 +76,7 @@
                         <div class="w3-margin">
                             <h5 th:if="*{verse.impacted == impacted}" class="w3-button w3-disabled w3-theme">This is your verse</h5>
                             <button type="button" th:unless="*{verse.impacted == impacted}" class="w3-button w3-theme">
-                                <a th:href="@{'/verse/global/' + ${verse.id}}">[+] Add my reaction</a>
+                                <a th:href="@{'/verse/global/' + ${verse.id}}">Add my reaction</a>
                             </button>
                         </div>
                     </div>

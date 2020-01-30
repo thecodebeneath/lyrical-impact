@@ -17,6 +17,11 @@
                 <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="About"><i class="fa fa-globe">About</i></a>
 
                 <span class="w3-right">
+                    <form class="w3-bar-item">
+                        <input type="search" size="30" id="site-search" name="q" th:placeholder="'search verse text...'"/>
+                        <button type="submit" class="w3-button w3-theme" th:text="'Search'" tabindex="-1">Search</button>
+                    </form>
+                        
                     <a href="/logout" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" th:text="'' + ${impacted.firstName} + ' ' + ${impacted.lastName}"/>
                     <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="My Profile">
                         <img src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>

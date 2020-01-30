@@ -39,13 +39,16 @@ public class HomeController {
 
     @GetMapping("/my")
     public String impactedVerses(Model model, Principal principal,
-            @RequestParam(name = "tag", required = false) String tag) {
+            @RequestParam(name = "tag", required = false) String tag,
+            @RequestParam(name = "q", required = false) String query) {
 
         Impacted impactedUser = getImpactedUser(principal);
 
         List<Verse> verses;
         if (tag != null) {
             verses = verseRepo.findByImpactedIdAndTags(impactedUser.getId(), tag);
+        } else if (query != null) {
+            verses = (List<Verse>) verseRepo.findByImpactedIdAndTextContainsIgnoreCase(impactedUser.getId(), query.trim());
         } else {
             verses = verseRepo.findByImpactedId(impactedUser.getId());
         }
@@ -62,13 +65,16 @@ public class HomeController {
 
     @GetMapping("/global")
     public String impactedVersesGlobal(Model model, Principal principal,
-            @RequestParam(name = "tag", required = false) String tag) {
-
+            @RequestParam(name = "tag", required = false) String tag,
+            @RequestParam(name = "q", required = false) String query) {
+        
         Impacted impactedUser = getImpactedUser(principal);
 
         List<Verse> verses;
         if (tag != null) {
             verses = verseRepo.findByTags(tag);
+        } else if (query != null) {
+            verses = (List<Verse>) verseRepo.findByTextContainsIgnoreCase(query.trim());
         } else {
             verses = (List<Verse>) verseRepo.findAll();
         }

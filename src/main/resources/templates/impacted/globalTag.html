@@ -56,9 +56,11 @@
 
                     <!-- no verses to show -->
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
+                        <h3 class="w3-opacity" th:if="${(param.q != null)}" th:text="'No verses match your search term &quot;' + ${param.q} + '&quot;.'">empty message</h3>
+                        <h4 class="w3-opacity" th:if="${(param.q != null)}" th:text="'Try searching for something else or filtering with a tag.'">empty message</h4>
                         <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Nobody has tagged any verses as &quot;' + ${param.tag} + '&quot;.'">empty message</h3>
                         <h4 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Try filtering for verses with another tag.'">empty message</h4>
-                        <h3 class="w3-opacity" th:if="${(param.tag == null)}" th:text="'Nobody has added any verses. Add some of your own when you are ready.'">empty message</h3>
+                        <h3 class="w3-opacity" th:if="${(param.q == null) && (param.tag == null)}" th:text="'Nobody has added any verses. Add some of your own when you are ready.'">empty message</h3>
                     </div>
 
                     <!-- verses to show -->
@@ -72,7 +74,10 @@
                         <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
                         <hr class="w3-clear"/>
                         <div class="w3-margin">
-                            <button type="button" class="w3-button w3-theme"><a th:href="@{'/verse/global/' + ${verse.id}}">[+] Add my reaction</a></button>
+                            <h5 th:if="*{verse.impacted == impacted}" class="w3-button w3-disabled w3-theme">This is your verse</h5>
+                            <button type="button" th:unless="*{verse.impacted == impacted}" class="w3-button w3-theme">
+                                <a th:href="@{'/verse/global/' + ${verse.id}}">[+] Add my reaction</a>
+                            </button>
                         </div>
                     </div>
                 </div>

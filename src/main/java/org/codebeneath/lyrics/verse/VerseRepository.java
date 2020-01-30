@@ -20,6 +20,10 @@ public interface VerseRepository extends CrudRepository<Verse, Long> {
     // all by tag for one user
     List<Verse> findByImpactedIdAndTags(Long id, String label);
 
+    List<Verse> findByImpactedIdAndTextContainsIgnoreCase(Long id, String query);
+
+    List<Verse> findByTextContainsIgnoreCase(String query);
+    
     // all by tag
     List<Verse> findByTags(String label);
 

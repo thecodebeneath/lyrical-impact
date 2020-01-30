@@ -56,9 +56,11 @@
 
                     <!-- no verses to show -->
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
+                        <h3 class="w3-opacity" th:if="${(param.q != null)}" th:text="'No verses match your search term &quot;' + ${param.q} + '&quot;.'">empty message</h3>
+                        <h4 class="w3-opacity" th:if="${(param.q != null)}" th:text="'Try searching for something else or filtering with a tag.'">empty message</h4>
                         <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'You don\'t have any verses tagged as &quot;' + ${param.tag} + '&quot;.'">empty message</h3>
-                        <h4 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Change your tag filter or try tagging some verses.'">empty message</h4>
-                        <h3 class="w3-opacity" th:if="${(param.tag == null)}" th:text="'You haven\'t added any verses. Add some when you are ready.'">empty message</h3>
+                        <h4 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Try tagging some verses or change your tag filter.'">empty message</h4>
+                        <h3 class="w3-opacity" th:if="${(param.q == null) && (param.tag == null)}" th:text="'You haven\'t added any verses. Add some when you are ready.'">empty message</h3>
                     </div>
 
                     <!-- verses to show -->

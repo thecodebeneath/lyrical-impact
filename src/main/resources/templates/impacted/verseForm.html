@@ -31,7 +31,7 @@
                                 <div class="w3-container w3-padding">
 
                                     <h3 class="w3-opacity">Add a verse that impacted you!</h3>
-                                    <form action="#" method="POST" th:action="@{/verse}" th:object="${verse}">
+                                    <form method="POST" th:action="@{/verse}" th:object="${verse}">
                                         <span class="w3-right">
                                             <span class="w3-red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">text error</span>
                                         </span>
@@ -56,10 +56,11 @@
                                         <select th:field="*{tags}" data-placeholder="Tags..." class="chosen-select-width" multiple="true" tabindex="5">
                                             <option th:each="tag: ${allTags}" th:value="${tag.label}" th:text="${tag.label}"/>
                                         </select>
-                                        
+  
                                         <hr class="w3-clear"/>
                                         <input type="hidden" th:if="*{id > 0}" th:field="*{id}"/>
                                         <button type="submit" class="w3-button w3-theme" name="save" th:text="*{id > 0}? 'Update impacted verse' : 'Save impacted verse'" tabindex="6">Save</button>
+                                        <button type="delete" th:if="*{id > 0}" th:formaction="@{/verse/delete}" class="w3-button w3-red w3-right" name="delete" th:text="'Delete impacted verse'" tabindex="7">Delete</button>
                                     </form>
                                 </div>
                             </div>

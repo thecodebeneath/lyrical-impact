@@ -109,6 +109,18 @@ public class VerseController {
         return "redirect:/my";
     }
 
+    @PostMapping("/verse/delete")
+    public String deleteVerse(Verse verse, Principal principal) {
+        Impacted impactedUser = getImpactedUser(principal);
+
+        Optional<Verse> verseToDelete = verseRepo.findByIdAndImpactedId(verse.getId(), impactedUser.getId());
+        if (verseToDelete.isPresent()) {
+            verseRepo.delete(verse);
+        }
+
+        return "redirect:/my";
+    }
+
     private Impacted getImpactedUser(Principal p) {
         Optional<Impacted> impacted = impactedRepo.findByUserName(p.getName());
         if (!impacted.isPresent()) {

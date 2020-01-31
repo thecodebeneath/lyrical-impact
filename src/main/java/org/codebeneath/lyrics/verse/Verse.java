@@ -20,7 +20,7 @@ import org.codebeneath.lyrics.impacted.Impacted;
 public class Verse {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
     @Size(min = 1, max = 1000)

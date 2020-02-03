@@ -93,6 +93,8 @@ public class VerseController {
         Impacted impactedUser = getImpactedUser(principal);
         if (bindingResult.hasErrors()) {
             model.addAttribute("impacted", impactedUser);
+            List<Tag> tags = (List<Tag>) tagRepo.findAll();
+            model.addAttribute("allTags", tags);
             return "impacted/verseForm";
         }
 

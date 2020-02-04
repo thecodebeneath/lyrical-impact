@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -20,7 +21,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private static final String ROLE_USER = "USER";
     
     @Autowired
+    private AuthenticationSuccessHandler successHandler;
+
+    @Autowired
     private LoggingAccessDeniedHandler accessDeniedHandler;
+    
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
     
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -47,6 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .formLogin()
                     .loginPage("/login")
+                    // .successHandler(successHandler)
                     .permitAll()
                 .and()
                 .logout()
@@ -54,6 +64,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .clearAuthentication(true)
                     .logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                     .logoutSuccessUrl("/login?logout")
+                    .deleteCookies("JSESSIONID")
                     .permitAll()
                 .and()
                 .exceptionHandling()
@@ -62,10 +73,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         // dev only, h2-console access...
         http.csrf().disable();
         http.headers().frameOptions().disable();
-}
-    
-    @Bean
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

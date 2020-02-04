@@ -113,11 +113,6 @@ public class HomeController {
         return "impacted/my";
     }
 
-    @GetMapping("/about")
-    public String aboutPage(Model model) {
-        return "about";
-    }
-
     private Impacted getImpactedUser(Principal p) {
         Optional<Impacted> impacted = impactedRepo.findByUserName(p.getName());
         if (!impacted.isPresent()) {

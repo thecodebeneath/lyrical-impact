@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Template :: Header</title>
+        <title>Template :: Header Lite</title>
         <meta charset="UTF-8"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <link rel="stylesheet" href="../../static/css/w3.css"/>
@@ -15,7 +15,21 @@
                 <a href="/my" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Lyrical Impact</a>
                 <a href="/global" class="w3-bar-item w3-button w3-padding-large w3-hover-white"><i class="fa fa-home w3-margin-right"></i>Global Impact</a>
                 <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="About"><i class="fa fa-globe">About</i></a>
-            </div>
+                <div sec:authorize="isAuthenticated()" class="w3-right">
+                    <span></span>
+                    <div class="w3-dropdown-hover w3-hide-small w3-right">
+                        <button class="w3-button w3-padding-large" title="My Profile">
+                            <span th:text="'' + ${impacted.firstName} + ' ' + ${impacted.lastName}"/>
+                            <img src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
+                        </button>
+                        <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
+                            <a href="/admin" sec:authorize="hasRole('ADMIN')" class="w3-bar-item w3-button" th:text="'Profile'">admin profile</a>
+                            <a href="/user" sec:authorize="!hasRole('ADMIN')" class="w3-bar-item w3-button" th:text="'Profile'">user profile</a>
+                            <a href="/logout" class="w3-bar-item w3-button" th:text="'Logout'">logout</a>
+                        </div>
+                    </div>
+                </div>
+             </div>
         </div>
     </body>
 </html>

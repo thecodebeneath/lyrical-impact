@@ -23,11 +23,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @RunWith(SpringRunner.class)
+@Import(org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler.class)
 @WebMvcTest(HomeController.class)
 public class HomeControllerTest {
 
@@ -44,57 +48,71 @@ public class HomeControllerTest {
     private TagRepository trepo;
 
     @MockBean
+    private AuthenticationSuccessHandler successHandler;
+    
+    @Autowired
     private LoggingAccessDeniedHandler deniedHandler;
-            
-    Impacted newUser;
+
+    Impacted testUser;
     Verse randomVerse;
     List<Verse> newUserVerses = Collections.emptyList();
     List<Tag> tags = Collections.emptyList();
     
     @Before
     public void setUp() {
-        newUser = EnhancedRandom.random(Impacted.class);
+        testUser = EnhancedRandom.random(Impacted.class);
         randomVerse = EnhancedRandom.random(Verse.class);
-    }
-    
-    @Test
-    public void aboutPageMatched() throws Exception {
-        this.mockMvc.perform(get("/about"))
-                // .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().string(containsString("About")));
     }
 
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
-    public void newUserReturnsNoVerses() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(newUser));
-        when(vrepo.findByImpactedId(newUser.getId())).thenReturn(newUserVerses);
+    public void userCanSeeOwnVerses() throws Exception {
+        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
+        when(vrepo.findByImpactedId(testUser.getId())).thenReturn(newUserVerses);
         when(vrepo.getRandomVerse()).thenReturn(randomVerse);
         
         this.mockMvc.perform(get("/my"))
                 // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
-                .andExpect(content().string(containsString(newUser.getFirstName())));
+                .andExpect(view().name("impacted/my"))
+                .andExpect(content().string(containsString(testUser.getFirstName())));
     }
 
-//    @WithMockUser(username = "test", roles = {"USER"})
-//    @Test
-//    public void userCannotSeeOtherUserVerses() throws Exception {
-//        this.mockMvc.perform(get("/my/999"))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(containsString("Access denied")));
-//    }
+    @WithMockUser(username = "test", roles = {"USER"})
+    @Test
+    public void userCannotSeeOtherUserVerses() throws Exception {
+        this.mockMvc.perform(get("/my/999"))
+                // .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/access-denied"));
+    }
 
-//    @WithMockUser(username = "testAdmin", roles = {"ADMIN"})
-//    @Test
-//    public void adminCanSeeOtherUserVerses() throws Exception {
-//        this.mockMvc.perform(get("/my/999"))
-//                // .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(content().string(containsString("How were")));
-//    }
+    @WithMockUser(username = "testAdmin", roles = {"ADMIN"})
+    @Test
+    public void adminCanSeeOtherUserVerses() throws Exception {
+        when(irepo.findById(999L)).thenReturn(Optional.of(testUser));
+        when(vrepo.findByImpactedId(999L)).thenReturn(newUserVerses);
+        when(vrepo.getRandomVerse()).thenReturn(randomVerse);
+
+        this.mockMvc.perform(get("/my/999"))
+                // .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("impacted/my"))
+                .andExpect(content().string(containsString("How were")));
+    }
+
+    @WithMockUser(username = "test", roles = {"USER"})
+    @Test
+    public void userCanSeeGlobalVerses() throws Exception {
+        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
+        when(vrepo.findByImpactedId(testUser.getId())).thenReturn(newUserVerses);
+
+        this.mockMvc.perform(get("/global"))
+                // .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("impacted/globalTag"))
+                .andExpect(content().string(containsString(testUser.getFirstName())));
+    }
 
 }

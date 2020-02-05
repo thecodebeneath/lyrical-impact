@@ -6,4 +6,9 @@ services:
     mem_reservation: 256m
     ports:
       - "8080:8080"
-    
+  eureka:
+    build: ..\lyrical-impact-eureka
+    mem_limit: 256m
+    mem_reservation: 256m
+    ports:
+      - "8761:8761"

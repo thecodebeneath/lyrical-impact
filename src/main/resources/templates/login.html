@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
     <head>
-        <title>Lyrical Impact Account</title>
+        <title>Lyrical Impact Login</title>
+        <meta charset="UTF-8"></meta>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
         <!-- https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_social&stacked=h -->
         <link rel="stylesheet" href="/css/w3.css"/>
@@ -14,68 +15,63 @@
         <div th:replace="fragments/header-lite :: header-lite"></div>
 
         <!-- Page Container -->
-        <div class="w3-container w3-content" style="max-width:1260px;margin-top:80px">   
+        <div class="w3-container w3-content" style="max-width:1400px;margin-top:80px">    
             <!-- The Grid -->
             <div class="w3-row">
-
-                <!-- Form Column -->
-                <div class="w3-col m11">
-
+                <!-- Left Column -->
+                <div class="w3-col m3">
+                    <!-- Info --> 
+                    <div class="w3-card w3-round w3-white w3-hide-small">
+                        <div class="w3-container">
+                            <h3>Login to save your own impacting lyrics</h3>
+                        </div>
+                    </div>
+                </div>
+                <!-- Login Column -->
+                <div class="w3-col m9">
                     <div class="w3-row-padding">
                         <div class="w3-col m12">
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
-
-                                    <h3 class="w3-opacity">Login Page</h3>
-                                    <div class="w3-theme-l4">
+                                    
+                                   <h3 class="w3-opacity">Login Page</h3>
+                                        
                                         <form th:action="@{/login}" method="post">
                                             <div th:if="${param.error}">
-                                                <h5 class="w3-tag" style="background-color: red;">
-                                                    Invalid username or password.
-                                                </h5>
+                                                <h5 class="w3-red">Invalid username or password.</h5>
                                             </div>
                                             <div th:if="${param.logout}">
-                                                <h5 class="w3-tag" style="background-color: red;">
-                                                    You have been logged out.
-                                                </h5>
+                                                <h5 class="w3-red">You have been logged out.</h5>
                                             </div>
-                                            <div class="form-group">
-                                                <label for="username">Username</label>:
-                                                <input type="text"
-                                                       id="username"
-                                                       name="username"
-                                                       class="form-control"
-                                                       autofocus="autofocus"
-                                                       placeholder="Username"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="password">Password</label>:
-                                                <input type="password"
-                                                       id="password"
-                                                       name="password"
-                                                       class="form-control"
-                                                       placeholder="Password"/>
-                                            </div>
-                                            <div class="form-group">
-                                                <div class="row">
-                                                    <div class="col-sm-6 col-sm-offset-3">
-                                                        <input type="submit"
-                                                               name="login-submit"
-                                                               id="login-submit"
-                                                               class="form-control btn btn-info"
-                                                               value="Log In"/>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            
+                                            <h5>Username:</h5> 
+                                            <input type="text"
+                                                    id="username"
+                                                    name="username"
+                                                    autofocus="autofocus"
+                                                    placeholder="username"
+                                                    size="25"/>
+                                            
+                                            <br />
+                                            <br />
+                                            <h5>Password:</h5> 
+                                            <input type="password"
+                                                    id="password"
+                                                    name="password"
+                                                    placeholder="password"
+                                                    size="25"/>
+
+                                            <hr class="w3-clear"/>
+                                            <button type="submit" class="w3-button w3-theme" name="login-submit" th:text="'Log In'" tabindex="3">Login</button>
+
                                         </form>
-                                    </div>
+                                        
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
-
     </body>
 </html>

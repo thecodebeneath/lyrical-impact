@@ -45,7 +45,7 @@ public class SeedData implements CommandLineRunner {
     private void createImpactedVersesForRandomUsers() {
         List<Tag> allTags = (List<Tag>) tagRepo.findAll();
         for (int usersToLoad = 0; usersToLoad < 5; usersToLoad++) {
-            long randomUserId = RND.nextInt(6) + 1;
+            long randomUserId = RND.nextInt(6) + 2;
             Impacted randomUser = impactedRepo.findById(randomUserId).get();
             int randomNumberOfVerses = RND.nextInt(15) + 1;
             createImpactedVersesFor(randomUser, allTags, randomNumberOfVerses);
@@ -79,16 +79,6 @@ public class SeedData implements CommandLineRunner {
     private void createImpactedVersesForJeff() {
         Impacted jeff = impactedRepo.findByUserName("jeff").get();
 
-
-        verseRepo.save(
-                new Verse("There is no pain, you are receding\n"
-                        + "A distant ship smoke on the horizon\n"
-                        + "You are only coming through in waves\n"
-                        + "Your lips move but I can't hear what you're saying",
-                        "Comfortably Numb", "Pink Floyd",
-                        "Makes\n"
-                        + "me\n"
-                        + "happy!", jeff, List.of("happy")));
         verseRepo.save(
                 new Verse("<b>ve-oops</b><script>alert('versetext');</script>",
                         "<b>so-oops</b><script>alert('versetitle');</script>", "<b>ar-oops</b><script>alert('verseauthor');</script>",
@@ -98,5 +88,15 @@ public class SeedData implements CommandLineRunner {
                         "i18n 由", "i18n 由",
                         "由 匿名 (未验证) 提交于\n"
                         + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", jeff, List.of("sexy", "funny")));
+        verseRepo.save(
+                new Verse("There is no pain, you are receding\n"
+                        + "A distant ship smoke on the horizon\n"
+                        + "You are only coming through in waves\n"
+                        + "Your lips move but I can't hear what you're saying",
+                        "Comfortably Numb", "Pink Floyd",
+                        "Makes\n"
+                        + "me\n"
+                        + "happy!", jeff, List.of("happy")));
+
     }
 }

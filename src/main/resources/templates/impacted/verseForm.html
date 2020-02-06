@@ -28,7 +28,10 @@
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
 
-                                    <h3 class="w3-opacity">Add a verse that impacted you!</h3>
+                                    <h3>Add a verse that impacted you!</h3>
+                                    <h6 class="w3-opacity">The verse, title, author and tags will be <b>public</b>.</h6>
+                                    <h6 class="w3-opacity">Your identity and reaction text are always <b>private</b>.</h6>
+                                    
                                     <form method="POST" th:action="@{/verse}" th:object="${verse}">
                                         <span class="w3-right">
                                             <span class="w3-red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">text error</span>

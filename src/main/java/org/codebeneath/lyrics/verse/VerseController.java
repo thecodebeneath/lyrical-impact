@@ -57,7 +57,7 @@ public class VerseController {
     }
 
     @GetMapping("/verse/{vid}")
-    public String getVerseForm(Model model, Principal principal, @PathVariable Long vid) {
+    public String getVerseFormForVerseId(Model model, Principal principal, @PathVariable Long vid) {
         Impacted impactedUser = getImpactedUser(principal);
         model.addAttribute("impacted", impactedUser);
 

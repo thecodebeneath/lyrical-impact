@@ -17,7 +17,7 @@
                 <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="About"><i class="fa fa-globe">About</i></a>
                 <div sec:authorize="isAuthenticated()" class="w3-right">
                     <span></span>
-                    <div class="w3-dropdown-hover w3-hide-small w3-right">
+                    <div class="w3-dropdown-hover w3-right">
                         <button class="w3-button w3-padding-large" title="My Profile">
                             <span th:text="'' + ${impacted.firstName} + ' ' + ${impacted.lastName}"/>
                             <img src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>

@@ -16,13 +16,13 @@
                 <a href="/global" class="w3-bar-item w3-button w3-padding-large w3-hover-white"><i class="fa fa-home w3-margin-right"></i>Global Impact</a>
                 <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="About"><i class="fa fa-globe">About</i></a>
                 <div class="w3-right">
-                    <div class="w3-left">
+                    <div class="w3-left w3-hide-medium w3-hide-small">
                         <form class="w3-bar-item">
-                            <input type="search" size="30" id="site-search" name="q" th:placeholder="'search verse text...'"/>
+                            <input type="search" size="25" id="site-search" name="q" th:placeholder="'search verse text...'"/>
                             <button type="submit" class="w3-button-header w3-theme" th:text="'Search'" tabindex="-1">Search</button>
                         </form>
                     </div>
-                    <div class="w3-dropdown-hover w3-hide-small w3-right">
+                    <div class="w3-dropdown-hover w3-right">
                         <button class="w3-button w3-padding-large" title="My Profile">
                             <span th:text="'' + ${impacted.firstName} + ' ' + ${impacted.lastName}"/>
                             <img src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>

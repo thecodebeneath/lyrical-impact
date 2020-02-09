@@ -27,7 +27,9 @@ public class VerseController {
 
     private final Counter createdCounter = Metrics.counter("verses.created");
     private final Counter updatedCounter = Metrics.counter("verses.updated");
-
+    private final Counter deletedCounter = Metrics.counter("verses.deleted");
+    private final Counter createdFromGlobalCounter = Metrics.counter("verses.createdFromGlobal");
+            
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
     private final TagRepository tagRepo;
@@ -72,14 +74,15 @@ public class VerseController {
         }
     }
 
-    @GetMapping("/verse/global/{vid}")
-    public String getVerseFormFromGlobal(Model model, Principal principal, @PathVariable Long vid) {
+    @GetMapping("/verse/global/{gvid}")
+    public String getVerseFormFromGlobal(Model model, Principal principal, @PathVariable Long gvid) {
         Impacted impactedUser = getImpactedUser(principal);
         model.addAttribute("impacted", impactedUser);
 
-        Optional<Verse> verseToPopulateWith = verseRepo.findById(vid);
+        Optional<Verse> verseToPopulateWith = verseRepo.findById(gvid);
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get().anonymizeVerse());
+            model.addAttribute("gvid", gvid);
             List<Tag> tags = (List<Tag>) tagRepo.findAll();
             model.addAttribute("allTags", tags);
             return "impacted/verseForm";
@@ -89,7 +92,7 @@ public class VerseController {
     }
 
     @PostMapping("/verse")
-    public String addVerse(@Valid Verse verse, BindingResult bindingResult, Model model, Principal principal) {
+    public String addVerse(@Valid Verse verse, BindingResult bindingResult, Model model, @RequestParam("gvid") Optional<Long> gvid, Principal principal) {
         Impacted impactedUser = getImpactedUser(principal);
         if (bindingResult.hasErrors()) {
             model.addAttribute("impacted", impactedUser);
@@ -98,11 +101,15 @@ public class VerseController {
             return "impacted/verseForm";
         }
 
-        boolean newVerse = verse.getId() == null;
+        boolean isFromGlobalVerse = gvid.isPresent();
+        boolean isNewVerse = verse.getId() == null;
         verse.setImpacted(impactedUser);
         verseRepo.save(verse);
 
-        if (newVerse) {
+        if (isFromGlobalVerse) {
+            createdFromGlobalCounter.increment();
+            createdCounter.increment();
+        } else if (isNewVerse) {
             createdCounter.increment();
         } else {
             updatedCounter.increment();
@@ -120,6 +127,8 @@ public class VerseController {
             verseRepo.delete(verse);
         }
 
+        deletedCounter.increment();
+
         return "redirect:/my";
     }
 
@@ -130,12 +139,4 @@ public class VerseController {
         }
         return impacted.get();
     }
-
-//    private Impacted getImpactedUser(Long id) {
-//        Optional<Impacted> impacted = impactedRepo.findById(id);
-//        if (!impacted.isPresent()) {
-//            throw new ImpactedNotFoundException(id);
-//        }
-//        return impacted.get();
-//    }
 }

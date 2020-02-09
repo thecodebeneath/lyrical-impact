@@ -60,6 +60,7 @@
   
                                         <hr class="w3-clear"/>
                                         <input type="hidden" th:if="*{id > 0}" th:field="*{id}"/>
+                                        <input type="hidden" th:if="${gvid > 0}" th:name="gvid" th:value="${gvid}"/>
                                         <button type="submit" class="w3-button w3-theme" name="save" th:text="*{id > 0}? 'Update impacted verse' : 'Save impacted verse'" tabindex="6">Save</button>
                                         <button type="delete" th:if="*{id > 0}" th:formaction="@{/verse/delete}" class="w3-button w3-red w3-right" name="delete" th:text="'Delete impacted verse'" tabindex="7">Delete</button>
                                     </form>

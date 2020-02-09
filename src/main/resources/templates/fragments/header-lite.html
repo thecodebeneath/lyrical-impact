@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>Template :: Header Lite</title>
         <meta charset="UTF-8"></meta>
@@ -12,12 +13,12 @@
     <body class="w3-theme-l5">
         <div th:fragment="header-lite" class="w3-top">
             <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-                <a href="/my" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"><i class="fa fa-home w3-margin-right"></i>Lyrical Impact</a>
-                <a href="/global" class="w3-bar-item w3-button w3-padding-large w3-hover-white"><i class="fa fa-home w3-margin-right"></i>Global Impact</a>
-                <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white" title="About"><i class="fa fa-globe">About</i></a>
-                <div sec:authorize="isAuthenticated()" class="w3-right">
+                <a href="/my" class="w3-bar-item w3-button w3-padding-large w3-theme-d4">Lyrical Impact</a>
+                <a href="/global" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Global Impact</a>
+                <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About</a>
+                <div class="w3-right">
                     <span></span>
-                    <div class="w3-dropdown-hover w3-right">
+                    <div sec:authorize="isAuthenticated()" class="w3-dropdown-hover w3-right">
                         <button class="w3-button w3-padding-large" title="My Profile">
                             <span th:text="'' + ${impacted.firstName} + ' ' + ${impacted.lastName}"/>
                             <img src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>

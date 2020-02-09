@@ -102,17 +102,4 @@ public class HomeControllerTest {
                 .andExpect(content().string(containsString("How were")));
     }
 
-    @WithMockUser(username = "test", roles = {"USER"})
-    @Test
-    public void userCanSeeGlobalVerses() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
-        when(vrepo.findByImpactedId(testUser.getId())).thenReturn(newUserVerses);
-
-        this.mockMvc.perform(get("/global"))
-                // .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(view().name("impacted/globalTag"))
-                .andExpect(content().string(containsString(testUser.getFirstName())));
-    }
-
 }

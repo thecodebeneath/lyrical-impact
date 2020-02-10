@@ -27,7 +27,7 @@ public interface VerseRepository extends CrudRepository<Verse, Long> {
     // all by tag
     List<Verse> findByTags(String label);
 
-    @Query(value = "SELECT * FROM verse order by random() limit 1", nativeQuery = true)
+    @Query(value = "SELECT * FROM verse order by rand() limit 1", nativeQuery = true)
     Verse getRandomVerse();
 
     // same tag used by multiple users

@@ -43,6 +43,7 @@
                 </div>
                 <!-- Verses Column -->
                 <div id="verses" class="w3-col m9">
+                    
                     <div class="w3-row-padding">
                         <div class="w3-col m12">
                             <div class="w3-card w3-round w3-white">
@@ -123,7 +124,7 @@
                             data: scrollParams,
                             dataType: 'html',
                             success: function(html) {
-                                console.log('---- scroll page loading ---- p[' + pageId + ']');
+                                // console.log('---- scroll page loading ---- p[' + pageId + ']');
                                 scrollParams.p = ++pageId;
                                 $('#verses').append(html);
                             }

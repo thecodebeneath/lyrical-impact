@@ -20,9 +20,15 @@ public interface VerseRepository extends CrudRepository<Verse, Long> {
 
     List<Verse> findByImpactedId(Long id);
 
+    List<Verse> findByImpactedId(Long id, Pageable pageable);
+
     List<Verse> findByImpactedIdAndTags(Long id, String label);
 
+    List<Verse> findByImpactedIdAndTags(Long id, String label, Pageable pageable);
+
     List<Verse> findByImpactedIdAndTextContainsIgnoreCase(Long id, String query);
+
+    List<Verse> findByImpactedIdAndTextContainsIgnoreCase(Long id, String query, Pageable pageable);
 
     // ====== global =======
 

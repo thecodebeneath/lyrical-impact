@@ -101,5 +101,20 @@ public class HomeControllerTest {
                 .andExpect(view().name("impacted/my"))
                 .andExpect(content().string(containsString("How were")));
     }
+    
+    @WithMockUser(username = "test", roles = {"USER"})
+    @Test
+    public void userPageDisplaysAdditionalVersesOnScroll() throws Exception {
+        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
+        when(vrepo.findByImpactedId(testUser.getId())).thenReturn(newUserVerses);
+        when(vrepo.getRandomVerse()).thenReturn(randomVerse);
+
+        this.mockMvc.perform(get("/my")
+                .param("p", "2")
+        )
+                // .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("impacted/myVersesScroll"));
+    }
 
 }

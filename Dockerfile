@@ -1,5 +1,4 @@
-FROM openjdk:8-jdk-alpine
-ENV JAVA_OPTS="--XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2"
+FROM adoptopenjdk/openjdk10:jdk-10.0.2.13-alpine
 EXPOSE 8080
 WORKDIR /app
 ADD target/lyrical-impact-0.9-SNAPSHOT.jar .

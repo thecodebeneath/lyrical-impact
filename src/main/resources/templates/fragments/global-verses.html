@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title>Template :: Global Verses Scroll</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <link rel="stylesheet" href="../../static/css/w3.css"/>
+        <link rel="stylesheet" href="../../static/css/w3-theme-blue-grey.css"/>
+        <style>
+            html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+        </style>
+    </head>
+    <body>
+                    <!-- verses to show -->
+                    <div th:fragment="verses" class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
+                        <span class="w3-right-tags">
+                            <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
+                        </span>
+                        <h5 class="w3-theme-l3" th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|">Title</h5>
+                        <h6 th:utext="*{verse.author != ''}? *{#strings.escapeXml(verse.author)} : 'Unknown Author'">Author</h6>
+                        <hr class="w3-clear"/>
+                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
+                        <hr class="w3-clear"/>
+                        <div class="w3-margin">
+                            <h5 th:if="*{verse.impacted == impacted}" class="w3-button w3-disabled w3-theme">This is your verse</h5>
+                            <button type="button" th:unless="*{verse.impacted == impacted}" class="w3-button w3-theme">
+                                <a th:href="@{'/verse/global/' + ${verse.id}}">Add as my verse</a>
+                            </button>
+                        </div>
+                    </div>
+    </body>
+</html>

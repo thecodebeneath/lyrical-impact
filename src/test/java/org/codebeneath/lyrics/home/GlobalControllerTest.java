@@ -68,7 +68,7 @@ public class GlobalControllerTest {
         this.mockMvc.perform(get("/global"))
                 // .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("impacted/globalTag"));        
+                .andExpect(view().name("impacted/global"));        
     }
     
     @WithMockUser(username = "test", roles = {"USER"})
@@ -80,8 +80,18 @@ public class GlobalControllerTest {
         this.mockMvc.perform(get("/global"))
                 // .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("impacted/globalTag"))
+                .andExpect(view().name("impacted/global"))
                 .andExpect(content().string(containsString(testUser.getFirstName())));
+    }
+
+    @Test
+    public void globalPageDisplaysAdditionalVersesOnScroll() throws Exception {
+        this.mockMvc.perform(get("/global")
+                .param("p", "2")
+        )
+                // .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("impacted/globalVersesScroll"));
     }
 
 }

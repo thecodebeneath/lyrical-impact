@@ -1,6 +1,5 @@
 package org.codebeneath.lyrics.home;
 
-import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,13 +43,12 @@ public class HomeController {
     }
 
     @GetMapping("/my")
-    public String impactedVerses(Model model, Principal principal,
+    public String impactedVerses(Model model, @AuthenticationPrincipal Impacted impactedUser,
             @RequestParam(name = "p", required = false, defaultValue = "0") Integer page,
             @RequestParam(name = "tag", required = false) String tag,
             @RequestParam(name = "q", required = false) String query) {
 
-        Impacted impactedUser = getImpactedUser(principal);
-        model.addAttribute("impacted", impactedUser);
+        setImpactedInModel(impactedUser, model);
 
         List<Verse> verses;
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Order.desc("id")));
@@ -71,12 +70,12 @@ public class HomeController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/my/{id}")
-    public String impactedVerses(Model model, Principal principal,
+    public String impactedVerses(Model model, @AuthenticationPrincipal Impacted impactedUser,
             @PathVariable(required = true) Long id,
             @RequestParam(name = "tag", required = false) String tag) {
 
-        Impacted impactedUser = getImpactedUser(id);
-        model.addAttribute("impacted", impactedUser);
+        Impacted otherImpactedUser = getImpactedUser(id);
+        setImpactedInModel(otherImpactedUser, model);
 
         List<Verse> verses;
         if (tag != null) {
@@ -94,12 +93,11 @@ public class HomeController {
         return "impacted/my";
     }
 
-    private Impacted getImpactedUser(Principal p) {
-        Optional<Impacted> impacted = impactedRepo.findByUserName(p.getName());
-        if (!impacted.isPresent()) {
-            throw new ImpactedNotFoundException(p.getName());
+    private void setImpactedInModel(Impacted impactedUser, Model model) {
+        // https://github.com/spring-projects/spring-security/issues/3208
+        if (impactedUser != null) {
+            model.addAttribute("impacted", impactedUser);
         }
-        return impacted.get();
     }
 
     private Impacted getImpactedUser(Long id) {

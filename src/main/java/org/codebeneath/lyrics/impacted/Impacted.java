@@ -14,6 +14,9 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
+import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 /**
@@ -23,7 +26,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @Getter
 @Setter
 @ToString
-public class Impacted implements OAuth2User, Serializable {
+public class Impacted implements OAuth2User, OidcUser, Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,7 +37,9 @@ public class Impacted implements OAuth2User, Serializable {
     private String lastName;
     @Transient 
     private Map<String, Object> attributes;
- 
+    @Transient 
+    private Collection<? extends GrantedAuthority> authorities;
+    
     protected Impacted() {
     }
 
@@ -52,13 +57,16 @@ public class Impacted implements OAuth2User, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        // TODO: set actual roles for users... probably in OAuth2UserService/OIDCUserService imple services...
-        Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-        return grantedAuthorities;
+        return authorities;
     }
 
+    /**
+     * These are local app user authorities.
+     */
+    public void setAuthorities(Collection<? extends GrantedAuthority> oAuth2Authorities) {
+        authorities = oAuth2Authorities;
+    } 
+    
     /**
      * These are injected via OAuth2 principal user attributes.
      * @return oAuth2Attributes
@@ -74,5 +82,20 @@ public class Impacted implements OAuth2User, Serializable {
     public void setAttributes(Map<String, Object> oAuth2Attributes) {
         attributes = oAuth2Attributes;
     }    
+
+    @Override
+    public Map<String, Object> getClaims() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public OidcUserInfo getUserInfo() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public OidcIdToken getIdToken() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

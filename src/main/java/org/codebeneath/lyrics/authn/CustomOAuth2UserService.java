@@ -1,5 +1,7 @@
 package org.codebeneath.lyrics.authn;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,8 @@ import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
 import org.springframework.stereotype.Service;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -24,7 +28,10 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuth2User oauth2User = delegate.loadUser(userRequest);
         Map<String, Object> attributes = oauth2User.getAttributes();
         
-        Impacted impactedOAuth2User = new Impacted("jeff", (String) attributes.get("email"), "firstname", "lastname");
+        String userProvider = userRequest.getClientRegistration().getRegistrationId(); // "github"
+        String userName = oauth2User.getName(); // attrib[id]
+        
+        Impacted impactedOAuth2User = new Impacted("jeff", (String) attributes.get("email"), (String) attributes.get("name"), "lastname");
         impactedOAuth2User.setAttributes(attributes);
         Impacted impactedLocal = lookupImpactedUser(impactedOAuth2User);
         return impactedLocal;
@@ -37,6 +44,12 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
             // autoupdate existing local users with OAuth2User details??
             impactedLocal = impactedLookup.get();
             impactedLocal.setAttributes(impactedOAuth2User.getAttributes());
+            
+            // TODO: add roles to Impacted user table
+            Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
+            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
+            impactedLocal.setAuthorities(grantedAuthorities);
         } else {
             impactedLocal = createImpactedUser(impactedOAuth2User);
         }

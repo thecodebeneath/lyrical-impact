@@ -8,8 +8,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -30,7 +32,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private OAuth2UserService<OAuth2UserRequest,OAuth2User> customOAuth2UserService;
-        
+
+    @Autowired
+    private OAuth2UserService<OidcUserRequest,OidcUser> customOidcUserService;
+
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -65,9 +70,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .loginPage("/login") // my view, not the built-in security filter page "/login"
                     // .successHandler(successHandler)
                     .userInfoEndpoint()
-                        .userService(customOAuth2UserService);
-                        // .oidcUserService(this.oidcUserService())
-                    
+                        .userService(customOAuth2UserService)    // github
+                        .oidcUserService(customOidcUserService); // okta
+        
         // dev only, h2-console access...
         http.csrf().disable();
         http.headers().frameOptions().disable();

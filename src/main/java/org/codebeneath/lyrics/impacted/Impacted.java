@@ -28,13 +28,18 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @ToString
 public class Impacted implements OAuth2User, OidcUser, Serializable {
 
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String userName;
+    private String uniqueId;
+    private String name;
+    private String userSource;
+    private String displayName;
     private String email;
-    private String firstName;
-    private String lastName;
+    private String roles;
     @Transient 
     private Map<String, Object> attributes;
     @Transient 
@@ -43,29 +48,27 @@ public class Impacted implements OAuth2User, OidcUser, Serializable {
     protected Impacted() {
     }
 
-    public Impacted(String userName, String email, String firstName, String lastName) {
-        this.userName = userName;
-        this.email = email;
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public Impacted(String name, String userSource, String displayName) {
+        this.name = name;
+        this.userSource = userSource;
+        this.displayName = displayName;
+        this.uniqueId = userSource + "-" + name;
+        this.roles = ROLE_USER;
     }
 
     @Override
     public String getName() {
-        return userName; 
+        return name; 
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        for (String role : roles.split(",")) {
+            authorities.add(new SimpleGrantedAuthority(role));
+        }
         return authorities;
     }
-
-    /**
-     * These are local app user authorities.
-     */
-    public void setAuthorities(Collection<? extends GrantedAuthority> oAuth2Authorities) {
-        authorities = oAuth2Authorities;
-    } 
     
     /**
      * These are injected via OAuth2 principal user attributes.

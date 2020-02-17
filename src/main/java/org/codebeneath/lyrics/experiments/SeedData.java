@@ -86,7 +86,7 @@ public class SeedData implements CommandLineRunner {
     }
 
     private void createImpactedVersesForJeff() {
-        Impacted jeff = impactedRepo.findByUserName("jeff").get();
+        Impacted jeff = impactedRepo.findByRolesContains(Impacted.ROLE_ADMIN).get(0);
 
         verseRepo.save(
                 new Verse("<b>ve-oops</b><script>alert('versetext');</script>",

@@ -2,16 +2,14 @@ package org.codebeneath.lyrics.verse;
 
 import io.micrometer.core.instrument.Counter;
 import io.micrometer.core.instrument.Metrics;
-import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.TagRepository;
-import org.codebeneath.lyrics.impacted.ImpactedNotFoundException;
 import org.codebeneath.lyrics.tag.Tag;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -30,19 +28,16 @@ public class VerseController {
     private final Counter deletedCounter = Metrics.counter("verses.deleted");
     private final Counter createdFromGlobalCounter = Metrics.counter("verses.createdFromGlobal");
             
-    private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
     private final TagRepository tagRepo;
 
-    public VerseController(ImpactedRepository iRepo, VerseRepository vRepo, TagRepository tRepo) {
-        this.impactedRepo = iRepo;
+    public VerseController(VerseRepository vRepo, TagRepository tRepo) {
         this.verseRepo = vRepo;
         this.tagRepo = tRepo;
     }
 
     @GetMapping("/verse")
-    public String getVerseForm(Model model, Principal principal, @RequestParam Optional<Long> randomVerseId) {
-        Impacted impactedUser = getImpactedUser(principal);
+    public String getVerseForm(Model model, @AuthenticationPrincipal Impacted impactedUser, @RequestParam Optional<Long> randomVerseId) {
         model.addAttribute("impacted", impactedUser);
 
         Verse verseToPopulateWith = new Verse();
@@ -59,8 +54,7 @@ public class VerseController {
     }
 
     @GetMapping("/verse/{vid}")
-    public String getVerseFormForVerseId(Model model, Principal principal, @PathVariable Long vid) {
-        Impacted impactedUser = getImpactedUser(principal);
+    public String getVerseFormForVerseId(Model model, @AuthenticationPrincipal Impacted impactedUser, @PathVariable Long vid) {
         model.addAttribute("impacted", impactedUser);
 
         Optional<Verse> verseToPopulateWith = verseRepo.findByIdAndImpactedId(vid, impactedUser.getId());
@@ -75,8 +69,7 @@ public class VerseController {
     }
 
     @GetMapping("/verse/global/{gvid}")
-    public String getVerseFormFromGlobal(Model model, Principal principal, @PathVariable Long gvid) {
-        Impacted impactedUser = getImpactedUser(principal);
+    public String getVerseFormFromGlobal(Model model, @AuthenticationPrincipal Impacted impactedUser, @PathVariable Long gvid) {
         model.addAttribute("impacted", impactedUser);
 
         Optional<Verse> verseToPopulateWith = verseRepo.findById(gvid);
@@ -92,8 +85,7 @@ public class VerseController {
     }
 
     @PostMapping("/verse")
-    public String addVerse(@Valid Verse verse, BindingResult bindingResult, Model model, @RequestParam("gvid") Optional<Long> gvid, Principal principal) {
-        Impacted impactedUser = getImpactedUser(principal);
+    public String addVerse(@Valid Verse verse, BindingResult bindingResult, Model model, @RequestParam("gvid") Optional<Long> gvid, @AuthenticationPrincipal Impacted impactedUser) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("impacted", impactedUser);
             List<Tag> tags = (List<Tag>) tagRepo.findAll();
@@ -119,9 +111,7 @@ public class VerseController {
     }
 
     @PostMapping("/verse/delete")
-    public String deleteVerse(Verse verse, Principal principal) {
-        Impacted impactedUser = getImpactedUser(principal);
-
+    public String deleteVerse(Verse verse, @AuthenticationPrincipal Impacted impactedUser) {
         Optional<Verse> verseToDelete = verseRepo.findByIdAndImpactedId(verse.getId(), impactedUser.getId());
         if (verseToDelete.isPresent()) {
             verseRepo.delete(verse);
@@ -132,11 +122,4 @@ public class VerseController {
         return "redirect:/my";
     }
 
-    private Impacted getImpactedUser(Principal p) {
-        Optional<Impacted> impacted = impactedRepo.findByUserName(p.getName());
-        if (!impacted.isPresent()) {
-            throw new ImpactedNotFoundException(p.getName());
-        }
-        return impacted.get();
-    }
 }

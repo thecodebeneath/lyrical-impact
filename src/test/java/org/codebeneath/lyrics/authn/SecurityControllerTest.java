@@ -32,9 +32,6 @@ public class SecurityControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ImpactedRepository irepo;
-
-    @MockBean
     private AuthenticationSuccessHandler successHandler;
 
     @MockBean
@@ -52,15 +49,14 @@ public class SecurityControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void aboutPageDisplaysUserNameForAuthnView() throws Exception {
-        Impacted testUser = new Impacted("", "", "firstName", "");
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
+        Impacted testUser = new Impacted("name", "source", "displayName");
 
         this.mockMvc.perform(get("/about"))
                 // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("about"))
                 .andExpect(content().string(containsString("About")))
-                .andExpect(content().string(containsString(testUser.getFirstName())));
+                .andExpect(content().string(containsString(testUser.getDisplayName())));
     }
 
 }

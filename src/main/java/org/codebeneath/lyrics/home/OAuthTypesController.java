@@ -23,7 +23,7 @@ public class OAuthTypesController {
     public @ResponseBody String impactedVersesGlobal(@AuthenticationPrincipal Impacted impactedUser, Principal principal) {
         
         if (impactedUser != null) {
-            log.info("...[]...Oauth2 Principal:{}", impactedUser.getUserName());
+            log.info("...[]...Oauth2 Principal:{}", impactedUser.getId());
         }
         if (principal != null) {
             log.info("...[]...Principal:{}", principal.getName());

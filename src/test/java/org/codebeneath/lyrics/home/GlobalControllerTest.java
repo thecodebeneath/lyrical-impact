@@ -3,10 +3,8 @@ package org.codebeneath.lyrics.home;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.Collections;
 import java.util.List;
-import java.util.Optional;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
@@ -17,7 +15,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -36,9 +33,6 @@ public class GlobalControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private ImpactedRepository irepo;
 
     @MockBean
     private VerseRepository vrepo;
@@ -74,14 +68,13 @@ public class GlobalControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void globalPageDisplaysUserNameForAuthnView() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
         when(vrepo.findByImpactedId(testUser.getId())).thenReturn(newUserVerses);
 
         this.mockMvc.perform(get("/global"))
                 // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(view().name("impacted/global"))
-                .andExpect(content().string(containsString(testUser.getFirstName())));
+                .andExpect(content().string(containsString(testUser.getDisplayName())));
     }
 
     @Test

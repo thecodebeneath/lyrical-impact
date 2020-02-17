@@ -4,7 +4,6 @@ import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.Optional;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.TagRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,9 +34,6 @@ public class VerseControllerTest {
     private MockMvc mockMvc;
 
     @MockBean
-    private ImpactedRepository irepo;
-
-    @MockBean
     private VerseRepository vrepo;
 
     @MockBean
@@ -61,8 +57,6 @@ public class VerseControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userSeesEmptyNewVerseForm() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
-
         this.mockMvc.perform(get("/verse"))
                 // .andDo(print())
                 .andExpect(status().isOk())
@@ -75,7 +69,6 @@ public class VerseControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userSeesFormFilledWithAnonymizedRandomVerse() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
         when(vrepo.findById(5L)).thenReturn(Optional.of(randomVerse));
 
         this.mockMvc.perform(get("/verse").param("randomVerseId", "5"))
@@ -90,7 +83,6 @@ public class VerseControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userSeesFormFilledWithAnonymizedGlobalVerse() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
         when(vrepo.findById(5L)).thenReturn(Optional.of(randomVerse));
 
         this.mockMvc.perform(get("/verse/global/5"))
@@ -105,7 +97,6 @@ public class VerseControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userSeesFormFilledWithExistingVerse() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
         when(vrepo.findByIdAndImpactedId(4L, testUser.getId())).thenReturn(Optional.of(randomVerse));
 
         this.mockMvc.perform(get("/verse/4"))
@@ -120,7 +111,6 @@ public class VerseControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userRedirectedForVerseNotOwnedOrFound() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
         when(vrepo.findByIdAndImpactedId(999L, testUser.getId())).thenReturn(Optional.empty());
 
         this.mockMvc.perform(get("/verse/999"))
@@ -134,8 +124,6 @@ public class VerseControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userSeesErrorOnSubmitWhenTextEmpty() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
-
         this.mockMvc.perform(post("/verse")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         )
@@ -150,8 +138,6 @@ public class VerseControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userSeesErrorOnSubmitWhenTextTooLong() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
-
         this.mockMvc.perform(post("/verse")
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("text", "")

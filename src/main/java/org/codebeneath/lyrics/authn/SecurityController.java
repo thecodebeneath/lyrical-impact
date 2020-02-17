@@ -1,11 +1,7 @@
 package org.codebeneath.lyrics.authn;
 
-import java.security.Principal;
-import java.util.Optional;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.impacted.ImpactedNotFoundException;
-import org.codebeneath.lyrics.impacted.ImpactedRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 public class SecurityController {
-
-    @Autowired
-    ImpactedRepository impactedRepo;
         
     @GetMapping("/")
     public String root() {
@@ -26,24 +19,21 @@ public class SecurityController {
     }
 
     @GetMapping("/about")
-    public String aboutPage(Model model, Principal principal) {
-        if (isUserAuthenticated(principal)) {
-            Impacted impactedUser = getImpactedUser(principal);
+    public String aboutPage(Model model, @AuthenticationPrincipal Impacted impactedUser) {
+        if (impactedUser != null) {
             model.addAttribute("impacted", impactedUser);
         }
         return "about";
     }
 
     @GetMapping("/user")
-    public String userIndex(Model model, Principal principal) {
-        Impacted impactedUser = getImpactedUser(principal);
+    public String userIndex(Model model, @AuthenticationPrincipal Impacted impactedUser) {
         model.addAttribute("impacted", impactedUser);
         return "user/profile";
     }
     
     @GetMapping("/admin")
-    public String adminIndex(Model model, Principal principal) {
-        Impacted impactedUser = getImpactedUser(principal);
+    public String adminIndex(Model model, @AuthenticationPrincipal Impacted impactedUser) {
         model.addAttribute("impacted", impactedUser);
         return "admin/profile";
     }
@@ -58,15 +48,4 @@ public class SecurityController {
         return "/error/access-denied";
     }
     
-    private boolean isUserAuthenticated(Principal p) {
-        return p != null ? true : false;
-    }
-    
-    private Impacted getImpactedUser(Principal p) {
-        Optional<Impacted> impacted = impactedRepo.findByUserName(p.getName());
-        if (!impacted.isPresent()) {
-            throw new ImpactedNotFoundException(p.getName());
-        }
-        return impacted.get();
-    }
 }

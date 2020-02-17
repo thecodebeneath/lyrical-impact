@@ -1,14 +1,10 @@
 package org.codebeneath.lyrics.authn;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -32,34 +28,30 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         OidcUser oidcUser = delegate.loadUser(userRequest);
         Map<String, Object> attributes = oidcUser.getAttributes();
 
-        String userProvider = userRequest.getClientRegistration().getRegistrationId(); // "okta"
-        String userName = oidcUser.getName();  // attrib[sub]
-        
-        Impacted impactedOidcUser = new Impacted("jeff", (String) attributes.get("email"), (String) attributes.get("name"), "lastname");
+        String name = oidcUser.getName();  // attrib[sub]
+        String userSource = userRequest.getClientRegistration().getRegistrationId(); // "okta"
+        String displayName = attributes.get("name") != null ? (String)attributes.get("name") : null;
+        String email = attributes.get("email") != null ? (String)attributes.get("email") : null;
+        Impacted impactedOidcUser = new Impacted(name, userSource, displayName);
+        impactedOidcUser.setEmail(email);
         impactedOidcUser.setAttributes(attributes);
+        
         Impacted impactedLocal = lookupImpactedUser(impactedOidcUser);
         return impactedLocal;
     }
 
+    // user authenticated via external OAauth2 service, now we need a local user to FK verses to
     private Impacted lookupImpactedUser(Impacted impactedOidcUser) {
         Impacted impactedLocal;
-        Optional<Impacted> impactedLookup = iRepo.findByUserName(impactedOidcUser.getUserName());
+        Optional<Impacted> impactedLookup = iRepo.findByUniqueId(impactedOidcUser.getUniqueId());
         if (impactedLookup.isPresent()) {
             // autoupdate existing local users with OAuth2User details??
             impactedLocal = impactedLookup.get();
-            impactedLocal.setAttributes(impactedOidcUser.getAttributes());
-            
-            // TODO: add roles to Impacted user table
-            Collection<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_ADMIN"));
-            impactedLocal.setAuthorities(grantedAuthorities);
         } else {
-            impactedLocal = null;
-            // impactedLocal = createImpactedUser(impactedOAuth2User);
+            impactedLocal = iRepo.save(impactedOidcUser);
         }
-        
-        //System.out.println(impactedLocal);
+        // System.out.println(impactedLocal);
+        impactedLocal.setAttributes(impactedOidcUser.getAttributes());        
         return impactedLocal;
     }
 }

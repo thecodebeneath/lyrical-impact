@@ -1,11 +1,12 @@
 -- impacted users
-INSERT INTO impacted (user_name, email, first_name, last_name) VALUES ('jeff', 'jeff@codebeneath.com', 'Jeff', 'B.');
-INSERT INTO impacted (user_name, email, first_name, last_name) VALUES ('alan', 'alan@codebeneath.com', 'Alan', 'Smithe');
-INSERT INTO impacted (user_name, email, first_name, last_name) VALUES ('sue', 'sue@codebeneath.com', 'Sue', 'Zee');
-INSERT INTO impacted (user_name, email, first_name, last_name) VALUES ('dan', 'dan@codebeneath.com', 'Dan', 'Zig');
-INSERT INTO impacted (user_name, email, first_name, last_name) VALUES ('jennifer', 'jennifer@codebeneath.com', 'Jennifer', 'Doe');
-INSERT INTO impacted (user_name, email, first_name, last_name) VALUES ('chloe', 'c@c.com', 'Chloe', 'O''Brian');
-INSERT INTO impacted (user_name, email, first_name, last_name) VALUES ('tex', 'z@z.com', 'Tex', 'O''Brian');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('github-36047849',            '36047849',              'github', 'Jeff',     'jeff@codebeneath.com', 'ROLE_ADMIN');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('okta-00u27prcsYez7cjum4x6',  '00u27prcsYez7cjum4x6',  'okta',   'J Black',  'jeff@codebeneath.com', 'ROLE_USER');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('local-alan',  'alan',  'local', 'Alan Smithe',    'alan@codebeneath.com',     'ROLE_USER');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('local-sue',   'sue',   'local', 'Sue Zee',        'sue@codebeneath.com',      'ROLE_USER');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('local-dan',   'dan',   'local', 'Dan Zig',        'dan@codebeneath.com',      'ROLE_USER');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('local-jenn',  'jenn',  'local', 'Jennifer Doe',   'jennifer@codebeneath.com', 'ROLE_USER');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('local-chloe', 'chloe', 'local', 'Chloe O''Brian', 'c@c.com',                  'ROLE_USER');
+INSERT INTO impacted (unique_id, name, user_source, display_name, email, roles) VALUES ('local-tex',   'tex',   'local', 'Tex O''Brian',   'z@z.com',                  'ROLE_USER');
 
 -- global tags
 INSERT INTO tag (label) VALUES ('admiration');

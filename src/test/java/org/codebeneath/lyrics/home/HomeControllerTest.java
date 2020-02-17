@@ -17,7 +17,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -67,7 +66,6 @@ public class HomeControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userCanSeeOwnVerses() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
         when(vrepo.findByImpactedId(testUser.getId())).thenReturn(newUserVerses);
         when(vrepo.getRandomVerse()).thenReturn(randomVerse);
         
@@ -76,7 +74,7 @@ public class HomeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML))
                 .andExpect(view().name("impacted/my"))
-                .andExpect(content().string(containsString(testUser.getFirstName())));
+                .andExpect(content().string(containsString(testUser.getDisplayName())));
     }
 
     @WithMockUser(username = "test", roles = {"USER"})
@@ -105,7 +103,6 @@ public class HomeControllerTest {
     @WithMockUser(username = "test", roles = {"USER"})
     @Test
     public void userPageDisplaysAdditionalVersesOnScroll() throws Exception {
-        when(irepo.findByUserName(anyString())).thenReturn(Optional.of(testUser));
         when(vrepo.findByImpactedId(testUser.getId())).thenReturn(newUserVerses);
         when(vrepo.getRandomVerse()).thenReturn(randomVerse);
 

@@ -3,16 +3,15 @@ package org.codebeneath.lyrics.authn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
@@ -31,11 +30,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private LoggingAccessDeniedHandler accessDeniedHandler;
     
     @Autowired
-    private OAuth2UserService<OAuth2UserRequest,OAuth2User> customOAuth2UserService;
-
-    @Autowired
     private OAuth2UserService<OidcUserRequest,OidcUser> customOidcUserService;
 
+//    @Autowired
+//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.inMemoryAuthentication()
+//                .withUser("alan").password(passwordEncoder().encode("alan")).roles(ROLE_USER)
+//                .and()
+//                .withUser("jeff").password(passwordEncoder().encode("jeff")).roles(ROLE_ADMIN, ROLE_USER);
+//    }
+    
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -59,6 +63,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**", "/h2-console/**", "/actuator/**").hasRole(ROLE_ADMIN)
                     .anyRequest().authenticated()
                 .and()
+//                .formLogin()
+//                    .loginPage("/login")
+//                    // .successHandler(successHandler)
+//                    .permitAll()
+//                .and()
                 .logout()
                     .logoutSuccessUrl("/login?logout")
                     .permitAll()
@@ -70,8 +79,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .loginPage("/login") // my view, not the built-in security filter page "/login"
                     // .successHandler(successHandler)
                     .userInfoEndpoint()
-                        .userService(customOAuth2UserService)    // github
-                        .oidcUserService(customOidcUserService); // okta
+                        .oidcUserService(customOidcUserService); // okta, google
         
         // dev only, h2-console access...
         http.csrf().disable();

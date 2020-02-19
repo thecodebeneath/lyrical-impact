@@ -1,6 +1,5 @@
 package org.codebeneath.lyrics.authn;
 
-import java.util.Map;
 import java.util.Optional;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
@@ -9,6 +8,7 @@ import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.stereotype.Service;
 
@@ -26,32 +26,46 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
     public OidcUser loadUser(OidcUserRequest userRequest) throws OAuth2AuthenticationException {
         OidcUserService delegate = new OidcUserService();
         OidcUser oidcUser = delegate.loadUser(userRequest);
-        Map<String, Object> attributes = oidcUser.getAttributes();
+        OidcIdToken idToken = oidcUser.getIdToken();
 
         String name = oidcUser.getName();  // attrib[sub]
-        String userSource = userRequest.getClientRegistration().getRegistrationId(); // "okta"
-        String displayName = attributes.get("name") != null ? (String)attributes.get("name") : null;
-        String email = attributes.get("email") != null ? (String)attributes.get("email") : null;
+        String userSource = userRequest.getClientRegistration().getRegistrationId(); // "okta" | "google"
+        String displayName = idToken.getFullName() != null ? idToken.getFullName() : Impacted.ANONYMOUS_DISPLAY_NAME;        
         Impacted impactedOidcUser = new Impacted(name, userSource, displayName);
-        impactedOidcUser.setEmail(email);
-        impactedOidcUser.setAttributes(attributes);
+        impactedOidcUser.setEmail(idToken.getEmail());
+        impactedOidcUser.setPicture(idToken.getPicture());
+        impactedOidcUser.setLocale(idToken.getLocale());
+        impactedOidcUser.setAttributes(idToken.getClaims());
         
         Impacted impactedLocal = lookupImpactedUser(impactedOidcUser);
         return impactedLocal;
     }
+    
 
-    // user authenticated via external OAauth2 service, now we need a local user to FK verses to
+    // user authenticated via external OIDC service, now we need a local user to FK verses to
     private Impacted lookupImpactedUser(Impacted impactedOidcUser) {
         Impacted impactedLocal;
         Optional<Impacted> impactedLookup = iRepo.findByUniqueId(impactedOidcUser.getUniqueId());
         if (impactedLookup.isPresent()) {
-            // autoupdate existing local users with OAuth2User details??
             impactedLocal = impactedLookup.get();
+            // update existing local users with oidc details
+            if (userDetailsHaveChanged(impactedLocal, impactedOidcUser)) {
+                impactedLocal.setDisplayName(impactedOidcUser.getDisplayName());
+                impactedLocal.setPicture(impactedOidcUser.getPicture());
+                impactedLocal.setLocale(impactedOidcUser.getLocale());
+                impactedLocal = iRepo.save(impactedLocal);
+            }
         } else {
             impactedLocal = iRepo.save(impactedOidcUser);
         }
         // System.out.println(impactedLocal);
         impactedLocal.setAttributes(impactedOidcUser.getAttributes());        
         return impactedLocal;
+    }
+    
+    private boolean userDetailsHaveChanged(Impacted existing, Impacted latest) {
+        return (!existing.getDisplayName().equals(latest.getDisplayName()) ||
+                !existing.getPicture().equals(latest.getPicture()) ||
+                !existing.getLocale().equals(latest.getLocale()));
     }
 }

@@ -17,7 +17,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.oidc.OidcIdToken;
 import org.springframework.security.oauth2.core.oidc.OidcUserInfo;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 
 /**
  * The person that was impacted by a verse and wants to express why.
@@ -26,10 +25,11 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 @Getter
 @Setter
 @ToString
-public class Impacted implements OAuth2User, OidcUser, Serializable {
+public class Impacted implements OidcUser, Serializable {
 
     public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_USER = "ROLE_USER";
+    public static final String ANONYMOUS_DISPLAY_NAME = "Anonymous User";
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +39,11 @@ public class Impacted implements OAuth2User, OidcUser, Serializable {
     private String userSource;
     private String displayName;
     private String email;
+    private String picture;
+    private String locale;
     private String roles;
     @Transient 
     private Map<String, Object> attributes;
-    @Transient 
-    private Collection<? extends GrantedAuthority> authorities;
     
     protected Impacted() {
     }
@@ -80,7 +80,8 @@ public class Impacted implements OAuth2User, OidcUser, Serializable {
     }
 
     /**
-     * These are injected via OAuth2 principal user attributes.
+     * These are injected via OIDC principal ID token attributes.
+     * @param oAuth2Attributes
      */
     public void setAttributes(Map<String, Object> oAuth2Attributes) {
         attributes = oAuth2Attributes;

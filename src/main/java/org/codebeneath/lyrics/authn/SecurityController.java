@@ -26,6 +26,14 @@ public class SecurityController {
         return "about";
     }
 
+    @GetMapping("/privacy")
+    public String privacyPage(Model model, @AuthenticationPrincipal Impacted impactedUser) {
+        if (impactedUser != null) {
+            model.addAttribute("impacted", impactedUser);
+        }
+        return "about";
+    }
+
     @GetMapping("/user")
     public String userIndex(Model model, @AuthenticationPrincipal Impacted impactedUser) {
         model.addAttribute("impacted", impactedUser);

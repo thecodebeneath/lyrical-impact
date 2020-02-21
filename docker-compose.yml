@@ -4,6 +4,8 @@ services:
     build: .
     mem_limit: 512m
     mem_reservation: 512m
+    env_file:
+      - secrets-app.env 
     ports:
       - "8080:8080"
   eureka:
@@ -19,6 +21,6 @@ services:
     environment:
       MYSQL_DATABASE: lyricalimpact
     env_file:
-      - secrets.env 
+      - secrets-db.env 
     ports:
       - "3306:3306"

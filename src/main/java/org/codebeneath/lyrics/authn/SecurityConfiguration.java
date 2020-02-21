@@ -3,7 +3,6 @@ package org.codebeneath.lyrics.authn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -31,14 +30,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private OAuth2UserService<OidcUserRequest,OidcUser> customOidcUserService;
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.inMemoryAuthentication()
-//                .withUser("alan").password(passwordEncoder().encode("alan")).roles(ROLE_USER)
-//                .and()
-//                .withUser("jeff").password(passwordEncoder().encode("jeff")).roles(ROLE_ADMIN, ROLE_USER);
-//    }
     
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
@@ -63,11 +54,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .antMatchers("/admin/**", "/h2-console/**", "/actuator/**").hasRole(ROLE_ADMIN)
                     .anyRequest().authenticated()
                 .and()
-//                .formLogin()
-//                    .loginPage("/login")
-//                    // .successHandler(successHandler)
-//                    .permitAll()
-//                .and()
                 .logout()
                     .logoutSuccessUrl("/login?logout")
                     .permitAll()

@@ -26,8 +26,8 @@
                     <div sec:authorize="isAuthenticated()" class="w3-dropdown-hover w3-right">
                         <button class="w3-button w3-padding-large" title="My Profile">
                             <span th:text="'' + ${impacted.displayName}"/>
-                            <img th:if="${(impacted.picture != '')}" th:src="${impacted.picture}" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
-                            <img th:if="${(impacted.picture == '')}" src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
+                            <img th:if="${!#strings.isEmpty(impacted.picture)}" th:src="${impacted.picture}" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
+                            <img th:if="${#strings.isEmpty(impacted.picture)}" src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
                         </button>
                         <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
                             <a href="/admin" sec:authorize="hasRole('ADMIN')" class="w3-bar-item w3-button" th:text="'Profile'">admin profile</a>

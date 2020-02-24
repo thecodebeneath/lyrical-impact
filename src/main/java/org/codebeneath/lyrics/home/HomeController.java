@@ -8,7 +8,7 @@ import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedNotFoundException;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
-import org.codebeneath.lyrics.tag.TagRepository;
+import org.codebeneath.lyrics.tag.TagsClient;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
 import org.springframework.data.domain.PageRequest;
@@ -34,12 +34,12 @@ public class HomeController {
     
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
-    private final TagRepository tagRepo;
+    private final TagsClient tagsClient;
 
-    public HomeController(ImpactedRepository iRepo, VerseRepository vRepo, TagRepository tRepo) {
+    public HomeController(ImpactedRepository iRepo, VerseRepository vRepo, TagsClient tagsClient) {
         this.impactedRepo = iRepo;
         this.verseRepo = vRepo;
-        this.tagRepo = tRepo;
+        this.tagsClient = tagsClient;
     }
 
     @GetMapping("/my")
@@ -59,7 +59,7 @@ public class HomeController {
         } else {
             verses = verseRepo.findByImpactedId(impactedUser.getId(), pageable);
         }
-        List<Tag> tags = (List<Tag>) tagRepo.findAll();
+        List<Tag> tags = tagsClient.getTags();
         model.addAttribute("verses", verses);
         model.addAttribute("allTags", tags);
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());
@@ -84,7 +84,7 @@ public class HomeController {
             verses = verseRepo.findByImpactedId(impactedUser.getId());
         }
         Collections.reverse(verses);
-        List<Tag> tags = (List<Tag>) tagRepo.findAll();
+        List<Tag> tags = tagsClient.getTags();
         model.addAttribute("verses", verses);
         model.addAttribute("allTags", tags);
         model.addAttribute("randomVerse", verseRepo.getRandomVerse());

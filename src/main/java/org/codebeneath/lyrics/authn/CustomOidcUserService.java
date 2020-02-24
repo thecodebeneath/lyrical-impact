@@ -64,8 +64,9 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
     }
     
     private boolean userDetailsHaveChanged(Impacted existing, Impacted latest) {
-        return (!existing.getDisplayName().equals(latest.getDisplayName()) ||
-                !existing.getPicture().equals(latest.getPicture()) ||
-                !existing.getLocale().equals(latest.getLocale()));
+        // TODO: implement equals(O o) instead...
+        if (existing.getDisplayName() != null ? existing.getDisplayName().equals(latest.getDisplayName()) : latest.getDisplayName() == null) return false;
+        if (existing.getPicture() != null ? existing.getPicture().equals(latest.getPicture()) : latest.getPicture() == null) return false;
+        return existing.getLocale() != null ? !existing.getLocale().equals(latest.getLocale()) : latest.getLocale() != null;
     }
 }

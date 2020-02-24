@@ -9,11 +9,11 @@ import java.util.stream.IntStream;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
 import org.codebeneath.lyrics.tag.Tag;
-import org.codebeneath.lyrics.tag.TagRepository;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
 import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
+import org.codebeneath.lyrics.tag.TagsClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 
@@ -31,12 +31,12 @@ public class SeedData implements CommandLineRunner {
 
     private final ImpactedRepository impactedRepo;
     private final VerseRepository verseRepo;
-    private final TagRepository tagRepo;
-
-    public SeedData(ImpactedRepository impactedRepo, VerseRepository verseRepo, TagRepository tagRepo) {
+    private final TagsClient tagsClient;
+    
+    public SeedData(ImpactedRepository impactedRepo, VerseRepository verseRepo, TagsClient tagsClient) {
         this.impactedRepo = impactedRepo;
         this.verseRepo = verseRepo;
-        this.tagRepo = tagRepo;
+        this.tagsClient = tagsClient;
     }
 
     @Override
@@ -48,12 +48,12 @@ public class SeedData implements CommandLineRunner {
     }
 
     private void createImpactedVersesForRandomUsers() {
-        List<Tag> allTags = (List<Tag>) tagRepo.findAll();
+        List<Tag> tags = tagsClient.getTags();
         IntStream.rangeClosed(1, USERS_TO_SEED).forEach(u -> {
             long randomUserId = RND.nextInt(USERS_TO_SEED + 1) + 2;
             Impacted randomUser = impactedRepo.findById(randomUserId).get();
             int randomNumberOfVerses = RND.nextInt(MAX_VERSES_PER_USER) + 1;
-            createImpactedVersesFor(randomUser, allTags, randomNumberOfVerses);
+            createImpactedVersesFor(randomUser, tags, randomNumberOfVerses);
         });        
     }
 

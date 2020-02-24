@@ -4,7 +4,7 @@ import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.Optional;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.tag.TagRepository;
+import org.codebeneath.lyrics.tag.TagsClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,7 +37,7 @@ public class VerseControllerTest {
     private VerseRepository vrepo;
 
     @MockBean
-    private TagRepository trepo;
+    private TagsClient tagsClient;
 
     @MockBean
     private AuthenticationSuccessHandler successHandler;

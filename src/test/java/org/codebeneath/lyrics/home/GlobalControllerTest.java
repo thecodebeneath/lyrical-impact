@@ -6,7 +6,7 @@ import java.util.List;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.tag.Tag;
-import org.codebeneath.lyrics.tag.TagRepository;
+import org.codebeneath.lyrics.tag.TagsClient;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
 import static org.hamcrest.Matchers.containsString;
@@ -38,7 +38,7 @@ public class GlobalControllerTest {
     private VerseRepository vrepo;
 
     @MockBean
-    private TagRepository trepo;
+    private TagsClient tagsClient;
 
     @MockBean
     private AuthenticationSuccessHandler successHandler;

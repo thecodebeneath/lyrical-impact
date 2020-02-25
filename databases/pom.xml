@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.codebeneath</groupId>
+        <artifactId>lyrical-impact-parent</artifactId>
+        <version>0.9-SNAPSHOT</version>
+    </parent>
+
+    <groupId>org.codebeneath</groupId>
+    <artifactId>lyrical-impact-databases</artifactId>
+    <packaging>pom</packaging>
+
+    <name>Lyrical Impact Databases</name>
+    <description>A webapp that allows people to remember the lyrical verses that have impacted them in some way.</description>
+
+    <modules>
+        <!-- <module>tbd</module> -->
+    </modules>
+
+</project>

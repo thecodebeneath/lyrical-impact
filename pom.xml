@@ -23,6 +23,7 @@
         <module>applications</module>
         <module>components</module>
         <module>databases</module>
+        <module>platform-services</module>
     </modules>
 
     <dependencyManagement>

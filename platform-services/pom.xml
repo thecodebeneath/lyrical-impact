@@ -10,16 +10,15 @@
     </parent>
 
     <groupId>org.codebeneath</groupId>
-    <artifactId>lyrical-impact-components</artifactId>
+    <artifactId>lyrical-impact-platform-services</artifactId>
     <packaging>pom</packaging>
 
-    <name>Lyrical Impact :: Components</name>
+    <name>Lyrical Impact :: Platform Services</name>
     <description>A webapp that allows people to remember the lyrical verses that have impacted them in some way.</description>
 
     <modules>
-        <!-- <module>impacted</module> -->
-        <!-- <module>tags</module> -->
-        <!-- <module>verses</module> -->
+        <module>eureka</module>
+        <module>oauth2</module>
     </modules>
 
 </project>

@@ -13,7 +13,7 @@
     <artifactId>lyrical-impact-databases</artifactId>
     <packaging>pom</packaging>
 
-    <name>Lyrical Impact Databases</name>
+    <name>Lyrical Impact :: Databases</name>
     <description>A webapp that allows people to remember the lyrical verses that have impacted them in some way.</description>
 
     <modules>

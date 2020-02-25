@@ -11,9 +11,8 @@
 
     <groupId>org.codebeneath</groupId>
     <artifactId>lyrical-impact-mvc</artifactId>
-    <packaging>jar</packaging>
 
-    <name>Lyrical Impact MVC</name>
+    <name>Lyrical Impact :: Applications :: MVC</name>
     <description>A webapp that allows people to remember the lyrical verses that have impacted them in some way.</description>
     
     <dependencies>

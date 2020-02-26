@@ -2,8 +2,8 @@ package org.codebeneath.lyrics.verse;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.codebeneath.lyrics.tag.Tag;
-import org.codebeneath.lyrics.tag.TagsClient;
+import org.codebeneath.lyrics.tagsapi.TagDto;
+import org.codebeneath.lyrics.tagsapi.TagsClient;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +30,7 @@ public class VerseRestController {
         List<String> labels = new ArrayList<>();
         List<Long> series = new ArrayList<>();
 
-        List<Tag> tags = tagsClient.getTags();
+        List<TagDto> tags = tagsClient.getTags();
         tags.stream().forEach(tag -> {
             labels.add(tag.getLabel());
             series.add(vRepo.countByTags(tag.getLabel()));

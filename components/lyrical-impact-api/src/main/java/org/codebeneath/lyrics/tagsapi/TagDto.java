@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.tags;
+package org.codebeneath.lyrics.tagsapi;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -12,6 +12,7 @@ import lombok.ToString;
 @ToString
 public class TagDto {
     
+    private Long id;
     private String label;
 
     public TagDto() {}

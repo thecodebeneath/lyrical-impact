@@ -5,8 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.tag.Tag;
-import org.codebeneath.lyrics.tag.TagsClient;
+import org.codebeneath.lyrics.tagsapi.TagDto;
+import org.codebeneath.lyrics.tagsapi.TagsClient;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
 import static org.hamcrest.Matchers.containsString;
@@ -49,7 +49,7 @@ public class GlobalControllerTest {
     Impacted testUser;
     Verse randomVerse;
     List<Verse> newUserVerses = Collections.emptyList();
-    List<Tag> tags = Collections.emptyList();
+    List<TagDto> tags = Collections.emptyList();
     
     @Before
     public void setUp() {

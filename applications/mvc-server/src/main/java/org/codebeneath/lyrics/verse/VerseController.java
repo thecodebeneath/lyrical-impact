@@ -7,8 +7,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.tag.Tag;
-import org.codebeneath.lyrics.tag.TagsClient;
+import org.codebeneath.lyrics.tagsapi.TagDto;
+import org.codebeneath.lyrics.tagsapi.TagsClient;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +47,7 @@ public class VerseController {
         }
         model.addAttribute("verse", verseToPopulateWith);
 
-        List<Tag> tags = tagsClient.getTags();
+        List<TagDto> tags = tagsClient.getTags();
         model.addAttribute("allTags", tags);
 
         return "impacted/verseForm";
@@ -60,7 +60,7 @@ public class VerseController {
         Optional<Verse> verseToPopulateWith = verseRepo.findByIdAndImpactedId(vid, impactedUser.getId());
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get());
-            List<Tag> tags = tagsClient.getTags();
+            List<TagDto> tags = tagsClient.getTags();
             model.addAttribute("allTags", tags);
             return "impacted/verseForm";
         } else {
@@ -76,7 +76,7 @@ public class VerseController {
         if (verseToPopulateWith.isPresent()) {
             model.addAttribute("verse", verseToPopulateWith.get().anonymizeVerse());
             model.addAttribute("gvid", gvid);
-            List<Tag> tags = tagsClient.getTags();
+            List<TagDto> tags = tagsClient.getTags();
             model.addAttribute("allTags", tags);
             return "impacted/verseForm";
         } else {
@@ -88,7 +88,7 @@ public class VerseController {
     public String addVerse(@Valid Verse verse, BindingResult bindingResult, Model model, @RequestParam("gvid") Optional<Long> gvid, @AuthenticationPrincipal Impacted impactedUser) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("impacted", impactedUser);
-            List<Tag> tags = tagsClient.getTags();
+            List<TagDto> tags = tagsClient.getTags();
             model.addAttribute("allTags", tags);
             return "impacted/verseForm";
         }

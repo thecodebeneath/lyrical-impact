@@ -3,8 +3,8 @@ package org.codebeneath.lyrics.home;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.tag.TagsClient;
-import org.codebeneath.lyrics.tag.Tag;
+import org.codebeneath.lyrics.tagsapi.TagDto;
+import org.codebeneath.lyrics.tagsapi.TagsClient;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
 import org.springframework.data.domain.PageRequest;
@@ -52,7 +52,7 @@ public class GlobalController {
         } else {
             verses = (List<Verse>) verseRepo.findAll(pageable);
         }
-        List<Tag> tags = tagsClient.getTags();
+        List<TagDto> tags = tagsClient.getTags();
         model.addAttribute("verses", verses);
         model.addAttribute("allTags", tags);
         model.addAttribute("newLineChar", '\n');

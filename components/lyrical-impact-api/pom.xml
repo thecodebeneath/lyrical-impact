@@ -5,25 +5,29 @@
     
     <parent>
         <groupId>org.codebeneath</groupId>
-        <artifactId>lyrical-impact-applications</artifactId>
+        <artifactId>lyrical-impact-components</artifactId>
         <version>0.9-SNAPSHOT</version>
     </parent>
         
     <groupId>org.codebeneath</groupId>
-    <artifactId>lyrical-impact-tags</artifactId>
+    <artifactId>lyrical-impact-components-api</artifactId>
 
-    <name>Lyrical Impact :: Applications :: Tags</name>
+    <name>Lyrical Impact :: Components :: API</name>
     <description>A webapp that allows people to remember the lyrical verses that have impacted them in some way.</description>
 
     <dependencies>
         <dependency>
-            <groupId>org.codebeneath</groupId>
-            <artifactId>lyrical-impact-components-tags</artifactId>
-            <version>${project.version}</version>
-        </dependency>    
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+        <dependency>
+          <groupId>org.modelmapper</groupId>
+          <artifactId>modelmapper</artifactId>
+          <version>2.3.6</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

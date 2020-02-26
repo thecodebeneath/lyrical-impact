@@ -8,12 +8,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 import org.codebeneath.lyrics.impacted.Impacted;
 import org.codebeneath.lyrics.impacted.ImpactedRepository;
-import org.codebeneath.lyrics.tag.Tag;
 import org.codebeneath.lyrics.verse.Verse;
 import org.codebeneath.lyrics.verse.VerseRepository;
 import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
-import org.codebeneath.lyrics.tag.TagsClient;
+import org.codebeneath.lyrics.tagsapi.TagDto;
+import org.codebeneath.lyrics.tagsapi.TagsClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 
@@ -48,7 +48,7 @@ public class SeedData implements CommandLineRunner {
     }
 
     private void createImpactedVersesForRandomUsers() {
-        List<Tag> tags = tagsClient.getTags();
+        List<TagDto> tags = tagsClient.getTags();
         IntStream.rangeClosed(1, USERS_TO_SEED).forEach(u -> {
             long randomUserId = RND.nextInt(USERS_TO_SEED + 1) + 2;
             Impacted randomUser = impactedRepo.findById(randomUserId).get();
@@ -57,7 +57,7 @@ public class SeedData implements CommandLineRunner {
         });        
     }
 
-    private void createImpactedVersesFor(Impacted user, List<Tag> allTags, int randomNumberOfVerses) {
+    private void createImpactedVersesFor(Impacted user, List<TagDto> allTags, int randomNumberOfVerses) {
         IntStream.rangeClosed(1, randomNumberOfVerses+1).forEach(v -> {
             List<String> randomTags = new ArrayList<>();
             if (RND.nextBoolean()) {

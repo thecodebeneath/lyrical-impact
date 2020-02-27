@@ -17,13 +17,24 @@ docker-compose build
 docker-compose up -d
 ```
 
-### Spring Boot Java Buildpack
+### Google jib (maven plugin)
 
 Starting with Spring Boot 2.3.0M2, maven can create the docker images for Boot apps.
 
 ```
 mvn clean install
 mvn spring-boot:build-image -Dmaven.test.skip=true
+cd docker
+docker-compose -f docker-compose-spring-boot.yml up -d
+```
+
+### Spring Boot Java Buildpack (maven plugin)
+
+Google container tools, maven can create the docker images for Boot apps.
+
+```
+mvn clean install
+mvn jib:dockerBuild
 cd docker
 docker-compose -f docker-compose-spring-boot.yml up -d
 ```

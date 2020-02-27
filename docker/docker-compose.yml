@@ -1,7 +1,10 @@
 version: "2.4"
 services:
   app:
-    build: ..\applications\mvc-server
+    build:
+      context: ../applications/mvc-server
+      args:
+        - JAR_FILE=target/lyrical-impact-mvc-0.9-SNAPSHOT.jar
     mem_limit: 512m
     mem_reservation: 512m
     environment:
@@ -15,7 +18,10 @@ services:
       - eureka
       - db
   tags:
-    build: ..\applications\tags-server
+    build:
+      context: ../applications/tags-server
+      args:
+        - JAR_FILE=target/lyrical-impact-tags-0.9-SNAPSHOT.jar
     mem_limit: 256m
     mem_reservation: 256m
     environment:
@@ -25,7 +31,10 @@ services:
     depends_on:
       - eureka      
   eureka:
-    build: ..\platform-services\lyrical-impact-eureka
+    build:
+      context: ../platform-services/eureka
+      args:
+        - JAR_FILE=target/lyrical-impact-eureka-0.9-SNAPSHOT.jar
     mem_limit: 256m
     mem_reservation: 256m
     ports:

@@ -1,9 +1,9 @@
 package org.codebeneath.lyrics.service.songs.chartlyrics;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+//import javax.xml.bind.annotation.XmlAccessType;
+//import javax.xml.bind.annotation.XmlAccessorType;
+//import javax.xml.bind.annotation.XmlElement;
+//import javax.xml.bind.annotation.XmlRootElement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -16,11 +16,11 @@ import lombok.ToString;
 //@Getter
 //@Setter
 @ToString
-@XmlRootElement(name = "GetLyricResult", namespace = "http://api.chartlyrics.com/")
-@XmlAccessorType(XmlAccessType.FIELD)
+//@XmlRootElement(name = "GetLyricResult", namespace = "http://api.chartlyrics.com/")
+//@XmlAccessorType(XmlAccessType.FIELD)
 public class GetLyricResult {
 
-    @XmlElement(name="TrackId")
+//    @XmlElement(name="TrackId")
     private String trackId;
    
 //    @XmlElement(name="LyricChecksum")
@@ -29,7 +29,7 @@ public class GetLyricResult {
 //    @XmlElement(name="LyricId")
 //    private String lyricId;
     
-    @XmlElement(name = "LyricSong")
+//    @XmlElement(name = "LyricSong")
     private String lyricSong;
 
 //    @XmlElement(name="LyricArtist")

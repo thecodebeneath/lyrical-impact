@@ -22,8 +22,8 @@
                         <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
                         <hr class="w3-clear"/>
                         <div class="w3-margin">
-                            <h5 th:if="*{verse.impacted == impacted}" class="w3-button w3-disabled w3-theme">This is your verse</h5>
-                            <button type="button" th:unless="*{verse.impacted == impacted}" class="w3-button w3-theme">
+                            <h5 th:if="*{verse.impactedId == impacted}" class="w3-button w3-disabled w3-theme">This is your verse</h5>
+                            <button type="button" th:unless="*{verse.impactedId == impacted}" class="w3-button w3-theme">
                                 <a th:href="@{'/verse/global/' + ${verse.id}}">Add as my verse</a>
                             </button>
                         </div>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.codebeneath.lyrics.tagsapi.TagsClient.TagsClientFallback;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -14,16 +15,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "lyrical-impact-tags", fallback = TagsClientFallback.class)
 public interface TagsClient {
 
-    @GetMapping("/tags")
-    List<TagDto> getTags();
+    @GetMapping(path = "/tags", produces = MediaType.APPLICATION_JSON_VALUE)
+    List<VerseTag> getVerseTags();
     
     @Component
     static class TagsClientFallback implements TagsClient {
         @Override
-        public List<TagDto> getTags() {
-            List<TagDto> fallbackTags = new ArrayList<>();
-            fallbackTags.add(new TagDto("fallback1"));
-            fallbackTags.add(new TagDto("fallback2"));
+        public List<VerseTag> getVerseTags() {
+            List<VerseTag> fallbackTags = new ArrayList<>();
+            fallbackTags.add(new VerseTag("fallback1"));
+            fallbackTags.add(new VerseTag("fallback2"));
             return fallbackTags;
         }
     }

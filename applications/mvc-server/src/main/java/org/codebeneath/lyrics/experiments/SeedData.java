@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.codebeneath.lyrics.impacted.Impacted;
-import org.codebeneath.lyrics.impacted.ImpactedRepository;
-import org.codebeneath.lyrics.verse.Verse;
-import org.codebeneath.lyrics.verse.VerseRepository;
+import org.codebeneath.lyrics.impactedapi.ImpactedUser;
+import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.springframework.stereotype.Component;
 import lombok.extern.slf4j.Slf4j;
-import org.codebeneath.lyrics.tagsapi.TagDto;
+import org.codebeneath.lyrics.impactedapi.ImpactedClient;
+import org.codebeneath.lyrics.tagsapi.VerseTag;
 import org.codebeneath.lyrics.tagsapi.TagsClient;
+import org.codebeneath.lyrics.versesapi.VersesClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.core.annotation.Order;
 
@@ -29,35 +29,35 @@ public class SeedData implements CommandLineRunner {
     private static final Random RND = new Random();
     private static final Lorem LOREM = LoremIpsum.getInstance();
 
-    private final ImpactedRepository impactedRepo;
-    private final VerseRepository verseRepo;
+    private final ImpactedClient impactedClient;
+    private final VersesClient versesClient;
     private final TagsClient tagsClient;
     
-    public SeedData(ImpactedRepository impactedRepo, VerseRepository verseRepo, TagsClient tagsClient) {
-        this.impactedRepo = impactedRepo;
-        this.verseRepo = verseRepo;
+    public SeedData(ImpactedClient impactedClient, VersesClient versesClient, TagsClient tagsClient) {
+        this.impactedClient = impactedClient;
+        this.versesClient = versesClient;
         this.tagsClient = tagsClient;
     }
 
     @Override
     public void run(String... args) throws Exception {
         // for real
-        createImpactedVersesForJeff();
+        //createImpactedVersesForJeff();
         // for testing
-        createImpactedVersesForRandomUsers();
+        //createImpactedVersesForRandomUsers();
     }
 
     private void createImpactedVersesForRandomUsers() {
-        List<TagDto> tags = tagsClient.getTags();
+        List<VerseTag> tags = tagsClient.getVerseTags();
         IntStream.rangeClosed(1, USERS_TO_SEED).forEach(u -> {
             long randomUserId = RND.nextInt(USERS_TO_SEED + 1) + 2;
-            Impacted randomUser = impactedRepo.findById(randomUserId).get();
+            ImpactedUser randomUser = impactedClient.findById(randomUserId).get();
             int randomNumberOfVerses = RND.nextInt(MAX_VERSES_PER_USER) + 1;
             createImpactedVersesFor(randomUser, tags, randomNumberOfVerses);
         });        
     }
 
-    private void createImpactedVersesFor(Impacted user, List<TagDto> allTags, int randomNumberOfVerses) {
+    private void createImpactedVersesFor(ImpactedUser user, List<VerseTag> allTags, int randomNumberOfVerses) {
         IntStream.rangeClosed(1, randomNumberOfVerses+1).forEach(v -> {
             List<String> randomTags = new ArrayList<>();
             if (RND.nextBoolean()) {
@@ -66,10 +66,10 @@ public class SeedData implements CommandLineRunner {
                     randomTags.add(allTags.get(tagId).getLabel());
                 });
             }
-            verseRepo.save(
-                    new Verse(createRandomVerse(),
+            versesClient.save(
+                    new ImpactedVerse(createRandomVerse(),
                             LOREM.getWords(1, 3), LOREM.getWords(1, 3),
-                            LOREM.getWords(1, 5), user, randomTags));
+                            LOREM.getWords(1, 5), user.getId(), randomTags));
         });
     }
 
@@ -86,26 +86,26 @@ public class SeedData implements CommandLineRunner {
     }
 
     private void createImpactedVersesForJeff() {
-        Impacted jeff = impactedRepo.findByRolesContains(Impacted.ROLE_ADMIN).get(0);
+        ImpactedUser jeff = impactedClient.findByRolesContains(ImpactedUser.ROLE_ADMIN).get(0);
 
-        verseRepo.save(
-                new Verse("<b>ve-oops</b><script>alert('versetext');</script>",
+        versesClient.save(
+                new ImpactedVerse("<b>ve-oops</b><script>alert('versetext');</script>",
                         "<b>so-oops</b><script>alert('versetitle');</script>", "<b>ar-oops</b><script>alert('verseauthor');</script>",
-                        "<b>re-oops</b><script>alert('versereaction');</script>", jeff, List.of("confusion", "horror")));
-        verseRepo.save(
-                new Verse("由 匿名 (未验证) 提交于\nThe façade pattern's a software-design \"£\" pattern.\n提交于",
+                        "<b>re-oops</b><script>alert('versereaction');</script>", jeff.getId(), List.of("confusion", "horror")));
+        versesClient.save(
+                new ImpactedVerse("由 匿名 (未验证) 提交于\nThe façade pattern's a software-design \"£\" pattern.\n提交于",
                         "i18n 由", "i18n 由",
                         "由 匿名 (未验证) 提交于\n"
-                        + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", jeff, List.of("joy", "sexy", "funny")));
-        verseRepo.save(
-                new Verse("There is no pain, you are receding\n"
+                        + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", jeff.getId(), List.of("joy", "sexy", "funny")));
+        versesClient.save(
+                new ImpactedVerse("There is no pain, you are receding\n"
                         + "A distant ship smoke on the horizon\n"
                         + "You are only coming through in waves\n"
                         + "Your lips move but I can't hear what you're saying",
                         "Comfortably Numb", "Pink Floyd",
                         "Makes\n"
                         + "me\n"
-                        + "happy!", jeff, List.of("calmness", "joy")));
+                        + "happy!", jeff.getId(), List.of("calmness", "joy")));
 
         // more verses to test scrolling
         // createImpactedVersesFor(jeff, (List<Tag>) tagRepo.findAll(), 100);

@@ -65,6 +65,9 @@
             <id>spring-boot-milestones</id>
             <name>spring boot milestones</name>
             <url>https://repo.spring.io/milestone/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </repository>
     </repositories>
     <pluginRepositories>
@@ -72,6 +75,9 @@
             <id>spring-boot-plugins-milestones</id>
             <name>spring boot plugins milestones</name>
             <url>https://repo.spring.io/milestone/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
         </pluginRepository>
     </pluginRepositories>
 

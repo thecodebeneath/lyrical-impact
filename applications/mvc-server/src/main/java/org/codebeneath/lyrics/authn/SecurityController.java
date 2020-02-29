@@ -1,6 +1,6 @@
 package org.codebeneath.lyrics.authn;
 
-import org.codebeneath.lyrics.impacted.Impacted;
+import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +19,7 @@ public class SecurityController {
     }
 
     @GetMapping("/about")
-    public String aboutPage(Model model, @AuthenticationPrincipal Impacted impactedUser) {
+    public String aboutPage(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         if (impactedUser != null) {
             model.addAttribute("impacted", impactedUser);
         }
@@ -27,7 +27,7 @@ public class SecurityController {
     }
 
     @GetMapping("/privacy")
-    public String privacyPage(Model model, @AuthenticationPrincipal Impacted impactedUser) {
+    public String privacyPage(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         if (impactedUser != null) {
             model.addAttribute("impacted", impactedUser);
         }
@@ -35,13 +35,13 @@ public class SecurityController {
     }
 
     @GetMapping("/user")
-    public String userIndex(Model model, @AuthenticationPrincipal Impacted impactedUser) {
+    public String userIndex(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         model.addAttribute("impacted", impactedUser);
         return "user/profile";
     }
     
     @GetMapping("/admin")
-    public String adminIndex(Model model, @AuthenticationPrincipal Impacted impactedUser) {
+    public String adminIndex(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         model.addAttribute("impacted", impactedUser);
         return "admin/profile";
     }

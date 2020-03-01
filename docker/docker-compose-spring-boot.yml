@@ -7,23 +7,45 @@ services:
     environment:
       - EUREKA_URI=http://eureka:8761/eureka
     env_file:
-      - secrets-app.env 
+      - secrets-app.env
     ports:
       - "8080:8080"
     depends_on:
       - tags
+      - verses
+      - impacted
       - eureka
       - db
   tags:
     image: lyrical-impact-tags:0.9-SNAPSHOT
-    mem_limit: 256m
-    mem_reservation: 256m
+    mem_limit: 512m
+    mem_reservation: 512m
     environment:
       - EUREKA_URI=http://eureka:8761/eureka
     ports:
       - "8181:8181"
     depends_on:
-      - eureka      
+      - eureka
+  verses:
+    image: lyrical-impact-verses:0.9-SNAPSHOT
+    mem_limit: 512m
+    mem_reservation: 512m
+    environment:
+      - EUREKA_URI=http://eureka:8761/eureka
+    ports:
+      - "8282:8282"
+    depends_on:
+      - eureka
+  impacted:
+    image: lyrical-impact-impacted:0.9-SNAPSHOT
+    mem_limit: 512m
+    mem_reservation: 512m
+    environment:
+      - EUREKA_URI=http://eureka:8761/eureka
+    ports:
+      - "8383:8383"
+    depends_on:
+      - eureka
   eureka:
     image: lyrical-impact-eureka:0.9-SNAPSHOT
     mem_limit: 256m
@@ -38,5 +60,7 @@ services:
       MYSQL_DATABASE: lyricalimpact
     env_file:
       - secrets-db.env 
+    mem_limit: 256m
+    mem_reservation: 256m
     ports:
       - "3306:3306"

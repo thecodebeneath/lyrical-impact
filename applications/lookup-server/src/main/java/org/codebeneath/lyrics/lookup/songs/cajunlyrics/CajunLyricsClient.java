@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.codebeneath.lyrics.service.songs.cajunlyrics;
+package org.codebeneath.lyrics.lookup.songs.cajunlyrics;
 
 import lombok.extern.slf4j.Slf4j;
-import org.codebeneath.lyrics.service.api.ExternalApi;
+import org.codebeneath.lyrics.lookup.api.ExternalApi;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 

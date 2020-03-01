@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.songs.cajunlyrics;
+package org.codebeneath.lyrics.lookup.songs.cajunlyrics;
 
 //import javax.xml.bind.annotation.XmlAccessType;
 //import javax.xml.bind.annotation.XmlAccessorType;

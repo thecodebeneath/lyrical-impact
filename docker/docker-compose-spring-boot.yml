@@ -46,6 +46,16 @@ services:
       - "8383:8383"
     depends_on:
       - eureka
+  lookup:
+    image: lyrical-impact-lookup:0.9-SNAPSHOT
+    mem_limit: 256m
+    mem_reservation: 256m
+    environment:
+      - EUREKA_URI=http://eureka:8761/eureka
+    ports:
+      - "8484:8484"
+    depends_on:
+      - eureka
   eureka:
     image: lyrical-impact-eureka:0.9-SNAPSHOT
     mem_limit: 256m

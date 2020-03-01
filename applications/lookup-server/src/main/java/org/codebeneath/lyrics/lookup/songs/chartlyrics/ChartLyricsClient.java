@@ -1,8 +1,7 @@
-package org.codebeneath.lyrics.service.songs.chartlyrics;
+package org.codebeneath.lyrics.lookup.songs.chartlyrics;
 
 import lombok.extern.slf4j.Slf4j;
-import org.codebeneath.lyrics.experiments.ExternalApiExperiments;
-import org.codebeneath.lyrics.service.api.ExternalApi;
+import org.codebeneath.lyrics.lookup.api.ExternalApi;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 

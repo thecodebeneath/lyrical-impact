@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.songs.chartlyrics;
+package org.codebeneath.lyrics.lookup.songs.chartlyrics;
 
 //import javax.xml.bind.annotation.XmlAccessType;
 //import javax.xml.bind.annotation.XmlAccessorType;

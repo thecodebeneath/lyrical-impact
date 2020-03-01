@@ -1,6 +1,7 @@
 package org.codebeneath.lyrics.tags;
 
 import java.util.List;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +20,7 @@ public class TagsRestController {
         this.repo = repo;
     }
 
-    @GetMapping()
+    @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Tag> getTags() {
         List<Tag> tags = repo.findAll();
         return tags;

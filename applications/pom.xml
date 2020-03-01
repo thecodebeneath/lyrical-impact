@@ -21,6 +21,7 @@
         <module>verses-server</module>
         <module>tags-server</module>
         <module>impacted-server</module>
+        <module>lookup-server</module>
     </modules>
 
     <dependencies>

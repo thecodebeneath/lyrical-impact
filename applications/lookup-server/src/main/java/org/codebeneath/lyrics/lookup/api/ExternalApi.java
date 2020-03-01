@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.api;
+package org.codebeneath.lyrics.lookup.api;
 
 import org.springframework.web.client.RestClientException;
 

@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.service.poems.poetrydb;
+package org.codebeneath.lyrics.lookup.poems.poetrydb;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.experiments;
+package org.codebeneath.lyrics.versesapi.seed;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
@@ -6,21 +6,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.IntStream;
-import org.codebeneath.lyrics.impactedapi.ImpactedUser;
-import org.codebeneath.lyrics.versesapi.ImpactedVerse;
-import org.springframework.stereotype.Component;
-import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impactedapi.ImpactedClient;
-import org.codebeneath.lyrics.tagsapi.VerseTag;
+import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.codebeneath.lyrics.tagsapi.TagsClient;
+import org.codebeneath.lyrics.tagsapi.VerseTag;
+import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.codebeneath.lyrics.versesapi.VersesClient;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
-@Slf4j
-@Order(value = 1)
+/**
+ *
+ * @author black
+ */
 @Component
-public class SeedData implements CommandLineRunner {
+public class VersesFixtures {
 
     private static final int USERS_TO_SEED = 5;
     private static final int MAX_VERSES_PER_USER = 15;
@@ -32,19 +31,19 @@ public class SeedData implements CommandLineRunner {
     private final ImpactedClient impactedClient;
     private final VersesClient versesClient;
     private final TagsClient tagsClient;
-    
-    public SeedData(ImpactedClient impactedClient, VersesClient versesClient, TagsClient tagsClient) {
+
+    public VersesFixtures(ImpactedClient impactedClient, VersesClient versesClient, TagsClient tagsClient) {
         this.impactedClient = impactedClient;
         this.versesClient = versesClient;
         this.tagsClient = tagsClient;
     }
 
-    @Override
-    public void run(String... args) throws Exception {
-        // for real
-        //createImpactedVersesForJeff();
-        // for testing
-        //createImpactedVersesForRandomUsers();
+    public void loadMy() {
+        createImpactedVersesForJeff();
+    }
+
+    public void loadRandom() {
+        createImpactedVersesForRandomUsers();
     }
 
     private void createImpactedVersesForRandomUsers() {
@@ -54,14 +53,14 @@ public class SeedData implements CommandLineRunner {
             ImpactedUser randomUser = impactedClient.findById(randomUserId).get();
             int randomNumberOfVerses = RND.nextInt(MAX_VERSES_PER_USER) + 1;
             createImpactedVersesFor(randomUser, tags, randomNumberOfVerses);
-        });        
+        });
     }
 
     private void createImpactedVersesFor(ImpactedUser user, List<VerseTag> allTags, int randomNumberOfVerses) {
-        IntStream.rangeClosed(1, randomNumberOfVerses+1).forEach(v -> {
+        IntStream.rangeClosed(1, randomNumberOfVerses + 1).forEach(v -> {
             List<String> randomTags = new ArrayList<>();
             if (RND.nextBoolean()) {
-                IntStream.range(0, RND.nextInt(MAX_TAGS_PER_VERSE+1)).forEach(t -> {
+                IntStream.range(0, RND.nextInt(MAX_TAGS_PER_VERSE + 1)).forEach(t -> {
                     int tagId = RND.nextInt(allTags.size() - 1);
                     randomTags.add(allTags.get(tagId).getLabel());
                 });
@@ -110,4 +109,5 @@ public class SeedData implements CommandLineRunner {
         // more verses to test scrolling
         // createImpactedVersesFor(jeff, (List<Tag>) tagRepo.findAll(), 100);
     }
+
 }

@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.verses.impacted;
+package org.codebeneath.lyrics.impacted;
 
 import java.util.List;
 import java.util.Optional;

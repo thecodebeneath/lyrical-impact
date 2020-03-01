@@ -20,6 +20,7 @@
         <module>mvc-server</module>
         <module>verses-server</module>
         <module>tags-server</module>
+        <module>impacted-server</module>
     </modules>
 
     <dependencies>

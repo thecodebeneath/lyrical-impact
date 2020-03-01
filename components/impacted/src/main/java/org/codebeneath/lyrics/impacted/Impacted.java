@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.verses.impacted;
+package org.codebeneath.lyrics.impacted;
 
 import java.io.Serializable;
 import java.util.ArrayList;

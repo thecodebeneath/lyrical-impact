@@ -19,6 +19,7 @@
     <modules>
         <module>verses</module>
         <module>tags</module>
+        <module>impacted</module>
         <module>lyrical-impact-api</module>
     </modules>
 

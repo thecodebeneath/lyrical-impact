@@ -1,9 +1,13 @@
 package org.codebeneath.lyrics.versesapi;
 
+import static java.util.Arrays.asList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+import org.codebeneath.lyrics.versesapi.VersesClient.VersesClientFallback;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  *
  * @author black
  */
-@FeignClient(name = "lyrical-impact-verses")
+@FeignClient(name = "lyrical-impact-verses", fallback = VersesClientFallback.class)
 public interface VersesClient {
 
     @GetMapping(path = "/verses/global", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -42,4 +46,50 @@ public interface VersesClient {
     @GetMapping(path = "/verses/countBy/{tag}", produces = MediaType.TEXT_PLAIN_VALUE)
     public String countByTags(@PathVariable String tag);
 
+    @Component
+    static class VersesClientFallback implements VersesClient {
+
+        private static final ImpactedVerse FALLBACK_VERSE = new ImpactedVerse("I know they're in here somewhere...", "Whoops!", "Verses are being located. Stand by!", "", -1L, asList(""));
+        private static final Random rnd = new Random();
+        
+        @Override
+        public List<ImpactedVerse> global(@RequestParam Integer p, @RequestParam String tag, @RequestParam String q) {
+            return asList(FALLBACK_VERSE);
+        }
+
+        @Override
+        public Optional<ImpactedVerse> findById(Long vid) {
+            return Optional.empty();
+        }
+
+        @Override
+        public Optional<ImpactedVerse> findByIdAndImpactedId(Long vid, Long impactedId) {
+            return Optional.empty();
+        }
+
+        @Override
+        public List<ImpactedVerse> findByImpactedId(Long impactedId, Integer p, String tag, String q) {
+            return asList(FALLBACK_VERSE);
+        }
+
+        @Override
+        public ImpactedVerse save(ImpactedVerse verse) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public void deleteVerseId(Long vid) {
+            throw new UnsupportedOperationException("Not supported yet.");
+        }
+
+        @Override
+        public ImpactedVerse getRandomVerse() {
+            return FALLBACK_VERSE;
+        }
+
+        @Override
+        public String countByTags(String tag) {
+            return "" + rnd.nextInt(10)+1;
+        }
+    }
 }

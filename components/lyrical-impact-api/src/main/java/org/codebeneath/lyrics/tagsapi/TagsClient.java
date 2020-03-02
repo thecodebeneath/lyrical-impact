@@ -1,6 +1,6 @@
 package org.codebeneath.lyrics.tagsapi;
 
-import java.util.ArrayList;
+import static java.util.Arrays.asList;
 import java.util.List;
 import org.codebeneath.lyrics.tagsapi.TagsClient.TagsClientFallback;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -22,10 +22,7 @@ public interface TagsClient {
     static class TagsClientFallback implements TagsClient {
         @Override
         public List<VerseTag> getVerseTags() {
-            List<VerseTag> fallbackTags = new ArrayList<>();
-            fallbackTags.add(new VerseTag("fallback1"));
-            fallbackTags.add(new VerseTag("fallback2"));
-            return fallbackTags;
+            return asList(new VerseTag("north"), new VerseTag("south"), new VerseTag("east"), new VerseTag("west"));
         }
     }
 }

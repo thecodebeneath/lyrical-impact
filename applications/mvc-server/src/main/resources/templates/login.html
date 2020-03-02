@@ -43,40 +43,28 @@
                                     </div>
                                     
                                     <hr class="w3-clear"/>
-                                    <h3>OAuth2</h3>
+                                    <h3>OpenID Connect Login</h3>
                                     <div>
-                                        With Okta <a href="/oauth2/authorization/okta">click here</a> <br/>
-                                        <em>Domain: localhost:8080</em>
+                                        <h4>Existing Google users: <a href="/oauth2/authorization/google">click here</a> </h4>
+                                        <ul><li><em>Domain: lyricalimpact.net must be in hosts file as alias for 127.0.0.1</em></li></ul>
                                     </div>
                                     <br/>
                                     <div>
-                                        With Google: <a href="/oauth2/authorization/google">click here</a> <br/>
-                                        <em>Domain: example.com must be in hosts file as alias for 127.0.0.1</em>
+                                        <h4>Existing Okta users: <a href="/oauth2/authorization/okta">click here</a> </h4>
+                                        <ul><li><em>Domain: lyricalimpact.net</em></li></ul>
+                                    </div>
+                                    <br/>
+                                    <div>
+                                        <h4>Local Keycloak users:<a href="/oauth2/authorization/keycloak">click here</a> </h4>
+                                        <ul><li><em>Domain: localhost:8080</em></li></ul>
+                                    </div>
+                                    <br/>
+                                    <div>
+                                        <h4>Local Spring Boot users: <a href="/oauth2/authorization/lyrical">click here</a> </h4>
+                                        <ul><li><em>Domain: localhost:8080; only OAuth2, not OIDC</em></li></ul>
                                     </div>
                                     <br/>
                                     
-                                    <hr class="w3-clear"/>
-                                    <form th:action="@{/login}" method="post">                                            
-                                        <h5>Username:</h5> 
-                                        <input type="text"
-                                                id="username"
-                                                name="username"
-                                                autofocus="autofocus"
-                                                placeholder="username"
-                                                size="25"/>
-
-                                        <br />
-                                        <br />
-                                        <h5>Password:</h5> 
-                                        <input type="password"
-                                                id="password"
-                                                name="password"
-                                                placeholder="password"
-                                                size="25"/>
-
-                                        <hr class="w3-clear"/>
-                                        <button type="submit" class="w3-button w3-theme" name="login-submit" th:text="'Log In'" tabindex="3">Login</button>
-                                    </form>                                        
                                 </div>
                             </div>
                         </div>

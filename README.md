@@ -1,6 +1,7 @@
+[![Build Status](https://travis-ci.org/thecodebeneath/lyrical-impact.svg?branch=master)](https://travis-ci.org/thecodebeneath/lyrical-impact)
+
 # lyrical-impact
 A webapp that allows people to remember the lyrical verses that have impacted them in some way.
-[![Build Status](https://travis-ci.org/thecodebeneath/lyrical-impact.svg?branch=master)](https://travis-ci.org/thecodebeneath/lyrical-impact)
 
 ![Screenshot][1]
 

@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-boot-jib
+  template:
+    metadata:
+      labels:
+        app: spring-boot-jib
+    spec:
+      containers:
+        - name: spring-boot-jib-pod
+          image: lyrical-impact-tags:0.9-SNAPSHOT
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 8181
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-boot-jib-service
+spec:
+  type: NodePort
+  ports:
+    - protocol: TCP
+      port: 8181
+      nodePort: 32321
+  selector:
+    app: spring-boot-jib

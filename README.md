@@ -7,30 +7,11 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 
 [1]: /images/screenshot.png
 
-## Docker
+## Docker-compose
 
-### Docker-compose
-
-Service orchestration is using docker-compose, using local Dockerfiles from the dev build:
-
-```
-cd docker
-docker-compose build
-docker-compose up -d
-```
+Service orchestration is using docker-compose in one of several ways (in order of preference):
 
 ### Google jib (maven plugin)
-
-Starting with Spring Boot 2.3.0M2, maven can create the docker images for Boot apps.
-
-```
-mvn clean install
-mvn spring-boot:build-image -Dmaven.test.skip=true
-cd docker
-docker-compose -f docker-compose-spring-boot.yml up -d
-```
-
-### Spring Boot Java Buildpack (maven plugin)
 
 Google container tools, maven can create the docker images for Boot apps.
 
@@ -38,5 +19,27 @@ Google container tools, maven can create the docker images for Boot apps.
 mvn clean install
 mvn jib:dockerBuild
 cd docker
-docker-compose -f docker-compose-spring-boot.yml up -d
+docker-compose up -d
+docker-compose up -d --scale tags=3
+```
+
+### Spring Boot Java Buildpack (maven plugin)
+
+Starting with Spring Boot 2.3.0M2, maven can create the docker images for Boot apps.
+
+```
+mvn clean install
+mvn spring-boot:build-image -Dmaven.test.skip=true
+cd docker
+docker-compose up -d
+docker-compose up -d --scale tags=3
+```
+
+### Local build and Dockerfiles
+
+```
+cd docker
+docker-compose -f docker-compose-dev.yml build
+docker-compose -f docker-compose-dev.yml up -d
+docker-compose -f docker-compose-dev.yml up -d --scale tags=3
 ```

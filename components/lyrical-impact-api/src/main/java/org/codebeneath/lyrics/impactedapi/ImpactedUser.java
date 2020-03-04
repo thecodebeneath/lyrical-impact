@@ -54,7 +54,7 @@ public class ImpactedUser implements OidcUser, Serializable {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
+        Collection<GrantedAuthority> authorities = new ArrayList<>(1);
         for (String role : roles.split(",")) {
             authorities.add(new SimpleGrantedAuthority(role));
         }

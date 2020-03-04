@@ -1,6 +1,7 @@
 package org.codebeneath.lyrics.versesapi;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -27,7 +28,7 @@ public class ImpactedVerse {
     @Size(min = 0, max = 500)
     private String reaction;
     private Long impactedId;
-    private List<String> tags = new ArrayList<>();
+    private List<String> tags = Collections.emptyList();
 
     protected ImpactedVerse() {
     }
@@ -64,6 +65,13 @@ public class ImpactedVerse {
         this.reaction = replaceLinefeed(reaction);
     }
 
+    public void addTag(String label) {
+      if (tags.isEmpty()) {
+          tags = new ArrayList<>(1);
+      }    
+      tags.add(text);
+    }
+    
     // intent is to replace \r\n with just \n, such as when text comes from a <textarea> form element
     private String replaceLinefeed(String txt) {
         return txt.replaceAll("[\r]", "");

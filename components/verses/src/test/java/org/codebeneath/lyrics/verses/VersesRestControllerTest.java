@@ -20,7 +20,7 @@ public class VersesRestControllerTest {
     private VersesRestController controller = new VersesRestController(vrepo);
 
     List<Verse> noVerses = Collections.emptyList();
-    List<Verse> matchedVerses = new ArrayList<>();
+    List<Verse> matchedVerses = new ArrayList<>(1);
     List<Verse> randomVerses = new ArrayList<>();
     Verse randomVerse;
 

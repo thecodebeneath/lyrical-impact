@@ -1,12 +1,9 @@
 package org.codebeneath.lyrics.home;
 
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
-import org.codebeneath.lyrics.tagsapi.VerseTag;
-import org.codebeneath.lyrics.tagsapi.TagsClient;
-import org.codebeneath.lyrics.versesapi.ImpactedVerse;
-import org.codebeneath.lyrics.versesapi.VersesClient;
+import org.codebeneath.lyrics.tagsapi.VerseTagsService;
+import org.codebeneath.lyrics.versesapi.VersesService;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class GlobalController {
 
-    private final VersesClient versesClient;
-    private final TagsClient tagsClient;
+    private final VersesService versesService;
+    private final VerseTagsService tagsService;
 
-    public GlobalController(VersesClient versesClient, TagsClient tagsClient) {
-        this.versesClient = versesClient;
-        this.tagsClient = tagsClient;
+    public GlobalController(VersesService versesService, VerseTagsService tagsService) {
+        this.versesService = versesService;
+        this.tagsService = tagsService;
     }
 
     @GetMapping("/global")
@@ -37,10 +34,8 @@ public class GlobalController {
         
         setImpactedInModel(impactedUser, model);
 
-        List<ImpactedVerse> verses = versesClient.global(page, tag, query);
-        List<VerseTag> tags = tagsClient.getVerseTags();
-        model.addAttribute("verses", verses);
-        model.addAttribute("allTags", tags);
+        model.addAttribute("verses", versesService.global(page, tag, query));
+        model.addAttribute("allTags", tagsService.getVerseTags());
         model.addAttribute("newLineChar", '\n');
 
         return (page == 0) ? "impacted/global" : "impacted/globalVersesScroll";

@@ -7,6 +7,12 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 
 [1]: /images/screenshot.png
 
+## Architecture
+
+Modeled after the design guidance from:
+- https://12factor.net/
+- https://www.appcontinuum.io/
+
 ## Docker-compose
 
 Service orchestration is using docker-compose in one of several ways (in order of preference):

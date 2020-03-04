@@ -2,6 +2,8 @@ package org.codebeneath.lyrics.versesapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,9 +17,14 @@ import lombok.ToString;
 public class ImpactedVerse {
 
     private Long id;
+    @NotNull
+    @Size(min = 1, max = 1000)
     private String text;
+    @Size(min = 0, max = 100)
     private String title;
+    @Size(min = 0, max = 100)
     private String author;
+    @Size(min = 0, max = 500)
     private String reaction;
     private Long impactedId;
     private List<String> tags = new ArrayList<>();

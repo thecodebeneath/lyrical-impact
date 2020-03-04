@@ -1,5 +1,6 @@
 package org.codebeneath.lyrics.authn;
 
+import java.time.Instant;
 import java.util.Optional;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.codebeneath.lyrics.impactedapi.ImpactedClient;
@@ -45,35 +46,35 @@ public class CustomOidcUserService implements OAuth2UserService<OidcUserRequest,
         return impactedLocal;
     }
     
-
     // user authenticated via external OIDC service, now we need a local user to FK verses to
     private ImpactedUser lookupImpactedUser(ImpactedUser impactedOidcUser) {
         ImpactedUser impactedLocal;
         Optional<ImpactedUser> impactedLookup = impactedClient.findByUniqueId(impactedOidcUser.getUniqueId());
         if (impactedLookup.isPresent()) {
             impactedLocal = impactedLookup.get();
-            // update existing local users with oidc details
-            if (userDetailsHaveChanged(impactedLocal, impactedOidcUser)) {
-                impactedLocal.setDisplayName(impactedOidcUser.getDisplayName());
-                impactedLocal.setPicture(impactedOidcUser.getPicture());
-                impactedLocal.setLocale(impactedOidcUser.getLocale());
-                impactedLocal = impactedClient.save(mapToDto(impactedLocal));
-            }
+            impactedLocal = updateExistingImpacted(impactedLocal, impactedOidcUser);
         } else {
-            impactedLocal = impactedClient.save(mapToDto(impactedOidcUser));
+            impactedLocal = createNewImpacted(impactedOidcUser);
         }
-        // System.out.println(impactedLocal);
         impactedLocal.setAttributes(impactedOidcUser.getAttributes());        
         return impactedLocal;
     }
-    
-    private boolean userDetailsHaveChanged(ImpactedUser existing, ImpactedUser latest) {
-        // TODO: implement equals(O o) instead...
-        if (existing.getDisplayName() != null ? existing.getDisplayName().equals(latest.getDisplayName()) : latest.getDisplayName() == null) return false;
-        if (existing.getPicture() != null ? existing.getPicture().equals(latest.getPicture()) : latest.getPicture() == null) return false;
-        return existing.getLocale() != null ? !existing.getLocale().equals(latest.getLocale()) : latest.getLocale() != null;
+
+    private ImpactedUser updateExistingImpacted(ImpactedUser impactedLocal, ImpactedUser impactedOidcUser) {
+        // update existing local users with oidc details that could have changed
+        impactedLocal.setDisplayName(impactedOidcUser.getDisplayName());
+        impactedLocal.setPicture(impactedOidcUser.getPicture());
+        impactedLocal.setLocale(impactedOidcUser.getLocale());
+        impactedLocal.setLastLogin(Instant.now());
+        impactedLocal = impactedClient.save(mapToDto(impactedLocal));
+        return impactedLocal;
     }
-    
+
+    private ImpactedUser createNewImpacted(ImpactedUser impactedOidcUser) {
+        impactedOidcUser.setLastLogin(Instant.now());
+        return impactedClient.save(mapToDto(impactedOidcUser));
+    }
+        
     private ImpactedUserDto mapToDto(ImpactedUser impactedUser) {
         return modelMapper.map(impactedUser, ImpactedUserDto.class);
     }

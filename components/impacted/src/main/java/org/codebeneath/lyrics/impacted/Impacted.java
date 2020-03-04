@@ -1,6 +1,7 @@
 package org.codebeneath.lyrics.impacted;
 
 import java.io.Serializable;
+import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -32,6 +33,7 @@ public class Impacted implements Serializable {
     private String picture;
     private String locale;
     private String roles;
+    private Instant lastLogin;
     
     protected Impacted() {
     }
@@ -43,5 +45,5 @@ public class Impacted implements Serializable {
         this.uniqueId = userSource + "-" + name;
         this.roles = ROLE_USER;
     }
-
+    
 }

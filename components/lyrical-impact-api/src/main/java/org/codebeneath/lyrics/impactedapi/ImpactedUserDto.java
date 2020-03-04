@@ -1,5 +1,6 @@
 package org.codebeneath.lyrics.impactedapi;
 
+import java.time.Instant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -22,4 +23,5 @@ public class ImpactedUserDto {
     private String picture;
     private String locale;
     private String roles;
+    private Instant lastLogin;
 }

@@ -1,6 +1,7 @@
 package org.codebeneath.lyrics.impactedapi;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
@@ -34,6 +35,7 @@ public class ImpactedUser implements OidcUser, Serializable {
     private String picture;
     private String locale;
     private String roles;
+    private Instant lastLogin;
     private Map<String, Object> attributes;
     
     protected ImpactedUser() {

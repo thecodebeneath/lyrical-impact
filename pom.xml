@@ -56,8 +56,8 @@
     <properties>
         <spring-cloud.version>Hoxton.SR2</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <java.version>10</java.version>
-        <maven.compiler.release>10</maven.compiler.release>
+        <java.version>11</java.version>
+        <maven.compiler.release>11</maven.compiler.release>
     </properties>
 
     <repositories>

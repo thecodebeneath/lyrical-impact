@@ -39,6 +39,7 @@ public class ImpactedUser implements OidcUser, Serializable {
     private Map<String, Object> attributes;
     
     protected ImpactedUser() {
+        this.roles = ROLE_USER;
     }
 
     public ImpactedUser(String name, String userSource, String displayName) {

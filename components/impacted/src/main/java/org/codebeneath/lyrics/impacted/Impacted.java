@@ -36,6 +36,7 @@ public class Impacted implements Serializable {
     private Instant lastLogin;
     
     protected Impacted() {
+        this.roles = ROLE_USER;
     }
 
     public Impacted(String name, String userSource, String displayName) {

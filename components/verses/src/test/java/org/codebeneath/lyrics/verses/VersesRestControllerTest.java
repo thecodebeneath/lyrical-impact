@@ -10,10 +10,6 @@ import org.junit.Test;
 import static org.mockito.Mockito.*;
 import org.springframework.data.domain.Pageable;
 
-/**
- *
- * @author black
- */
 public class VersesRestControllerTest {
 
     private VersesRepository vrepo = mock(VersesRepository.class);

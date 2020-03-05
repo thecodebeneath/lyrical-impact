@@ -22,8 +22,7 @@ public class TagsRestController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Tag> getTags() {
-        List<Tag> tags = repo.findAll();
-        return tags;
+        return repo.findAll();
     }
 
 }

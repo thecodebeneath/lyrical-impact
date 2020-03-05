@@ -6,7 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 /**
- *  JPA repository for Tags that an impacted user has defined.
+ *  JPA repository for tags that can be applied to verses.
  */
 @Repository
 public interface TagsRepository extends CrudRepository<Tag, String> {

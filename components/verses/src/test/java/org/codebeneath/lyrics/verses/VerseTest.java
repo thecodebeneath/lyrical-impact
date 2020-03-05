@@ -53,6 +53,24 @@ public class VerseTest {
         assertThat(violation.getMessage()).isEqualTo("size must be between 1 and 1000");
         assertThat(violation.getPropertyPath().toString()).isEqualTo("text");   
     }
+
+    @Test
+    public void testMissingTitleIsFine() {
+        Verse emptyVerse = new Verse();
+        emptyVerse.setText("text");
+        emptyVerse.setTitle("");
+        Set<ConstraintViolation<Verse>> violations = validator.validate(emptyVerse);
+        assertThat(violations).isEmpty();
+    }
+
+    @Test
+    public void testMissingAuthorIsFine() {
+        Verse emptyVerse = new Verse();
+        emptyVerse.setText("text");
+        emptyVerse.setAuthor("");
+        Set<ConstraintViolation<Verse>> violations = validator.validate(emptyVerse);
+        assertThat(violations).isEmpty();
+    }
     
     @Test
     public void testVerseTextConvertedToConsistantLineFeeds() {

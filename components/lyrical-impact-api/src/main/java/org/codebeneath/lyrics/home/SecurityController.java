@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.authn;
+package org.codebeneath.lyrics.home;
 
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

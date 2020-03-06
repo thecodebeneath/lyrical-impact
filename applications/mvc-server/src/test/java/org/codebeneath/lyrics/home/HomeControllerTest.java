@@ -56,7 +56,7 @@ public class HomeControllerTest {
     @MockBean
     private AuthenticationSuccessHandler successHandler;
     
-    @Autowired
+    @MockBean
     private LoggingAccessDeniedHandler deniedHandler;
 
     @MockBean

@@ -26,8 +26,8 @@
                         <div class="w3-container">
                             <h3>Filter: My verses by tag</h3>
                             <p>
-                                <a class="w3-tag w3-small w3-theme-11" href="/my">[Show All]</a>
-                                <a class="w3-tag w3-small w3-theme" th:each="tag : ${allTags}" th:text="${tag.label}" th:href="|?tag=${tag.label}|"/>
+                                <a class="w3-tag w3-small" th:classappend="${#strings.isEmpty(tag)}? 'w3-theme-l4' : 'w3-theme'" href="/my">[Show All]</a>
+                                <a class="w3-tag w3-small" th:classappend="${tag == t.label}? 'w3-theme-l4' : 'w3-theme'" th:each="t : ${allTags}" th:text="${t.label}" th:href="|?tag=${t.label}|"/>
                             </p>
                         </div>
                     </div>

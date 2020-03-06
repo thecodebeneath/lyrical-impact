@@ -19,6 +19,7 @@
                 <div class="w3-right">
                     <div class="w3-left w3-hide-medium w3-hide-small">
                         <form class="w3-bar-item">
+                            <input type="hidden" th:if="${!#strings.isEmpty(tag)}" name="tag" th:value="${tag}"/>
                             <input type="search" size="25" id="site-search" name="q" th:placeholder="'search verse text...'"/>
                             <button type="submit" class="w3-button-header w3-theme" th:text="'Search'" tabindex="-1">Search</button>
                         </form>

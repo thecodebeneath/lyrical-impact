@@ -29,6 +29,8 @@ public interface VersesRepository extends CrudRepository<Verse, Long> {
 
     List<Verse> findByImpactedIdAndTextContainsIgnoreCase(Long id, String query, Pageable pageable);
 
+    List<Verse> findByImpactedIdAndTagsAndTextContainsIgnoreCase(Long id, String tag, String query, Pageable pageable);
+
     // ====== global =======
 
     @Override
@@ -43,6 +45,8 @@ public interface VersesRepository extends CrudRepository<Verse, Long> {
     List<Verse> findByTextContainsIgnoreCase(String query);
 
     List<Verse> findByTextContainsIgnoreCase(String query, Pageable pageable);
+
+    List<Verse> findByTagsAndTextContainsIgnoreCase(String label, String query, Pageable pageable);
 
     // ====== utility =======
         

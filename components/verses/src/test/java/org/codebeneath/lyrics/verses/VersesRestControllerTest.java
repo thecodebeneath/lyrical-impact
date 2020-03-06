@@ -58,6 +58,14 @@ public class VersesRestControllerTest {
     }
 
     @Test
+    public void testGlobalTagSearchReturnsMatchingVerses() {
+        when(vrepo.findByTagsAndTextContainsIgnoreCase(eq(TAG_TEXT), eq(QUERY_TEXT), any(Pageable.class))).thenReturn(matchedVerses);
+        List<Verse> result = controller.findGlobal(0, TAG_TEXT, QUERY_TEXT);
+        assertThat(result).hasSize(1)
+                .contains(randomVerse);
+    }
+
+    @Test
     public void testMyNoFiltersReturnsAllVerses() {
         when(vrepo.findByImpactedId(eq(MY_IMPACTED_ID), any(Pageable.class))).thenReturn(randomVerses);
         List<Verse> result = controller.findByImpactedId(MY_IMPACTED_ID, 0, null, null);
@@ -77,6 +85,14 @@ public class VersesRestControllerTest {
     public void testMySearchReturnsMatchingVerses() {
         when(vrepo.findByImpactedIdAndTextContainsIgnoreCase(eq(MY_IMPACTED_ID), eq(QUERY_TEXT), any(Pageable.class))).thenReturn(matchedVerses);
         List<Verse> result = controller.findByImpactedId(MY_IMPACTED_ID, 0, null, QUERY_TEXT);
+        assertThat(result).hasSize(1)
+                .contains(randomVerse);
+    }
+
+    @Test
+    public void testMyTagSearchReturnsMatchingVerses() {
+        when(vrepo.findByImpactedIdAndTagsAndTextContainsIgnoreCase(eq(MY_IMPACTED_ID), eq(TAG_TEXT), eq(QUERY_TEXT), any(Pageable.class))).thenReturn(matchedVerses);
+        List<Verse> result = controller.findByImpactedId(MY_IMPACTED_ID, 0, TAG_TEXT, QUERY_TEXT);
         assertThat(result).hasSize(1)
                 .contains(randomVerse);
     }

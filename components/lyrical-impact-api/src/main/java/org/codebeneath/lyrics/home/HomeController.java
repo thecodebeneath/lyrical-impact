@@ -43,6 +43,9 @@ public class HomeController {
 
         model.addAttribute("verses", versesService.findByImpactedId(impactedUser.getId(), page, tag, query));
         model.addAttribute("allTags", tagsService.getVerseTags());
+        if (tag != null) {
+            model.addAttribute("tag", tag);
+        }
         model.addAttribute("randomVerse", versesService.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
 
@@ -62,6 +65,9 @@ public class HomeController {
 
         model.addAttribute("verses", versesService.findByImpactedId(impactedUser.getId(), page, tag, query));
         model.addAttribute("allTags", tagsService.getVerseTags());
+        if (tag != null) {
+            model.addAttribute("tag", tag);
+        }
         model.addAttribute("randomVerse", versesService.getRandomVerse());
         model.addAttribute("newLineChar", '\n');
 

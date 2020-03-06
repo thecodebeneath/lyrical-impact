@@ -36,6 +36,9 @@ public class GlobalController {
 
         model.addAttribute("verses", versesService.global(page, tag, query));
         model.addAttribute("allTags", tagsService.getVerseTags());
+        if (tag != null) {
+            model.addAttribute("tag", tag);
+        }
         model.addAttribute("newLineChar", '\n');
 
         return (page == 0) ? "impacted/global" : "impacted/globalVersesScroll";

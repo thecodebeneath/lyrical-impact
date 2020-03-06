@@ -39,7 +39,9 @@ public class VersesRestController {
         
         List<Verse> verses;
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Order.desc("id")));
-        if (tag != null) {
+        if (tag != null && query != null) {
+            verses = (List<Verse>) vRepo.findByTagsAndTextContainsIgnoreCase(tag, query.trim(), pageable);
+        } else if (tag != null) {
             verses = vRepo.findByTags(tag, pageable);
         } else if (query != null) {
             verses = (List<Verse>) vRepo.findByTextContainsIgnoreCase(query.trim(), pageable);
@@ -68,7 +70,9 @@ public class VersesRestController {
         
         List<Verse> verses;
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Order.desc("id")));
-        if (tag != null) {
+        if (tag != null && query != null) {
+            verses = (List<Verse>) vRepo.findByImpactedIdAndTagsAndTextContainsIgnoreCase(impactedId, tag, query.trim(), pageable);
+        } else if (tag != null) {
             verses = vRepo.findByImpactedIdAndTags(impactedId, tag, pageable);
         } else if (query != null) {
             verses = (List<Verse>) vRepo.findByImpactedIdAndTextContainsIgnoreCase(impactedId, query.trim(), pageable);

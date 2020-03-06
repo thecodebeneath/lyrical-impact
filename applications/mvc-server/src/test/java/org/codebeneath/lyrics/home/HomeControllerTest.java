@@ -7,20 +7,16 @@ import java.util.List;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impactedapi.ImpactedClient;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
-import org.codebeneath.lyrics.tagsapi.VerseTag;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.codebeneath.lyrics.versesapi.VersesService;
 import static org.hamcrest.Matchers.*;
 import org.junit.Before;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -34,12 +30,22 @@ import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepo
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+/**
+ * Controller test (full context w/ security + view rendering)
+ */
 @RunWith(SpringRunner.class)
 @WebMvcTest(HomeController.class)
 public class HomeControllerTest {
+
+    List<ImpactedVerse> emptyImpactedVerses = Collections.emptyList();
+    List<ImpactedVerse> testUserImpactedVerses = new ArrayList<>(1);
+    ImpactedUser testUser;
+    ImpactedVerse randomVerse;
 
     @Autowired
     private MockMvc mockMvc;
@@ -61,13 +67,7 @@ public class HomeControllerTest {
 
     @MockBean
     private OAuth2UserService<OidcUserRequest,OidcUser> customOidcUserService;
-    
-    ImpactedUser testUser;
-    ImpactedVerse randomVerse;
-    List<ImpactedVerse> emptyImpactedVerses = Collections.emptyList();
-    List<ImpactedVerse> testUserImpactedVerses = new ArrayList<>(1);
-    List<VerseTag> tags = Collections.emptyList();
-    
+        
     @MockBean
     ClientRegistrationRepository clientRegistrationRepository;
 
@@ -127,6 +127,9 @@ public class HomeControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
     }
 
+//    TODO: move endpoint security from "@PreAuthorize" to "http.authorizeRequests()"...
+//    vvvvvvv
+//
 //    @WithMockUser(username = "testAdmin", roles = {"USER"})
 //    @Test
 //    public void userCannotSeeOtherUserVerses() throws Exception {

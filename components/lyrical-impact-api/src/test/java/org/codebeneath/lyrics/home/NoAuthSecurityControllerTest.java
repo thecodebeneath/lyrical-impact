@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(SecurityController.class)
-public class SecurityControllerTest {
+public class NoAuthSecurityControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

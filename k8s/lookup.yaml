@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: lookup-service
+spec:
+  ports:
+    - protocol: TCP
+      port: 8484
+  selector:
+    app: lyrical-impact
+---    
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lookup-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: lyrical-impact
+  template:
+    metadata:
+      labels:
+        app: lyrical-impact
+    spec:
+      containers:
+        - name: lyrical-impact-lookup-pod
+          image: li/lookup-server
+          imagePullPolicy: Never
+          ports:
+            - name: http
+              containerPort: 8484

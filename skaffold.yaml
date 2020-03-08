@@ -1,14 +1,26 @@
-apiVersion: skaffold/v2alpha3
+apiVersion: skaffold/v2alpha4
 kind: Config
 build:
-  local:
-    push: false
   artifacts:
-    - image: lyrical-impact-tags
+    - image: li/impacted-server
       jib:
-        project: applications/tags-server
-        type: maven
+        project: ./applications/impacted-server
+    - image: li/lookup-server
+      jib:
+        project: ./applications/lookup-server
+    - image: li/mvc-server
+      jib:
+        project: ./applications/mvc-server
+    - image: li/tags-server
+      jib:
+        project: ./applications/tags-server
+    - image: li/verses-server
+      jib:
+        project: ./applications/verses-server
+    - image: li/eureka
+      jib:
+        project: ./platform-services/eureka
 deploy:
   kubectl:
     manifests:
-      - k8s/deployment.yaml
+      - k8s/*.yaml

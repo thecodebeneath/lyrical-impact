@@ -49,3 +49,15 @@ docker-compose -f docker-compose-dev.yml build
 docker-compose -f docker-compose-dev.yml up -d
 docker-compose -f docker-compose-dev.yml up -d --scale tags=3
 ```
+
+## Skaffold + Minikube
+
+- Powershell (as admin):
+-- `minikube start --vm-driver=hyperv`
+- Git Bash:
+-- `minikube dashboard`
+- Git Bash:
+-- `eval $(minikube -p minikube docker-env)`
+-- `mvn clean install`
+-- `skaffold build`
+-- `skaffold dev`

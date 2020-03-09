@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.health;
+package org.codebeneath.lyrics.lookup.poems.poetrydb;
 
 import org.springframework.boot.actuate.health.Health;
 import org.springframework.boot.actuate.health.HealthIndicator;

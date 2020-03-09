@@ -1,4 +1,4 @@
-package org.codebeneath.lyrics.home.seed;
+package org.codebeneath.lyrics.versesapi.seed;
 
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;

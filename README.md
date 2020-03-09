@@ -52,12 +52,21 @@ docker-compose -f docker-compose-dev.yml up -d --scale tags=3
 
 ## Skaffold + Minikube
 
+### Startup
 - Powershell (as admin):
--- `minikube start --vm-driver=hyperv`
+-- `minikube config set memory 4096`
+-- `minikube config set disk-size 40000`
+-- `minikube config set vm-driver hyperv`
+-- `minikube start`
 - Git Bash:
 -- `minikube dashboard`
+
+### Deploy app
 - Git Bash:
 -- `eval $(minikube -p minikube docker-env)`
 -- `mvn clean install`
--- `skaffold build`
--- `skaffold dev`
+-- `skaffold run`
+
+### Open browser to app URL
+- Git Bash:
+-- `minikube service mvc-service`

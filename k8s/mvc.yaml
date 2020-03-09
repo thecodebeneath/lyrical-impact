@@ -2,19 +2,24 @@ apiVersion: v1
 kind: Service
 metadata:
   name: mvc-service
+  labels:
+    app: lyrical-impact
 spec:
   type: NodePort
   ports:
     - protocol: TCP
       port: 8080
-      nodePort: 32320
+      nodePort: 30080
   selector:
     app: lyrical-impact
+    tier: mvc
 ---    
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mvc-service
+  labels:
+    app: lyrical-impact
 spec:
   replicas: 1
   selector:
@@ -24,11 +29,27 @@ spec:
     metadata:
       labels:
         app: lyrical-impact
+        tier: mvc
     spec:
       containers:
         - name: lyrical-impact-mvc-pod
           image: li/mvc-server
           imagePullPolicy: Never
+          env:
+            - name: EUREKA_URI
+              value: http://eureka-service:8761/eureka
+            - name: OAUTH_GOOGLE_CLIENTID
+              value: placeholder
+            - name: OAUTH_GOOGLE_CLIENTSECRET
+              value: placeholder
+            - name: OAUTH_OKTA_CLIENTID
+              value: placeholder
+            - name: OAUTH_OKTA_CLIENTSECRET
+              value: placeholder
+            - name: OAUTH_KEYCLOAK_CLIENTID
+              value: placeholder
+            - name: OAUTH_KEYCLOAK_CLIENTSECRET
+              value: placeholder
           ports:
             - name: http
               containerPort: 8080

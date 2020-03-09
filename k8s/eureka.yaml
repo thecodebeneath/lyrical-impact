@@ -2,19 +2,24 @@ apiVersion: v1
 kind: Service
 metadata:
   name: eureka-service
+  labels:
+    app: lyrical-impact
 spec:
   type: NodePort
   ports:
     - protocol: TCP
       port: 8761
-      nodePort: 32327
+      nodePort: 30761
   selector:
     app: lyrical-impact
+    tier: eureka
 ---    
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eureka-service
+  labels:
+    app: lyrical-impact
 spec:
   replicas: 1
   selector:
@@ -24,6 +29,7 @@ spec:
     metadata:
       labels:
         app: lyrical-impact
+        tier: eureka
     spec:
       containers:
         - name: lyrical-impact-eureka-pod

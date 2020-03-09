@@ -1,7 +1,6 @@
 package org.codebeneath.lyrics.lookup.poems.poetrydb;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,5 +19,5 @@ public class PoetryDbEntry {
     
     private String author;
     
-    private List<String> lines;
+    // private List<String> lines;
 }

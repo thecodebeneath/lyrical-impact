@@ -15,20 +15,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface LookupClient {
 
     @GetMapping(path = "/lookupSongLyrics", produces = MediaType.APPLICATION_JSON_VALUE)
-    String lookupSongLyrics(@RequestParam(name = "lyrics", required = true) String lyrics);
+    LookupSuggestion lookupSongLyrics(@RequestParam(name = "lyrics", required = true) String lyrics);
 
     @GetMapping(path = "/lookupPoemLyrics", produces = MediaType.APPLICATION_JSON_VALUE)
-    String lookupPoemLyrics(@RequestParam(name = "lyrics", required = true) String lyrics);
+    LookupSuggestion lookupPoemLyrics(@RequestParam(name = "lyrics", required = true) String lyrics);
     
     @Component
     static class LookupClientFallback implements LookupClient {
+        private final LookupSuggestion notFoundSuggestion = new LookupSuggestion("No suggestion", "No suggestion");
         @Override
-        public String lookupSongLyrics(@RequestParam(name = "lyrics", required = true) String lyrics) {
-            return "{\"result\" : \"lookup fallback...\"}";
+        public LookupSuggestion lookupSongLyrics(@RequestParam(name = "lyrics", required = true) String lyrics) {
+            return notFoundSuggestion;
         }        
         @Override
-        public String lookupPoemLyrics(@RequestParam(name = "lyrics", required = true) String lyrics) {
-            return "{\"result\" : \"lookup fallback...\"}";
+        public LookupSuggestion lookupPoemLyrics(@RequestParam(name = "lyrics", required = true) String lyrics) {
+            return notFoundSuggestion;
         }
     }
 }

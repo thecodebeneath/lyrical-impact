@@ -7,6 +7,7 @@
         <!-- https://www.w3schools.com/w3css/tryit.asp?filename=tryw3css_templates_social&stacked=h -->
         <link rel="stylesheet" href="/css/w3.css"/>
         <link rel="stylesheet" href="/css/w3-theme-blue-grey.css"/>
+        <link rel="stylesheet" href="/webjars/jquery-ui/1.12.1/jquery-ui.min.css"/>
         <style>
             html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
         </style>
@@ -36,22 +37,26 @@
                                         <span class="w3-right">
                                             <span class="w3-red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">text error</span>
                                         </span>
-                                        <h5>* Verse:</h5> <textarea th:field="*{text}" th:placeholder="'Just the punchy, important bits that impacted you the most, not the whole thing. This could be part of a poem or a song...'" style="width: 100%; height: 200px" tabindex="1"/>
+                                        <h5>* Verse:</h5>
+                                        <textarea th:field="*{text}" th:placeholder="'Just the punchy, important bits that impacted you the most, not the whole thing. This could be part of a poem or a song...'" style="width: 100%; height: 200px" tabindex="1"/>
 
                                         <span class="w3-right">
                                             <span class="w3-red" th:if="${#fields.hasErrors('reaction')}" th:errors="*{reaction}">reaction error</span>
                                         </span>
-                                        <h5>Your reaction:</h5> <textarea th:field="*{reaction}" th:placeholder="'You can come back later if you want to think about it more...'" style="width: 100%; height: 95px" tabindex="2"/>
+                                        <h5>Your reaction:</h5>
+                                        <textarea th:field="*{reaction}" th:placeholder="'You can come back later if you want to think about it more...'" style="width: 100%; height: 95px" tabindex="2"/>
 
                                         <span class="w3-right">
                                             <span class="w3-red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">title error</span>
                                         </span>
-                                        <h5>Title this verse is part of:</h5> <input type="text" th:field="*{title}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="3"/>
+                                        <h5>Title this verse is part of: <button type="button" class="w3-button w3-amber w3-right" id="lookup-verse" >Try to lookup Title and Author</button> </h5>
+                                        <input type="text" th:field="*{title}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="3"/>
 
                                         <span class="w3-right">
                                             <span class="w3-red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">author error</span>
                                         </span>
-                                        <h5>Author who wrote this verse:</h5> <input type="text" th:field="*{author}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="4"/>
+                                        <h5>Author who wrote this verse:</h5>
+                                        <input type="text" th:field="*{author}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="4"/>
                                         
                                         <h5>Tag this verse so that you can find similar impacts later:</h5>
                                         <select th:field="*{tags}" data-placeholder="Tags..." class="chosen-select-width" multiple="true" tabindex="5">
@@ -75,5 +80,121 @@
         <script src="/webjars/chosen/1.8.7/chosen.jquery.min.js" type="text/javascript"></script>
         <script src="/webjars/chosen/1.8.7/docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
         <script src="/webjars/chosen/1.8.7/docsupport/init.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="/webjars/jquery-ui/1.12.1/jquery-ui.min.js" type="text/javascript"></script>
+        
+        <script>
+            $( function() {
+              var dialog, lookupTitle, lookupAuthor, searchingPlaceholder = "searching...";
+
+              function useSuggestionFromPoem() {
+                  lookupTitle = $("#poem-title").text();
+                  lookupAuthor = $("#poem-author").text();
+                  setVerseFormValues(lookupTitle, lookupAuthor);
+                  resetLookupToSearching();
+                  dialog.dialog( "close" );
+              }
+
+              function useSuggestionFromSong() {
+                  lookupTitle = $("#song-title").text();
+                  lookupAuthor = $("#song-author").text();
+                  setVerseFormValues(lookupTitle, lookupAuthor);
+                  resetLookupToSearching();
+                  dialog.dialog( "close" );
+              }
+
+              function setVerseFormValues(title, author) {
+                  $("#title").val(title);
+                  $("#author").val(author);
+              }
+              
+              function resetLookupToSearching() {
+                  $("#song-title").text(searchingPlaceholder);
+                  $("#song-author").text(searchingPlaceholder);
+                  $("#poem-title").text(searchingPlaceholder);
+                  $("#poem-author").text(searchingPlaceholder);
+              }
+              
+              dialog = $( "#dialog-form" ).dialog({
+                autoOpen: false,
+                height: 600,
+                width: 600,
+                modal: true,
+                buttons: [
+                    {
+                        text: "Use the Song suggestion",
+                        class: "w3-theme",
+                        click: useSuggestionFromSong
+                    },
+                    {
+                        text: "Use the Poem suggestion",
+                        class: "w3-theme",
+                        click: useSuggestionFromPoem
+                    },
+                    {
+                        text: "Nope",
+                        class: "w3-theme",
+                        click: function() {
+                            $( this ).dialog("close");
+                        }
+                    }
+                ],
+                open: function() {
+                    var verseText = $("#text").val();
+                    verseText = verseText.substring(0, 50);
+                    var lookupParams = {
+                        lyrics: verseText
+                    };
+                    $.ajax({
+                            url: '/lookup/song',
+                            data: lookupParams,
+                            dataType: 'json',
+                            success: function(json) {
+                                $("#song-title").text(json.title);
+                                $("#song-author").text(json.author);
+                            }
+                    });
+                    $.ajax({
+                            url: '/lookup/poem',
+                            data: lookupParams,
+                            dataType: 'json',
+                            success: function(json) {
+                                $("#poem-title").text(json.title);
+                                $("#poem-author").text(json.author);
+                            }
+                    });
+                },
+                close: function() {
+                    resetLookupToSearching();
+                }
+              });
+
+              $( "#lookup-verse" ).button().on("click", function() {
+                dialog.dialog("open");
+              });
+  
+            } );
+        </script>
+        
+        <div id="dialog-form" class="w3-container w3-display-container w3-round w3-border w3-theme-border w3-theme-d2 w3-margin-bottom w3-hide-small" title="Verse Lookup">
+            <h3 class="w3-bar">Let's make an educated guess.</h3>
+            
+            <fieldset class="w3-theme-l3">
+                <h4>Maybe your verse is from this Song?</h4>
+                <label for="song-title">Title</label>
+                <div id="song-title" class="text ui-widget-content ui-corner-all">searching...</div>
+                <label for="song-author">Author</label>
+                <div id="song-author" class="text ui-widget-content ui-corner-all">searching...</div>
+            </fieldset>
+            <br/>
+            <fieldset class="w3-theme-l3">
+                <h4>Maybe your verse is from this Poem?</h4>
+                <label for="poem-title">Title</label>
+                <div id="poem-title" class="text ui-widget-content ui-corner-all">searching...</div>
+                <label for="poem-author">Author</label>
+                <div id="poem-author" class="text ui-widget-content ui-corner-all">searching...</div>
+            </fieldset>
+        </div>
+
     </body>
 </html>

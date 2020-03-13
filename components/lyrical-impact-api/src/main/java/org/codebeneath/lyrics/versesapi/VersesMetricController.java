@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
  *
  */
 @RestController
-@RequestMapping("/verse/metrics")
+@RequestMapping("/verses/metrics")
 public class VersesMetricController {
 
     private final VersesService versesService;

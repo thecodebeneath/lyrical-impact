@@ -37,7 +37,7 @@
                         <h3>So random...</h3>
                         <p>
                             <h5>Someone in the world was impacted by this verse. If you are too, then try</h5>
-                            <button type="button" class="w3-button w3-theme"><a th:href="@{'/verse?randomVerseId=' + ${randomVerse.id}}">Add as my verse</a></button>
+                            <button type="button" class="w3-button w3-theme"><a th:href="@{'/verses?randomVerseId=' + ${randomVerse.id}}">Add as my verse</a></button>
                         </p>
                         <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(randomVerse.text), newLineChar, '&lt;br /&gt;')}"/>
                     </div>
@@ -50,7 +50,7 @@
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
                                     <h3 th:text="'How were you impacted today ' + ${impacted.displayName} + '?'"/>
-                                    <button type="button" class="w3-button w3-theme"><a href="/verse">Add impacted verse</a></button>
+                                    <button type="button" class="w3-button w3-theme"><a href="/verses">Add impacted verse</a></button>
                                 </div>
                             </div>
                         </div>

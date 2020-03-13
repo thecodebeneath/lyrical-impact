@@ -49,22 +49,27 @@ public class VersesService {
     }
     
     @CacheEvict(value = "tagCounts", allEntries = true)
-    public ImpactedVerse save(ImpactedVerse verse, boolean isFromGlobalVerse, boolean isNewVerse) {
-        ImpactedVerse saved = versesClient.save(verse);
+    public ImpactedVerse create(ImpactedVerse verse, boolean isFromGlobalVerse) {
+        ImpactedVerse saved = versesClient.create(verse);
         
+        createdCounter.increment();
         if (isFromGlobalVerse) {
             createdFromGlobalCounter.increment();
-            createdCounter.increment();
-        } else if (isNewVerse) {
-            createdCounter.increment();
-        } else {
-            updatedCounter.increment();
         }
                 
         return saved;
     }
 
-    public void deleteVerseId(@PathVariable Long vid) {
+    @CacheEvict(value = "tagCounts", allEntries = true)
+    public ImpactedVerse update(ImpactedVerse verse, Long vid) {
+        ImpactedVerse saved = versesClient.update(verse, vid);
+        
+        updatedCounter.increment();
+                
+        return saved;
+    }
+
+    public void deleteVerseId(Long vid) {
         versesClient.deleteVerseId(vid);
         deletedCounter.increment();
     }   

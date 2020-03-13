@@ -24,7 +24,7 @@
                         <p>My reaction is:</p>
                         <p th:utext="*{verse.reaction != ''}? *{#strings.replace( #strings.escapeXml(verse.reaction), newLineChar, '&lt;br /&gt;')} : 'I haven\'t put my reaction into words yet.'"/>
                         <form>
-                            <button th:formaction="@{'/verse/' + ${verse.id}}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Edit</button>
+                            <button th:formaction="@{'/verses/' + ${verse.id}}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Edit</button>
                         </form>
                     </div>  
     </body>

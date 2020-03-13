@@ -1,16 +1,10 @@
 package org.codebeneath.lyrics.versesapi;
 
 import io.github.benas.randombeans.api.EnhancedRandom;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
-import org.codebeneath.lyrics.impactedapi.ImpactedClient;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
-import org.codebeneath.lyrics.versesapi.ImpactedVerse;
-import org.codebeneath.lyrics.versesapi.VersesService;
 import static org.hamcrest.Matchers.*;
 import org.junit.Before;
 import org.junit.Test;
@@ -41,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @RunWith(SpringRunner.class)
 @WebMvcTest(VersesController.class)
-public class VerseControllerTest {
+public class VersesControllerTest {
 
     ImpactedUser testUser;
     ImpactedVerse randomVerse;
@@ -86,7 +80,7 @@ public class VerseControllerTest {
 
     @Test
     public void guestIsRedirectedToLogin() throws Exception {
-        this.mockMvc.perform(get("/verse"))
+        this.mockMvc.perform(get("/verses"))
                 // .andDo(print())
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrlPattern("**/login"));
@@ -94,7 +88,7 @@ public class VerseControllerTest {
     
     @Test
     public void userSeesEmptyNewVerseForm() throws Exception {
-        this.mockMvc.perform(get("/verse")
+        this.mockMvc.perform(get("/verses")
                 .with(oidcLogin().oidcUser(testUser))
         )
                 // .andDo(print())
@@ -110,7 +104,7 @@ public class VerseControllerTest {
     public void userSeesFormFilledWithAnonymizedRandomVerse() throws Exception {
         when(versesService.findById(eq(5L))).thenReturn(Optional.of(randomVerse));
 
-        this.mockMvc.perform(get("/verse")
+        this.mockMvc.perform(get("/verses")
                 .with(oidcLogin().oidcUser(testUser))
                 .param("randomVerseId", "5")
         )
@@ -127,7 +121,7 @@ public class VerseControllerTest {
     public void userSeesFormFilledWithAnonymizedGlobalVerse() throws Exception {
         when(versesService.findById(eq(5L))).thenReturn(Optional.of(randomVerse));
 
-        this.mockMvc.perform(get("/verse/global/5")
+        this.mockMvc.perform(get("/verses/global/5")
                 .with(oidcLogin().oidcUser(testUser))
         )
                 // .andDo(print())
@@ -143,7 +137,7 @@ public class VerseControllerTest {
     public void userSeesFormFilledWithExistingVerse() throws Exception {
         when(versesService.findByIdAndImpactedId(4L, testUser.getId())).thenReturn(Optional.of(myImpactedVerse));
 
-        this.mockMvc.perform(get("/verse/4")
+        this.mockMvc.perform(get("/verses/4")
                 .with(oidcLogin().oidcUser(testUser))
         )
                 // .andDo(print())
@@ -163,7 +157,7 @@ public class VerseControllerTest {
     public void userRedirectedForVerseNotOwnedOrFound() throws Exception {
         when(versesService.findByIdAndImpactedId(999L, testUser.getId())).thenReturn(Optional.empty());
 
-        this.mockMvc.perform(get("/verse/999")
+        this.mockMvc.perform(get("/verses/999")
                 .with(oidcLogin().oidcUser(testUser))
         )
                 // .andDo(print())
@@ -175,7 +169,7 @@ public class VerseControllerTest {
 
     @Test
     public void userSeesErrorOnSubmitWhenTextEmpty() throws Exception {
-        this.mockMvc.perform(post("/verse")
+        this.mockMvc.perform(post("/verses")
                 .with(oidcLogin().oidcUser(testUser))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
         )
@@ -189,7 +183,7 @@ public class VerseControllerTest {
     
     @Test
     public void userSeesErrorOnSubmitWhenTextTooShort() throws Exception {
-        this.mockMvc.perform(post("/verse")
+        this.mockMvc.perform(post("/verses")
                 .with(oidcLogin().oidcUser(testUser))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("text", "")
@@ -204,7 +198,7 @@ public class VerseControllerTest {
 
     @Test
     public void userSeesMyPageWhenSaveIsSuccessful() throws Exception {
-        this.mockMvc.perform(post("/verse")
+        this.mockMvc.perform(post("/verses")
                 .with(oidcLogin().oidcUser(testUser))
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("text", myImpactedVerse.getText())

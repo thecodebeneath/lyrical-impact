@@ -9,14 +9,18 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Slf4j
 @Controller
+@RequestMapping("/verses")
 public class VersesController {
         
     private final VersesService versesService;
@@ -27,7 +31,7 @@ public class VersesController {
         this.tagsService = tagsService;
     }
 
-    @GetMapping("/verse")
+    @GetMapping
     public String getVerseForm(Model model, @AuthenticationPrincipal ImpactedUser impactedUser, @RequestParam Optional<Long> randomVerseId) {
         model.addAttribute("impacted", impactedUser);
 
@@ -41,7 +45,7 @@ public class VersesController {
         return "impacted/verseForm";
     }
 
-    @GetMapping("/verse/{vid}")
+    @GetMapping("/{vid}")
     public String getVerseFormForVerseId(Model model, @AuthenticationPrincipal ImpactedUser impactedUser, @PathVariable Long vid) {
         model.addAttribute("impacted", impactedUser);
 
@@ -55,7 +59,7 @@ public class VersesController {
         }
     }
 
-    @GetMapping("/verse/global/{gvid}")
+    @GetMapping("/global/{gvid}")
     public String getVerseFormFromGlobal(Model model, @AuthenticationPrincipal ImpactedUser impactedUser, @PathVariable Long gvid) {
         model.addAttribute("impacted", impactedUser);
 
@@ -70,8 +74,8 @@ public class VersesController {
         }
     }
 
-    @PostMapping("/verse")
-    public String addVerse(@Valid @ModelAttribute("verse") ImpactedVerse verse, BindingResult bindingResult, Model model, @RequestParam("gvid") Optional<Long> gvid, @AuthenticationPrincipal ImpactedUser impactedUser) {
+    @PostMapping
+    public String createVerse(@Valid @ModelAttribute("verse") ImpactedVerse verse, BindingResult bindingResult, Model model, @RequestParam("gvid") Optional<Long> gvid, @AuthenticationPrincipal ImpactedUser impactedUser) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("impacted", impactedUser);
             model.addAttribute("allTags", tagsService.getVerseTags());
@@ -79,17 +83,29 @@ public class VersesController {
         }
 
         boolean isFromGlobalVerse = gvid.isPresent();
-        boolean isNewVerse = verse.getId() == null;
         verse.setImpactedId(impactedUser.getId());
-        versesService.save(verse, isFromGlobalVerse, isNewVerse);
+        versesService.create(verse, isFromGlobalVerse);
         return "redirect:/my";
     }
 
-    @PostMapping("/verse/delete")
-    public String deleteVerse(ImpactedVerse verse, @AuthenticationPrincipal ImpactedUser impactedUser) {
-        Optional<ImpactedVerse> verseToDelete = versesService.findByIdAndImpactedId(verse.getId(), impactedUser.getId());
+    @PutMapping("/{vid}")
+    public String updateVerse(@Valid @ModelAttribute("verse") ImpactedVerse verse, BindingResult bindingResult, Model model, @PathVariable Long vid, @AuthenticationPrincipal ImpactedUser impactedUser) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("impacted", impactedUser);
+            model.addAttribute("allTags", tagsService.getVerseTags());
+            return "impacted/verseForm";
+        }
+
+        verse.setImpactedId(impactedUser.getId());
+        versesService.update(verse, vid);
+        return "redirect:/my";
+    }
+
+    @DeleteMapping("/{vid}/delete")
+    public String deleteVerse(ImpactedVerse verse, @AuthenticationPrincipal ImpactedUser impactedUser, @PathVariable Long vid) {
+        Optional<ImpactedVerse> verseToDelete = versesService.findByIdAndImpactedId(vid, impactedUser.getId());
         if (verseToDelete.isPresent()) {
-            versesService.deleteVerseId(verse.getId());
+            versesService.deleteVerseId(vid);
         }
         return "redirect:/my";
     }

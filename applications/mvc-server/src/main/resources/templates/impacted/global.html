@@ -88,7 +88,7 @@
             var tagDonut = new Chartist.Pie('.ct-chart', data, options);
 
             $(document).ready(function() {
-                $.ajax("/verse/metrics/tags", {
+                $.ajax("/verses/metrics/tags", {
                     success:function(response) {
                         var data = response;
                         tagDonut.update(data);

@@ -65,10 +65,10 @@ public class VersesFixtures {
                     randomTags.add(allTags.get(tagId).getLabel());
                 });
             }
-            versesService.save(
+            versesService.create(
                     new ImpactedVerse(createRandomVerse(),
                             LOREM.getWords(1, 3), LOREM.getWords(1, 3),
-                            LOREM.getWords(1, 5), user.getId(), randomTags), false, true);
+                            LOREM.getWords(1, 5), user.getId(), randomTags), false);
         });
     }
 
@@ -87,16 +87,16 @@ public class VersesFixtures {
     private void createImpactedVersesForJeff() {
         ImpactedUser jeff = impactedClient.findByRolesContains(ImpactedUser.ROLE_ADMIN).get(0);
 
-        versesService.save(
+        versesService.create(
                 new ImpactedVerse("<b>ve-oops</b><script>alert('versetext');</script>",
                         "<b>so-oops</b><script>alert('versetitle');</script>", "<b>ar-oops</b><script>alert('verseauthor');</script>",
-                        "<b>re-oops</b><script>alert('versereaction');</script>", jeff.getId(), List.of("confusion", "horror")), false, true);
-        versesService.save(
+                        "<b>re-oops</b><script>alert('versereaction');</script>", jeff.getId(), List.of("confusion", "horror")), false);
+        versesService.create(
                 new ImpactedVerse("由 匿名 (未验证) 提交于\nThe façade pattern's a software-design \"£\" pattern.\n提交于",
                         "i18n 由", "i18n 由",
                         "由 匿名 (未验证) 提交于\n"
-                        + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", jeff.getId(), List.of("joy", "sexy", "funny")), false, true);
-        versesService.save(
+                        + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", jeff.getId(), List.of("confusion", "funny")), false);
+        versesService.create(
                 new ImpactedVerse("There is no pain, you are receding\n"
                         + "A distant ship smoke on the horizon\n"
                         + "You are only coming through in waves\n"
@@ -104,8 +104,13 @@ public class VersesFixtures {
                         "Comfortably Numb", "Pink Floyd",
                         "Makes\n"
                         + "me\n"
-                        + "happy!", jeff.getId(), List.of("calmness", "joy")), false, true);
-
+                        + "happy!", jeff.getId(), List.of("calmness", "sadness")), false);
+        versesService.create(
+                new ImpactedVerse("Wide awake in bed, words in my brain,\n"
+                        + "\"Secretly you love this, do you even wanna go free?\"\n"
+                        + "Let me in the ring, I'll show you what that big word means",
+                        "Glory and Gore", "Lorde", "", jeff.getId(), List.of("triumph", "sexy")), false);
+        
         // more verses to test scrolling
         // createImpactedVersesFor(jeff, (List<Tag>) tagRepo.findAll(), 100);
     }

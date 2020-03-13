@@ -33,7 +33,7 @@
                                     <h6 class="w3-opacity">The verse, title, author and tags will be <b>public</b>.</h6>
                                     <h6 class="w3-opacity">Your identity and reaction text are always <b>private</b>.</h6>
                                     
-                                    <form method="POST" th:action="@{/verse}" th:object="${verse}">
+                                    <form th:method="*{id > 0} ? put : post" th:object="${verse}">
                                         <span class="w3-right">
                                             <span class="w3-red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">text error</span>
                                         </span>
@@ -66,8 +66,11 @@
                                         <hr class="w3-clear"/>
                                         <input type="hidden" th:if="*{id > 0}" th:field="*{id}"/>
                                         <input type="hidden" th:if="${gvid > 0}" th:name="gvid" th:value="${gvid}"/>
-                                        <button type="submit" class="w3-button w3-theme" name="save" th:text="*{id > 0}? 'Update impacted verse' : 'Save impacted verse'" tabindex="6">Save</button>
-                                        <button type="delete" th:if="*{id > 0}" th:formaction="@{/verse/delete}" class="w3-button w3-red w3-right" name="delete" th:text="'Delete impacted verse'" tabindex="7">Delete</button>
+                                        <button type="submit" class="w3-button w3-theme" name="save"   th:unless="*{id > 0}" th:text="'Save impacted verse'" tabindex="6">Save</button>
+                                        <button type="submit" class="w3-button w3-theme" name="update" th:if="*{id > 0}"  th:text="'Update impacted verse'" tabindex="6">Update</button>
+                                    </form>
+                                    <form th:method="delete" th:action="@{'/verses/' + ${verse.id} + '/delete'}" th:object="${verse}">
+                                        <button type="delete" th:if="*{id > 0}" class="w3-button w3-red w3-right" style="margin-top: -38px;" name="delete" th:text="'Delete impacted verse'" tabindex="7">Delete</button>
                                     </form>
                                 </div>
                             </div>
@@ -141,7 +144,7 @@
                 ],
                 open: function() {
                     var verseText = $("#text").val();
-                    verseText = verseText.substring(0, 50);
+                    verseText = verseText.substring(0, 250);
                     var lookupParams = {
                         lyrics: verseText
                     };

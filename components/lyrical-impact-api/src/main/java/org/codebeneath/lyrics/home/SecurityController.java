@@ -1,10 +1,12 @@
 package org.codebeneath.lyrics.home;
 
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  *
@@ -18,7 +20,7 @@ public class SecurityController {
         return "redirect:/my";
     }
 
-    @GetMapping("/about")
+    @GetMapping(value = "/about", produces = MediaType.TEXT_HTML_VALUE)
     public String aboutPage(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         if (impactedUser != null) {
             model.addAttribute("impacted", impactedUser);
@@ -26,7 +28,7 @@ public class SecurityController {
         return "about";
     }
 
-    @GetMapping("/privacy")
+    @GetMapping(value = "/privacy", produces = MediaType.TEXT_HTML_VALUE)
     public String privacyPage(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         if (impactedUser != null) {
             model.addAttribute("impacted", impactedUser);
@@ -34,26 +36,37 @@ public class SecurityController {
         return "about";
     }
 
-    @GetMapping("/user")
+    @GetMapping(value = "/user", produces = MediaType.TEXT_HTML_VALUE)
     public String userIndex(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         model.addAttribute("impacted", impactedUser);
         return "user/profile";
     }
     
-    @GetMapping("/admin")
+    @GetMapping(value = "/admin", produces = MediaType.TEXT_HTML_VALUE)
     public String adminIndex(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         model.addAttribute("impacted", impactedUser);
         return "admin/profile";
     }
 
-    @GetMapping("/login")
+    @GetMapping(value = "/login", produces = MediaType.TEXT_HTML_VALUE)
     public String login() {
         return "login";
     }
 
-    @GetMapping("/access-denied")
+    @GetMapping(value = "/access-denied", produces = MediaType.TEXT_HTML_VALUE)
     public String accessDenied() {
         return "/error/access-denied";
     }
     
+    @GetMapping(value={"/robots.txt", "/robot.txt"}, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String getRobotsTxt() {
+    return "User-agent: * \n" +
+           "Disallow: /my \n" +
+           "Disallow: /admin \n" +
+           "Disallow: /user \n" +
+           "Disallow: /logout \n" +
+           "Disallow: /error \n" +
+           "Disallow: /access-denied \n";
+    }
 }

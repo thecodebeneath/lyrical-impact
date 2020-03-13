@@ -46,6 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/login",
                             "/global",
                             "/verses/metrics/**",
+                            "/robot.txt",
+                            "/robots.txt",
                             "/js/**",
                             "/css/**",
                             "/img/**",

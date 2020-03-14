@@ -1,5 +1,5 @@
-FROM adoptopenjdk/openjdk10:jdk-10.0.2.13-alpine
-EXPOSE 8080
+FROM adoptopenjdk/openjdk13:jdk-13.0.2_8-alpine-slim
+EXPOSE 8443
 ARG JAR_FILE=target/default-app.jar
 WORKDIR /app
 ADD ${JAR_FILE} app.jar

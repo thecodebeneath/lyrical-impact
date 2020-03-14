@@ -12,20 +12,21 @@ services:
     env_file:
       - secrets-app.env
     ports:
-      - "8080:8080"
+      - "8443:8443"
     depends_on:
       - tags
       - verses
       - impacted
-      - eureka
+      - lookup
       - db
+      - eureka
   tags:
     build:
       context: ../applications/tags-server
       args:
         - JAR_FILE=target/lyrical-impact-tags-0.9-SNAPSHOT.jar
-    mem_limit: 512m
-    mem_reservation: 512m
+    mem_limit: 256m
+    mem_reservation: 256m
     environment:
       - EUREKA_URI=http://eureka:8761/eureka
     ports:
@@ -85,7 +86,7 @@ services:
     restart: always
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
-      - MYSQL_DATABASE: lyricalimpact
+      - MYSQL_DATABASE=lyricalimpact
     env_file:
       - secrets-db.env
     mem_limit: 256m
@@ -95,7 +96,7 @@ services:
   keycloak:
     image: jboss/keycloak:8.0.2
     environment:
-      - DB_VENDOR: h2
+      - DB_VENDOR=h2
     env_file:
       - secrets-keycloak.env
     mem_limit: 512m

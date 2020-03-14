@@ -22,7 +22,7 @@
             <version>${project.version}</version>
         </dependency>
         <!-- https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html#production-ready-endpoints-enabling-endpoints -->
-        <!-- curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "INFO"}' http://localhost:8080/actuator/loggers/ROOT -->
+        <!-- curl -i -X POST -H 'Content-Type: application/json' -d '{"configuredLevel": "INFO"}' https://localhost:8443/actuator/loggers/ROOT -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>

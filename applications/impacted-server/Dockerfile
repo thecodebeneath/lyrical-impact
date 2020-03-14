@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk10:jdk-10.0.2.13-alpine
+FROM adoptopenjdk/openjdk13:jdk-13.0.2_8-alpine-slim
 EXPOSE 8383
 ARG JAR_FILE=target/default-app.jar
 WORKDIR /app

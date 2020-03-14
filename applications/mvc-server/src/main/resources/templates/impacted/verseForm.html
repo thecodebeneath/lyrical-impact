@@ -66,11 +66,12 @@
                                         <hr class="w3-clear"/>
                                         <input type="hidden" th:if="*{id > 0}" th:field="*{id}"/>
                                         <input type="hidden" th:if="${gvid > 0}" th:name="gvid" th:value="${gvid}"/>
-                                        <button type="submit" class="w3-button w3-theme" name="save"   th:unless="*{id > 0}" th:text="'Save impacted verse'" tabindex="6">Save</button>
+                                        <button type="submit" class="w3-button w3-theme" name="save"   th:if="${gvid > 0}" th:text="'Save impacted verse'" th:formaction="@{/verses}" tabindex="6">Save</button>
+                                        <button type="submit" class="w3-button w3-theme" name="save"   th:if="${verse.id == null && gvid == null}" th:text="'Save impacted verse'" tabindex="6">Save</button>
                                         <button type="submit" class="w3-button w3-theme" name="update" th:if="*{id > 0}"  th:text="'Update impacted verse'" tabindex="6">Update</button>
                                     </form>
-                                    <form th:method="delete" th:action="@{'/verses/' + ${verse.id} + '/delete'}" th:object="${verse}">
-                                        <button type="delete" th:if="*{id > 0}" class="w3-button w3-red w3-right" style="margin-top: -38px;" name="delete" th:text="'Delete impacted verse'" tabindex="7">Delete</button>
+                                    <form th:method="delete" th:if="${verse.id > 0}" th:action="@{'/verses/' + ${verse.id} + '/delete'}">
+                                        <button type="delete" class="w3-button w3-red w3-right" style="margin-top: -38px;" name="delete" th:text="'Delete impacted verse'" tabindex="7">Delete</button>
                                     </form>
                                 </div>
                             </div>

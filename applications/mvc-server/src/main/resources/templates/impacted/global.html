@@ -117,7 +117,7 @@
                     scrollParams.q = q;                    
                 }
                 win.scroll(function() {
-                    // End of the document reached?
+                    // TODO: does not work for some browser zoom levels...
                     if ($(document).height() - win.height() === win.scrollTop()) {
                         $.ajax({
                             url: 'global',

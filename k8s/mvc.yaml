@@ -9,7 +9,8 @@ spec:
   ports:
     - protocol: TCP
       port: 8443
-      nodePort: 30080
+      nodePort: 30443
+      name: https
   selector:
     app: lyrical-impact
     tier: mvc

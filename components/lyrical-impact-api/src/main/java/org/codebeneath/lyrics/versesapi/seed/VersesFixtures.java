@@ -8,10 +8,12 @@ import java.util.Random;
 import java.util.stream.IntStream;
 import org.codebeneath.lyrics.impactedapi.ImpactedClient;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
+import org.codebeneath.lyrics.impactedapi.ImpactedUserDto;
 import org.codebeneath.lyrics.tagsapi.VerseTag;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.codebeneath.lyrics.versesapi.VersesService;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,11 +24,13 @@ import org.springframework.stereotype.Component;
 public class VersesFixtures {
 
     private static final int USERS_TO_SEED = 5;
+    private static final int FIRST_SEED_USER_ID = 5;
     private static final int MAX_VERSES_PER_USER = 15;
     private static final int MAX_TAGS_PER_VERSE = 3;
 
     private static final Random RND = new Random();
     private static final Lorem LOREM = LoremIpsum.getInstance();
+    private final ModelMapper modelMapper = new ModelMapper();
 
     private final ImpactedClient impactedClient;
     private final VersesService versesService;
@@ -38,18 +42,19 @@ public class VersesFixtures {
         this.tagsService = tagsService;
     }
 
-    public void loadMy() {
-        createImpactedVersesForJeff();
+    public void loadMy(ImpactedUser impactedUser) {
+        createImpactedVersesForLoggedInUser(impactedUser);
     }
 
     public void loadRandom() {
-        createImpactedVersesForRandomUsers();
+        createFixtureUsers();
+        createImpactedVersesForFixtureUsers();
     }
 
-    private void createImpactedVersesForRandomUsers() {
+    private void createImpactedVersesForFixtureUsers() {
         List<VerseTag> tags = tagsService.getVerseTags();
         IntStream.rangeClosed(1, USERS_TO_SEED).forEach(u -> {
-            long randomUserId = RND.nextInt(USERS_TO_SEED + 1) + 2;
+            long randomUserId = RND.nextInt(USERS_TO_SEED + 1) + FIRST_SEED_USER_ID;
             ImpactedUser randomUser = impactedClient.findById(randomUserId).get();
             int randomNumberOfVerses = RND.nextInt(MAX_VERSES_PER_USER) + 1;
             createImpactedVersesFor(randomUser, tags, randomNumberOfVerses);
@@ -84,18 +89,33 @@ public class VersesFixtures {
         return sb.toString();
     }
 
-    private void createImpactedVersesForJeff() {
-        ImpactedUser jeff = impactedClient.findByRolesContains(ImpactedUser.ROLE_ADMIN).get(0);
-
+    private void createFixtureUsers() {
+        ImpactedUser fUser = new ImpactedUser("alan", "fixture", "由匿名未验证 提交于");
+        impactedClient.save(mapToDto(fUser));
+        fUser = new ImpactedUser("alan", "fixture", "Alan Smithe");
+        impactedClient.save(mapToDto(fUser));
+        fUser = new ImpactedUser("sue", "fixture", "Sue Z.");
+        impactedClient.save(mapToDto(fUser));
+        fUser = new ImpactedUser("jenn", "fixture", "Jennifer Doe");
+        impactedClient.save(mapToDto(fUser));
+        fUser = new ImpactedUser("chloe", "fixture", "Chloe O'Brian");
+        impactedClient.save(mapToDto(fUser));
+    }
+    
+    private ImpactedUserDto mapToDto(ImpactedUser impactedUser) {
+        return modelMapper.map(impactedUser, ImpactedUserDto.class);
+    }
+    
+    private void createImpactedVersesForLoggedInUser(ImpactedUser impactedUser) {
         versesService.create(
                 new ImpactedVerse("<b>ve-oops</b><script>alert('versetext');</script>",
                         "<b>so-oops</b><script>alert('versetitle');</script>", "<b>ar-oops</b><script>alert('verseauthor');</script>",
-                        "<b>re-oops</b><script>alert('versereaction');</script>", jeff.getId(), List.of("confusion", "horror")), false);
+                        "<b>re-oops</b><script>alert('versereaction');</script>", impactedUser.getId(), List.of("confusion", "horror")), false);
         versesService.create(
                 new ImpactedVerse("由 匿名 (未验证) 提交于\nThe façade pattern's a software-design \"£\" pattern.\n提交于",
                         "i18n 由", "i18n 由",
                         "由 匿名 (未验证) 提交于\n"
-                        + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", jeff.getId(), List.of("confusion", "funny")), false);
+                        + "The façade pattern's a software-design \"£\" pattern &amp; <b>FUN FUN FUN</b>.\n提交于", impactedUser.getId(), List.of("confusion", "funny")), false);
         versesService.create(
                 new ImpactedVerse("There is no pain, you are receding\n"
                         + "A distant ship smoke on the horizon\n"
@@ -104,12 +124,12 @@ public class VersesFixtures {
                         "Comfortably Numb", "Pink Floyd",
                         "Makes\n"
                         + "me\n"
-                        + "happy!", jeff.getId(), List.of("calmness", "sadness")), false);
+                        + "happy!", impactedUser.getId(), List.of("calmness", "sadness")), false);
         versesService.create(
                 new ImpactedVerse("Wide awake in bed, words in my brain,\n"
                         + "\"Secretly you love this, do you even wanna go free?\"\n"
                         + "Let me in the ring, I'll show you what that big word means",
-                        "Glory and Gore", "Lorde", "", jeff.getId(), List.of("triumph", "sexy")), false);
+                        "Glory and Gore", "Lorde", "", impactedUser.getId(), List.of("triumph", "sexy")), false);
         
         // more verses to test scrolling
         // createImpactedVersesFor(jeff, (List<Tag>) tagRepo.findAll(), 100);

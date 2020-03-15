@@ -57,7 +57,7 @@ Download CLIs for Skaffold and Minikube and put each on PATH env var
 ### Startup
 - Powershell (as admin):
 ```
-minikube config set memory 4096
+minikube config set memory 6144
 minikube config set disk-size 40000
 minikube config set vm-driver hyperv
 minikube start
@@ -81,3 +81,55 @@ skaffold run
 ```
 minikube service mvc-service
 ```
+
+## Keycloak 8.0.2 (local app admin)
+
+Create a local service for application OIDC login.
+
+```
+cd docker
+docker-compose up -d keycloak
+```
+
+- Open http://localhost:9090 > Admin Console > Log in
+- Add "Realm":
+  - Name: "lyrical"
+- Configure > Create "Client":
+  - Client ID: "lyrical"
+  - Client Protocol: "openid-connect"
+  - Settings > Valid Redirect URIs: "https://lyricalimpact.net:8443/*"
+  - Save
+- Configure > Add "Roles:
+  - Role Name: "li_admin"
+  - Role Name: "li_user"
+- Manage > Add "Users:
+  1. Local admin user
+     - Username: "liadmin"
+     - Email: "liadmin@gmail.com"
+     - First Name: "Keycloak"
+     - Last Name: "Admin"
+     - Save
+     - Attributes > Add
+       - Key: "picture" / Value: "https://vignette.wikia.nocookie.net/westworld/images/d/d8/Maeve_Les_Ecorches.jpg/revision/latest/scale-to-width-down/310"
+     - Credentials > Set Password
+       - Password: ***
+       - Temporary: OFF
+       - Set Password
+     - Role Mapping > Assigned Roles
+       - li_admin
+  2. Local user
+     - Username: "liuser"
+     - Email: "liuser@gmail.com"
+     - First Name: "Keycloak"
+     - Last Name: "User"
+     - Save
+     - Attributes > Add
+       - Key: "picture" / Value: "https://vignette.wikia.nocookie.net/westworld/images/d/dd/Dolores_Chesnut_ep.jpg/revision/latest/scale-to-width-down/310"
+     - Credentials > Set Password
+       - Password: ***
+       - Temporary: OFF
+       - Set Password
+     - Role Mapping > Assigned Roles
+       - li_user
+- Manage Sessions > Realm Sessions > Logout all
+

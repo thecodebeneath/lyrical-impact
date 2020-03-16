@@ -138,13 +138,14 @@ docker-compose up -d keycloak
 
 After the manual setup above:
 ```
+cd docker
 docker exec -it 8c3cf2fdf45c opt/jboss/keycloak/bin/standalone.sh -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.realmName=lyrical -Dkeycloak.migration.usersExportStrategy=REALM_FILE -Dkeycloak.migration.file=/tmp/keycloak-lyrical-realm.json
 Ctrl-C
 docker cp 8c3cf2fdf45c:/tmp/keycloak-lyrical-realm.json ./keycloak-lyrical-realm.json
 ```
 ### Start and import realm
 
-To start a Keycloak and import the realm, client and users:
+To start Keycloak and import the realm, client, roles and users:
 ```
 cd docker
 docker-compose up -d keycloak

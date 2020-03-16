@@ -55,11 +55,11 @@ services:
     ports:
       - "8761:8761"
   db:
-    image: mariadb:10.4
+    image: mariadb:10.5.1
     restart: always
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
-      - MYSQL_DATABASE=lyricalimpact
+      - MYSQL_DATABASE=lyrical
     env_file:
       - secrets-db.env
     mem_limit: 256m
@@ -74,7 +74,7 @@ services:
     env_file:
       - secrets-keycloak.env
     volumes:
-      - "./keycloak-lyrical-realm.json:/tmp/keycloak-lyrical-realm.json:ro"
+      - "./vols/keycloak-lyrical-realm.json:/tmp/keycloak-lyrical-realm.json:ro"
     mem_limit: 512m
     mem_reservation: 512m
     ports:

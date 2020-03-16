@@ -82,14 +82,15 @@ skaffold run
 minikube service mvc-service
 ```
 
-## Keycloak 8.0.2 (local app admin)
+## Keycloak 9.0.0 (local OIDC server)
 
-Create a local service for application OIDC login.
-
+Create a service for local user accounts that can login to the application.
 ```
 cd docker
 docker-compose up -d keycloak
 ```
+
+### First time manual setup
 
 - Open http://localhost:9090 > Admin Console > Log in
 - Add "Realm":
@@ -133,3 +134,18 @@ docker-compose up -d keycloak
        - li_user
 - Manage Sessions > Realm Sessions > Logout all
 
+### Export realm
+
+After the manual setup above:
+```
+docker exec -it 8c3cf2fdf45c opt/jboss/keycloak/bin/standalone.sh -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.realmName=lyrical -Dkeycloak.migration.usersExportStrategy=REALM_FILE -Dkeycloak.migration.file=/tmp/keycloak-lyrical-realm.json
+Ctrl-C
+docker cp 8c3cf2fdf45c:/tmp/keycloak-lyrical-realm.json ./keycloak-lyrical-realm.json
+```
+### Start and import realm
+
+To start a Keycloak and import the realm, client and users:
+```
+cd docker
+docker-compose up -d keycloak
+```

@@ -67,11 +67,14 @@ services:
     ports:
       - "3306:3306"
   keycloak:
-    image: jboss/keycloak:8.0.2
+    image: jboss/keycloak:9.0.0
     environment:
       - DB_VENDOR=h2
+      - KEYCLOAK_IMPORT=/tmp/keycloak-lyrical-realm.json
     env_file:
       - secrets-keycloak.env
+    volumes:
+      - "./keycloak-lyrical-realm.json:/tmp/keycloak-lyrical-realm.json:ro"
     mem_limit: 512m
     mem_reservation: 512m
     ports:

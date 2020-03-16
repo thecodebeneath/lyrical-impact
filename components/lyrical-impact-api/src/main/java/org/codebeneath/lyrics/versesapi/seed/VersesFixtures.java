@@ -130,7 +130,18 @@ public class VersesFixtures {
                         + "\"Secretly you love this, do you even wanna go free?\"\n"
                         + "Let me in the ring, I'll show you what that big word means",
                         "Glory and Gore", "Lorde", "", impactedUser.getId(), List.of("triumph", "sexy")), false);
-        
+        versesService.create(
+                new ImpactedVerse("The best lack all conviction, while the worst\n"
+                        + "Are full of passionate intensity.",
+                        "The Second Coming", "W. B. Yeats", "", impactedUser.getId(), List.of("pain")), false);
+        versesService.create(
+                new ImpactedVerse("If you can trust yourself when all men doubt you,\n"
+                        + "But make allowance for their doubting too;\n"
+                        + "If you can wait and not be tired by waiting,\n"
+                        + "Or being lied about, don’t deal in lies,\n"
+                        + "Or being hated, don’t give way to hating",
+                        "If", "Rudyard Kipling", "", impactedUser.getId(), List.of("triumph")), false);
+
         // more verses to test scrolling
         // createImpactedVersesFor(jeff, (List<Tag>) tagRepo.findAll(), 100);
     }

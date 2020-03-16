@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb
+  labels:
+    app: lyrical-impact
+spec:
+  ports:
+    - protocol: TCP
+      port: 3306
+  selector:
+    app: lyrical-impact
+    tier: db
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+spec:
+  selector:
+    matchLabels:
+      app: lyrical-impact
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: lyrical-impact
+        tier: db
+    spec:
+      containers:
+      - image: mariadb:10.5.1
+        app: mariadb
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          value: lyricalroot
+        - name: MYSQL_USER
+          value: lyricalu
+        - name: MYSQL_PASSWORD
+          value: lyricalp
+        ports:
+        - name: mariadb
+          containerPort: 3306

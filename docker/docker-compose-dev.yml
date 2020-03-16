@@ -18,8 +18,8 @@ services:
       - verses
       - impacted
       - lookup
-      - db
       - eureka
+      - keycloak
   tags:
     build:
       context: ../applications/tags-server
@@ -81,18 +81,6 @@ services:
     mem_reservation: 256m
     ports:
       - "8761:8761"
-  db:
-    image: mariadb:10.5.1
-    restart: always
-    command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
-    environment:
-      - MYSQL_DATABASE=lyrical
-    env_file:
-      - secrets-db.env
-    mem_limit: 256m
-    mem_reservation: 256m
-    ports:
-      - "3306:3306"
   keycloak:
     image: jboss/keycloak:9.0.0
     environment:

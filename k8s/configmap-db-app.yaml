@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-db-app
+  labels:
+    app: lyrical-impact
+data:
+  LYRICAL_MYSQL_URI: jdbc:mariadb://mariadb:3306/lyrical
+

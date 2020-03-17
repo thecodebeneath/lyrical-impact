@@ -17,6 +17,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mariadb
+  labels:
+    app: lyrical-impact
 spec:
   selector:
     matchLabels:
@@ -30,15 +32,13 @@ spec:
         tier: db
     spec:
       containers:
-      - image: mariadb:10.5.1
-        app: mariadb
-        env:
-        - name: MYSQL_ROOT_PASSWORD
-          value: lyricalroot
-        - name: MYSQL_USER
-          value: lyricalu
-        - name: MYSQL_PASSWORD
-          value: lyricalp
-        ports:
         - name: mariadb
-          containerPort: 3306
+          image: mariadb:10.5.1
+          envFrom:
+            - configMapRef:
+                name: configmap-db
+            - secretRef:
+                name: secret-db
+          ports:
+            - name: mariadb
+              containerPort: 3306

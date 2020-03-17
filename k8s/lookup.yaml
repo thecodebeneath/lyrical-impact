@@ -33,9 +33,9 @@ spec:
         - name: lyrical-impact-lookup-pod
           image: li/lookup-server
           imagePullPolicy: Never
-          env:
-            - name: EUREKA_URI
-              value: http://eureka-service:8761/eureka
+          envFrom:
+            - configMapRef:
+                name: configmap-base
           ports:
             - name: http
               containerPort: 8484

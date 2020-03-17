@@ -36,21 +36,11 @@ spec:
         - name: lyrical-impact-mvc-pod
           image: li/mvc-server
           imagePullPolicy: Never
-          env:
-            - name: EUREKA_URI
-              value: http://eureka-service:8761/eureka
-            - name: OAUTH_GOOGLE_CLIENTID
-              value: placeholder
-            - name: OAUTH_GOOGLE_CLIENTSECRET
-              value: placeholder
-            - name: OAUTH_OKTA_CLIENTID
-              value: placeholder
-            - name: OAUTH_OKTA_CLIENTSECRET
-              value: placeholder
-            - name: OAUTH_KEYCLOAK_CLIENTID
-              value: placeholder
-            - name: OAUTH_KEYCLOAK_CLIENTSECRET
-              value: placeholder
+          envFrom:
+            - configMapRef:
+                name: configmap-base
+            - secretRef:
+                name: secret-mvc
           ports:
             - name: http
               containerPort: 8443

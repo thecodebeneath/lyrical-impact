@@ -33,13 +33,13 @@ spec:
         - name: lyrical-impact-impacted-pod
           image: li/impacted-server
           imagePullPolicy: Never
-          env:
-            - name: SPRING_PROFILES_ACTIVE
-              value: prod
-            - name: LYRICAL_MYSQL_URI
-              value: jdbc:mariadb://mariadb:3306/lyrical-impacted
-            - name: EUREKA_URI
-              value: http://eureka-service:8761/eureka
+          envFrom:
+            - configMapRef:
+                name: configmap-base
+            - configMapRef:
+                name: configmap-db-app
+            - secretRef:
+                name: secret-db-app
           ports:
             - name: http
               containerPort: 8383

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-base
+  labels:
+    app: lyrical-impact
+data:
+  SPRING_PROFILES_ACTIVE: k8s
+  EUREKA_URI: http://eureka-service:8761/eureka
+  

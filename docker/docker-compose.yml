@@ -7,10 +7,13 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=k8s
       - EUREKA_URI=http://eureka:8761/eureka
+      - KEYCLOAK_URI=http://keycloak:8080
+#      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:61000
     env_file:
       - secrets-app.env
     ports:
       - "8443:8443"
+#      - "61000:61000"
     depends_on:
       - tags
       - verses
@@ -96,4 +99,4 @@ services:
     mem_limit: 512m
     mem_reservation: 512m
     ports:
-      - "9090:8080"
+      - "8080:8080"

@@ -29,6 +29,7 @@ import org.springframework.security.oauth2.client.web.HttpSessionOAuth2Authorize
 import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -62,6 +63,9 @@ public class HomeControllerTest {
     @MockBean
     private AuthenticationSuccessHandler successHandler;
     
+    @MockBean
+    private AuthenticationFailureHandler failureHandler;
+
     @MockBean
     private LoggingAccessDeniedHandler deniedHandler;
 

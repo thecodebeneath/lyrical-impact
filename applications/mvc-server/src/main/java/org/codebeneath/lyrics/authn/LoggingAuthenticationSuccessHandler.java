@@ -7,18 +7,17 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
 @Slf4j
-@Component("successHandler")
-public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
+@Component
+public class LoggingAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         ImpactedUser impactedUser = (ImpactedUser)authentication.getPrincipal();
-        // TODO: impactedUser.updateLastLogin(new Date());
-        
-        // what else needs to be implemented for OAuth contract? redirect to view...?
+        log.warn("----- onAuthenticationSuccess ----- " + impactedUser.getDisplayName());
+        super.onAuthenticationSuccess(request, response, authentication);
     }
 }

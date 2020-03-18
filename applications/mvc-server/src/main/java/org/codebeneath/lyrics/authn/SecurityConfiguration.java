@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @Configuration
@@ -25,6 +26,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private AuthenticationSuccessHandler successHandler;
 
+    @Autowired
+    private AuthenticationFailureHandler failureHandler;
+    
     @Autowired
     private LoggingAccessDeniedHandler accessDeniedHandler;
     
@@ -65,7 +69,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .oauth2Login()
                     .loginPage("/login") // my view, not the built-in security filter page "/login"
-                    // .successHandler(successHandler)
+                    .successHandler(successHandler)
+                    .failureHandler(failureHandler)
                     .userInfoEndpoint()
                         .oidcUserService(customOidcUserService); // okta, google
         

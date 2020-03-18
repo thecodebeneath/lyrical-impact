@@ -9,6 +9,7 @@ services:
     mem_reservation: 512m
     environment:
       - EUREKA_URI=http://eureka:8761/eureka
+      - KEYCLOAK_URI=http://keycloak:8080
     env_file:
       - secrets-app.env
     ports:
@@ -93,4 +94,4 @@ services:
     mem_limit: 512m
     mem_reservation: 512m
     ports:
-      - "9090:8080"
+      - "8080:8080"

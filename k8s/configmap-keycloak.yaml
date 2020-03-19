@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-keycloak
+  labels:
+    app: lyrical-impact
+data:
+  DB_VENDOR: h2
+#  KEYCLOAK_IMPORT: /tmp/keycloak-lyrical-realm.json

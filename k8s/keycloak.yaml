@@ -41,6 +41,14 @@ spec:
                 name: configmap-keycloak
             - secretRef:
                 name: secret-keycloak
+          volumeMounts:
+            - name: keycloak-import-volume
+              mountPath: /tmp/keycloak-lyrical-realm.json
+              subPath: keycloak-lyrical-realm.json
           ports:
             - name: keycloak
               containerPort: 8080
+      volumes:
+        - name: keycloak-import-volume
+          configMap:
+            name: configmap-keycloak-import

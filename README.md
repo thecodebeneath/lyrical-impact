@@ -14,7 +14,7 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 * [Kubernetes](#kubernetes)
   * [Startup](#startup)
   * [Deploy](#deploy)
-  * [Access the App](#access=the-app)
+  * [Access the App](#access-the-app)
 * [Keycloak](#keycloak)
 
 ## Screenshot

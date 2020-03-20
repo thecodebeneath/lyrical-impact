@@ -1,7 +1,23 @@
 [![Build Status](https://travis-ci.org/thecodebeneath/lyrical-impact.svg?branch=master)](https://travis-ci.org/thecodebeneath/lyrical-impact)
 
-# lyrical-impact
+# Lyrical Impact
 A webapp that allows people to remember the lyrical verses that have impacted them in some way.
+
+## Table of Contents
+
+* [Screenshot](#screenshot)
+* [Architecture](#architecture)
+* [Docker-compose](#docker-compose)
+  * [Google Jib](#google-jib)
+  * [Spring Boot Java Buildpack](#spring-boot-java-buildpack)
+  * [Plain Dockerfiles](#plain-dockerfiles)
+* [Kubernetes](#kubernetes)
+  * [Startup](#startup)
+  * [Deploy](#deploy)
+  * [Access the App](#access=the-app)
+* [Keycloak](#keycloak)
+
+## Screenshot
 
 ![Screenshot][1]
 
@@ -21,9 +37,9 @@ Service orchestration is using docker-compose in one of several ways (in order o
 
 [2]: /docker/docker-compose.png
 
-### Google jib (maven plugin)
+### Google Jib
 
-Google container tools, maven can create the docker images for Boot apps.
+Google container tools, the maven plugin can create the docker images for Boot apps.
 
 ```
 mvn clean install
@@ -33,9 +49,9 @@ docker-compose up -d
 docker-compose up -d --scale tags=3
 ```
 
-### Spring Boot Java Buildpack (maven plugin)
+### Spring Boot Java Buildpack
 
-Starting with Spring Boot 2.3.0M2, maven can create the docker images for Boot apps.
+Starting with Spring Boot 2.3.0M2, the maven plugin can create the docker images for Boot apps.
 
 ```
 mvn clean install
@@ -45,7 +61,7 @@ docker-compose up -d
 docker-compose up -d --scale tags=3
 ```
 
-### Local build and Dockerfiles
+### Plain Dockerfiles
 
 ```
 cd docker
@@ -54,9 +70,9 @@ docker-compose -f docker-compose-dev.yml up -d
 services are not scalable because all ports are exposed to host
 ```
 
-## Skaffold + Minikube
+## Kubernetes
 
-Download CLIs for Skaffold and Minikube and put each on PATH env var
+Deployment using Minikube + Skaffold. Download CLIs for Skaffold and Minikube and put each on PATH env var.
 
 ### Startup
 - Powershell (as admin):
@@ -72,7 +88,7 @@ minikube start
 minikube dashboard
 ```
 
-### Deploy app
+### Deploy
 - Git Bash:
 ```
 eval $(minikube -p minikube docker-env)
@@ -80,15 +96,15 @@ mvn clean install
 skaffold run
 ```
 
-### Open browser to app URL
+### Access the App
 - Git Bash:
 ```
-minikube service mvc-service
+minikube service mvc-service --https=true
 ```
 
-## Keycloak 9.0.0 (local OIDC server)
+## Keycloak
 
-Create a service for local user accounts that can login to the application.
+Keycloak, v9.0.0, is a local OIDC server. Create a service for local user accounts that can login to the application.
 ```
 cd docker
 docker-compose up -d keycloak

@@ -1,6 +1,8 @@
 secrets-*.*
 secret-*.*
 target
+.cache
+
 !.mvn/wrapper/maven-wrapper.jar
 
 ### STS ###

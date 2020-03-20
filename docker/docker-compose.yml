@@ -11,6 +11,8 @@ services:
 #      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:61000
     env_file:
       - secrets-app.env
+    expose:
+      - "8443"
     ports:
       - "8443:8443"
 #      - "61000:61000"
@@ -31,6 +33,8 @@ services:
       - EUREKA_URI=http://eureka:8761/eureka
     env_file:
       - secrets-db-app.env
+    expose:
+      - "8181"
     depends_on:
       - db
       - eureka
@@ -44,6 +48,8 @@ services:
       - EUREKA_URI=http://eureka:8761/eureka
     env_file:
       - secrets-db-app.env
+    expose:
+      - "8282"
     depends_on:
       - db
       - eureka
@@ -57,6 +63,8 @@ services:
       - EUREKA_URI=http://eureka:8761/eureka
     env_file:
       - secrets-db-app.env
+    expose:
+      - "8383"
     depends_on:
       - db
       - eureka
@@ -67,12 +75,16 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=k8s
       - EUREKA_URI=http://eureka:8761/eureka
+    expose:
+      - "8484"
     depends_on:
       - eureka
   eureka:
     image: li/eureka:latest
     mem_limit: 256m
     mem_reservation: 256m
+    expose:
+      - "8761"
 #    ports:
 #      - "8761:8761"
   db:
@@ -85,6 +97,8 @@ services:
       - secrets-db.env
     mem_limit: 256m
     mem_reservation: 256m
+    expose:
+      - "3306"
 #    ports:
 #      - "3306:3306"
   keycloak:
@@ -98,5 +112,7 @@ services:
       - "./vols/keycloak-lyrical-realm.json:/tmp/keycloak-lyrical-realm.json:ro"
     mem_limit: 512m
     mem_reservation: 512m
+    expose:
+      - "8080"
     ports:
       - "8080:8080"

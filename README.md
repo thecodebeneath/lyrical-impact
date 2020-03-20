@@ -17,6 +17,10 @@ Modeled after the design guidance from:
 
 Service orchestration is using docker-compose in one of several ways (in order of preference):
 
+![Screenshot][2]
+
+[2]: /docker/docker-compose.png
+
 ### Google jib (maven plugin)
 
 Google container tools, maven can create the docker images for Boot apps.

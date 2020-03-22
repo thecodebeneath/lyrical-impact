@@ -54,7 +54,7 @@ public class VersesFixtures {
     private void createImpactedVersesForFixtureUsers() {
         List<VerseTag> tags = tagsService.getVerseTags();
         IntStream.rangeClosed(1, USERS_TO_SEED).forEach(u -> {
-            long randomUserId = RND.nextInt(USERS_TO_SEED + 1) + FIRST_SEED_USER_ID;
+            long randomUserId = RND.nextInt(USERS_TO_SEED) + FIRST_SEED_USER_ID;
             ImpactedUser randomUser = impactedClient.findById(randomUserId).get();
             int randomNumberOfVerses = RND.nextInt(MAX_VERSES_PER_USER) + 1;
             createImpactedVersesFor(randomUser, tags, randomNumberOfVerses);

@@ -7,7 +7,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=k8s
       - EUREKA_URI=http://eureka:8761/eureka
-      - KEYCLOAK_URI=http://keycloak:8080
+      - KEYCLOAK_HOST_PORT=http://192.168.1.107:8080
 #      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:61000
     env_file:
       - secrets-app.env
@@ -16,13 +16,14 @@ services:
     ports:
       - "8443:8443"
 #      - "61000:61000"
+    networks:
+      - appnet
     depends_on:
       - tags
       - verses
       - impacted
       - lookup
       - eureka
-      - keycloak
   tags:
     image: li/tags-server:latest
     mem_limit: 512m
@@ -35,6 +36,8 @@ services:
       - secrets-db-app.env
     expose:
       - "8181"
+    networks:
+      - appnet
     depends_on:
       - db
       - eureka
@@ -50,6 +53,8 @@ services:
       - secrets-db-app.env
     expose:
       - "8282"
+    networks:
+      - appnet
     depends_on:
       - db
       - eureka
@@ -65,6 +70,8 @@ services:
       - secrets-db-app.env
     expose:
       - "8383"
+    networks:
+      - appnet
     depends_on:
       - db
       - eureka
@@ -77,6 +84,8 @@ services:
       - EUREKA_URI=http://eureka:8761/eureka
     expose:
       - "8484"
+    networks:
+      - appnet
     depends_on:
       - eureka
   eureka:
@@ -87,6 +96,8 @@ services:
       - "8761"
 #    ports:
 #      - "8761:8761"
+    networks:
+      - appnet
   db:
     image: mariadb:10.5.1
     restart: always
@@ -101,7 +112,9 @@ services:
       - "3306"
 #    ports:
 #      - "3306:3306"
-  keycloak:
+    networks:
+      - appnet
+  keycloak.net:
     image: jboss/keycloak:9.0.0
     environment:
       - DB_VENDOR=h2
@@ -116,3 +129,10 @@ services:
       - "8080"
     ports:
       - "8080:8080"
+    networks:
+      - keycloaknet
+networks:
+  appnet:
+    driver: bridge
+  keycloaknet:
+    driver: bridge

@@ -542,7 +542,7 @@ data:
         "alwaysDisplayInConsole" : false,
         "clientAuthenticatorType" : "client-secret",
         "secret" : "25e25f9b-a8a6-430a-8e9a-eaca3a7480f2",
-        "redirectUris" : [ "https://lyricalimpact.net:8443/*" ],
+        "redirectUris" : [ "http://lyricalimpact.net:9090/*" ],
         "webOrigins" : [ ],
         "notBefore" : 0,
         "bearerOnly" : false,

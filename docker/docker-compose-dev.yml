@@ -13,9 +13,9 @@ services:
     env_file:
       - secrets-app.env
     expose:
-      - "8443"
+      - "9090"
     ports:
-      - "8443:8443"
+      - "9090:9090"
     networks:
       - appnet
     depends_on:

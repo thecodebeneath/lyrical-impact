@@ -5,11 +5,14 @@ metadata:
   labels:
     app: lyrical-impact
 spec:
-  type: NodePort
+  type: LoadBalancer
+  externalIPs:
+    - 192.168.78.119
   ports:
     - protocol: TCP
-      port: 8443
+      port: 9090
       nodePort: 30443
+      targetPort: 9090
       name: https
   selector:
     app: lyrical-impact
@@ -43,4 +46,4 @@ spec:
                 name: secret-mvc
           ports:
             - name: http
-              containerPort: 8443
+              containerPort: 9090

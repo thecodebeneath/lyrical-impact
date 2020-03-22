@@ -5,10 +5,12 @@ metadata:
   labels:
     app: lyrical-impact
 spec:
-  type: NodePort
+  type: LoadBalancer
+  externalIPs:
+    - 192.168.78.119
   ports:
     - protocol: TCP
-      port: 30080
+      port: 8080
       nodePort: 30080
       targetPort: 8080
   selector:

@@ -78,6 +78,9 @@
                     <to>
                         <image>li/mvc-server</image>
                     </to>
+                    <from>
+                      <image>gcr.io/distroless/java:11-debug</image>
+                    </from>
                     <container>
                         <jvmFlags>
                             <jvmFlag>-Djava.security.egd=file:/dev/./urandom</jvmFlag>

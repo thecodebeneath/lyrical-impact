@@ -40,6 +40,17 @@ spec:
                 name: configmap-db
             - secretRef:
                 name: secret-db
+          volumeMounts:
+            - name: mariadb-conf-d-volume
+              mountPath: /etc/mysql/mariadb.conf.d/mariadb.cnf
+              subPath: mariadb.cnf
           ports:
             - name: mariadb
               containerPort: 3306
+      volumes:
+        - name: mariadb-conf-d-volume
+          configMap:
+            name: configmap-db
+            items:
+              - path: "mariadb.cnf"
+                key: mariadb.cnf

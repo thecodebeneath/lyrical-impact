@@ -27,9 +27,29 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 
 ## Architecture
 
-Modeled after the design guidance from:
-- https://12factor.net/
-- https://www.appcontinuum.io/
+General goals:
+1. Run the app stack on a Windows desktop in each of these deployment configs with the same source code:
+   - Spring Boot plugin direct on the host
+   - Docker run, using basic Dockerfile(s)
+   - Docker-compose, development-like mode using basic Dockerfiles(s), in-memory H2 databases
+   - Docker-compose, production-like mode using images created various from helper frameworks, mariadb databases
+   - Minikube, production-like mode using images created from Google Jib plugin and running with `skaffold dev`
+2. Modeled after the design guidance from:
+   - https://12factor.net/
+   - https://www.appcontinuum.io/
+
+## Localhost Config
+
+When running with docker-compose:
+- edit 'hosts' file
+  - `127.0.0.1   lyricalimpact.net   keycloak.net`
+- docker-compose.yml
+  - `KEYCLOAK_HOST_PORT` is the set to actual host IP & port
+
+When running with minikube:
+- edit 'hosts' file
+  - `192.168.78.119   lyricalimpact.net   keycloak.net`
+  - where this IP address is `minikube ip`
 
 ## Docker-compose
 

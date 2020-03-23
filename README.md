@@ -4,7 +4,6 @@
 A webapp that allows people to remember the lyrical verses that have impacted them in some way.
 
 ## Table of Contents
-
 * [Screenshot](#screenshot)
 * [Architecture](#architecture)
 * [Docker-compose](#docker-compose)
@@ -20,13 +19,11 @@ A webapp that allows people to remember the lyrical verses that have impacted th
   * [Config Details](manual-setup-docs#keycloak)
 
 ## Screenshot
-
 ![Screenshot][1]
 
 [1]: /images/screenshot.png
 
 ## Architecture
-
 General goals:
 1. Run the app stack on a Windows desktop in each of these deployment configs with the same source code:
    - Spring Boot plugin direct on the host
@@ -39,7 +36,6 @@ General goals:
    - https://www.appcontinuum.io/
 
 ## Localhost Config
-
 When running with docker-compose:
 - edit 'hosts' file
   - `127.0.0.1   lyricalimpact.net   keycloak.net`
@@ -52,7 +48,6 @@ When running with minikube:
   - where this IP address is `minikube ip`
 
 ## Docker-compose
-
 Service orchestration is using docker-compose in one of several ways (in order of preference):
 
 ![Screenshot][2]
@@ -60,7 +55,6 @@ Service orchestration is using docker-compose in one of several ways (in order o
 [2]: /docker/docker-compose.png
 
 ### Google Jib
-
 Google container tools, the maven plugin can create the docker images for Boot apps.
 
 ```
@@ -72,7 +66,6 @@ docker-compose up -d --scale tags=3
 ```
 
 ### Spring Boot Java Buildpack
-
 Starting with Spring Boot 2.3.0M2, the maven plugin can create the docker images for Boot apps.
 
 ```
@@ -84,7 +77,6 @@ docker-compose up -d --scale tags=3
 ```
 
 ### Plain Dockerfiles
-
 ```
 cd docker
 docker-compose -f docker-compose-dev.yml build
@@ -93,7 +85,6 @@ services are not scalable because all ports are exposed to host
 ```
 
 ## Kubernetes
-
 Deployment using Minikube + Skaffold. Download CLIs for Skaffold and Minikube and put each on PATH env var.
 
 ### Startup
@@ -115,21 +106,19 @@ minikube dashboard
 ```
 eval $(minikube -p minikube docker-env)
 mvn clean install
-skaffold run
+skaffold dev
 ```
 
 ### Access the App
 - Git Bash:
 ```
-minikube service mvc-service --https=true
+minikube service mvc-service
 ```
 
 ## Keycloak
-
 Keycloak, v9.0.0, is a local OIDC server. Create a service for local user accounts that can login to the application.
 
 ### Config Overview
-
 To automated the creation of a Keycloak realm, client, roles and users, you must:
 1. Start Keycloak in its unconfigured state
 2. Create the Keycloak resources via the admin UI
@@ -137,5 +126,4 @@ To automated the creation of a Keycloak realm, client, roles and users, you must
 4. Mount the json file to the docker container so that Keycloak will automatically import the config on startup
 
 ### Config Details
-
 [Keycloak Config Details](manual-setup-docs#keycloak)

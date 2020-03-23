@@ -2,10 +2,8 @@ package org.codebeneath.lyrics.home;
 
 import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.codebeneath.lyrics.StandaloneMvcTestViewResolver;
-import org.codebeneath.lyrics.tagsapi.VerseTag;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.codebeneath.lyrics.versesapi.VersesService;

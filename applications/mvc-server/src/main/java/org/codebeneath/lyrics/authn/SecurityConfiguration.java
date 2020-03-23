@@ -3,7 +3,6 @@ package org.codebeneath.lyrics.authn;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -17,7 +16,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @Configuration
 @EnableWebSecurity
 //@EnableWebSecurity(debug=true)
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
  
     private static final String ROLE_ADMIN = "ADMIN";
@@ -57,7 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                             "/img/**",
                             "/webjars/**").permitAll()
                     .antMatchers("/user/**").hasRole(ROLE_USER)
-                    .antMatchers("/admin/**", "/seed/**", "/h2-console/**", "/actuator/**").hasRole(ROLE_ADMIN)
+                    .antMatchers("/my/peek/**", "/admin/**", "/seed/**", "/h2-console/**", "/actuator/**").hasRole(ROLE_ADMIN)
                     .anyRequest().authenticated()
                 .and()
                 .logout()

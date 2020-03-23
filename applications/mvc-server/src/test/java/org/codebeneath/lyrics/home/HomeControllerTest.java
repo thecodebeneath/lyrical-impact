@@ -4,6 +4,7 @@ import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impactedapi.ImpactedClient;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
@@ -15,6 +16,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -22,6 +26,7 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.oidc.userinfo.OidcUserRequest;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserService;
@@ -34,6 +39,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 /**
@@ -105,7 +111,8 @@ public class HomeControllerTest {
         when(vService.getRandomVerse()).thenReturn(randomVerse);
         
         this.mockMvc.perform(get("/my")
-                .with(oidcLogin().oidcUser(testUser)))
+                .with(oidcLogin().oidcUser(testUser))
+        )
                 // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("verses"))
@@ -122,7 +129,8 @@ public class HomeControllerTest {
 
         this.mockMvc.perform(get("/my")
                 .param("p", "2")
-                .with(oidcLogin().oidcUser(testUser)))
+                .with(oidcLogin().oidcUser(testUser))
+        )
                 // .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("verses"))
@@ -131,33 +139,33 @@ public class HomeControllerTest {
                 .andExpect(content().contentTypeCompatibleWith(MediaType.TEXT_HTML));
     }
 
-//    TODO: move endpoint security from "@PreAuthorize" to "http.authorizeRequests()"...
-//    vvvvvvv
-//
-//    @WithMockUser(username = "testAdmin", roles = {"USER"})
-//    @Test
-//    public void userCannotSeeOtherUserVerses() throws Exception {
-//        this.mockMvc.perform(get("/my/999")
-//                .with(oidcLogin().oidcUser(testUser)))
-//                .andDo(print())
-//                .andExpect(status().is3xxRedirection())
-//                .andExpect(redirectedUrl("/access-denied"));
-//    }
+    @Test
+    public void userPeekingOtherUserVersesIsDenied() throws Exception {
+        doNothing().when(deniedHandler).handle(any(), any(), any());
+        this.mockMvc.perform(get("/my/peek/999")
+                .with(oidcLogin().authorities(new SimpleGrantedAuthority("ROLE_USER")))
+        )
+                .andDo(print());
+                // can't inject a real handler here, so can't verify handler behaviour 
+                //.andExpect(status().is3xxRedirection())
+                //.andExpect(redirectedUrl("/access-denied"));
+        
+        verify(deniedHandler, times(1)).handle(any(), any(), any());
+    }
 
-//    @WithMockUser(username = "testAdmin", roles = {"ADMIN"})
-//    @Test
-//    public void adminCanSeeOtherUserVerses() throws Exception {
-//        when(irepo.findById(999L)).thenReturn(Optional.of(testUser));
-//        when(vrepo.findByImpactedId(999L)).thenReturn(newUserVerses);
-//        when(vrepo.getRandomVerse()).thenReturn(randomVerse);
-//
-//        this.mockMvc.perform(get("/my/999")
-//                .with(oidcLogin().oidcUser(testUser)))
-//                .andDo(print())
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("impacted/my"))
-//                .andExpect(content().string(containsString("How were")));
-//    }
-//    
+    @Test
+    public void adminPeekingOtherUserVersesIsAllowed() throws Exception {
+        when(iClient.findById(eq(999L))).thenReturn(Optional.of(testUser));
+        when(vService.findByImpactedId(eq(999L), anyInt(), isNull(), isNull())).thenReturn(testUserImpactedVerses);
+        when(vService.getRandomVerse()).thenReturn(randomVerse);
 
+        this.mockMvc.perform(get("/my/peek/999")
+                .with(oidcLogin().authorities(new SimpleGrantedAuthority("ROLE_ADMIN")))
+        )
+                //.andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(view().name("impacted/my"))
+                .andExpect(content().string(containsString("How were")));
+    }
+    
 }

@@ -7,7 +7,6 @@ import org.codebeneath.lyrics.impactedapi.ImpactedClient;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import org.codebeneath.lyrics.versesapi.VersesService;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -52,8 +51,7 @@ public class HomeController {
         return (page == 0) ? "impacted/my" : "impacted/myVersesScroll";
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @GetMapping("/my/{id}")
+    @GetMapping("/my/peek/{id}")
     public String impactedVerses(Model model, @AuthenticationPrincipal ImpactedUser impactedUser,
             @PathVariable(required = true) Long id,
             @RequestParam(name = "p", required = false, defaultValue = "0") Integer page,
@@ -63,7 +61,7 @@ public class HomeController {
         ImpactedUser otherImpactedUser = getImpactedUser(id);
         setImpactedInModel(otherImpactedUser, model);
 
-        model.addAttribute("verses", versesService.findByImpactedId(impactedUser.getId(), page, tag, query));
+        model.addAttribute("verses", versesService.findByImpactedId(otherImpactedUser.getId(), page, tag, query));
         model.addAttribute("allTags", tagsService.getVerseTags());
         if (tag != null) {
             model.addAttribute("tag", tag);

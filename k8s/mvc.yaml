@@ -7,7 +7,7 @@ metadata:
 spec:
   type: LoadBalancer
   externalIPs:
-    - 192.168.78.119
+    - 192.168.78.116
   ports:
     - protocol: TCP
       port: 9090
@@ -39,6 +39,11 @@ spec:
         - name: lyrical-impact-mvc-pod
           image: li/mvc-server
           imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 500Mi
+            requests:
+              memory: 256Mi
           envFrom:
             - configMapRef:
                 name: configmap-base

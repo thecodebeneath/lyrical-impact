@@ -35,6 +35,11 @@ spec:
         - name: lyrical-impact-eureka-pod
           image: li/eureka
           imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              memory: 256Mi
           ports:
             - name: http
               containerPort: 8761

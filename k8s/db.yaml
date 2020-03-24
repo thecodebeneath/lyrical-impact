@@ -35,6 +35,11 @@ spec:
       containers:
         - name: mariadb
           image: mariadb:10.5.1
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              memory: 256Mi
           envFrom:
             - configMapRef:
                 name: configmap-db

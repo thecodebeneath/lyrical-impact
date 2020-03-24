@@ -33,6 +33,11 @@ spec:
         - name: lyrical-impact-verses-pod
           image: li/verses-server
           imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              memory: 512Mi
           envFrom:
             - configMapRef:
                 name: configmap-base

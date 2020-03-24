@@ -33,6 +33,11 @@ spec:
         - name: lyrical-impact-tags-pod
           image: li/tags-server
           imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 256Mi
+            requests:
+              memory: 256Mi
           envFrom:
             - configMapRef:
                 name: configmap-base

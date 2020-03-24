@@ -33,6 +33,11 @@ spec:
         - name: lyrical-impact-impacted-pod
           image: li/impacted-server
           imagePullPolicy: Never
+          resources:
+            limits:
+              memory: 512Mi
+            requests:
+              memory: 512Mi
           envFrom:
             - configMapRef:
                 name: configmap-base

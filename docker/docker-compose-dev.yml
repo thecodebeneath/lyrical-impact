@@ -4,7 +4,7 @@ services:
     build:
       context: ../applications/mvc-server
       args:
-        - JAR_FILE=target/lyrical-impact-mvc-0.9-SNAPSHOT.jar
+        - JAR_FILE=target/lyrical-impact-mvc-1.0-SNAPSHOT.jar
     mem_limit: 512m
     mem_reservation: 512m
     environment:
@@ -28,7 +28,7 @@ services:
     build:
       context: ../applications/tags-server
       args:
-        - JAR_FILE=target/lyrical-impact-tags-0.9-SNAPSHOT.jar
+        - JAR_FILE=target/lyrical-impact-tags-1.0-SNAPSHOT.jar
     mem_limit: 256m
     mem_reservation: 256m
     environment:
@@ -45,7 +45,7 @@ services:
     build:
       context: ../applications/verses-server
       args:
-        - JAR_FILE=target/lyrical-impact-verses-0.9-SNAPSHOT.jar
+        - JAR_FILE=target/lyrical-impact-verses-1.0-SNAPSHOT.jar
     mem_limit: 512m
     mem_reservation: 512m
     environment:
@@ -62,7 +62,7 @@ services:
     build:
       context: ../applications/impacted-server
       args:
-        - JAR_FILE=target/lyrical-impact-impacted-0.9-SNAPSHOT.jar
+        - JAR_FILE=target/lyrical-impact-impacted-1.0-SNAPSHOT.jar
     mem_limit: 512m
     mem_reservation: 512m
     environment:
@@ -79,7 +79,7 @@ services:
     build:
       context: ../applications/lookup-server
       args:
-        - JAR_FILE=target/lyrical-impact-lookup-0.9-SNAPSHOT.jar
+        - JAR_FILE=target/lyrical-impact-lookup-1.0-SNAPSHOT.jar
     mem_limit: 256m
     mem_reservation: 256m
     environment:
@@ -96,7 +96,7 @@ services:
     build:
       context: ../platform-services/eureka
       args:
-        - JAR_FILE=target/lyrical-impact-eureka-0.9-SNAPSHOT.jar
+        - JAR_FILE=target/lyrical-impact-eureka-1.0-SNAPSHOT.jar
     mem_limit: 256m
     mem_reservation: 256m
     expose:

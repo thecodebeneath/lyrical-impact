@@ -26,8 +26,8 @@ services:
       - eureka
   tags:
     image: li/tags-server:latest
-    mem_limit: 512m
-    mem_reservation: 512m
+    mem_limit: 256m
+    mem_reservation: 256m
     environment:
       - SPRING_PROFILES_ACTIVE=k8s
       - LYRICAL_MYSQL_URI=jdbc:mariadb://db:3306/lyrical

@@ -13,7 +13,7 @@
 
     <groupId>org.codebeneath</groupId>
     <artifactId>lyrical-impact-parent</artifactId>
-    <version>0.9-SNAPSHOT</version>
+    <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Lyrical Impact Parent</name>

@@ -24,7 +24,7 @@ import org.springframework.stereotype.Component;
 public class VersesFixtures {
 
     private static final int USERS_TO_SEED = 5;
-    private static final int FIRST_SEED_USER_ID = 5;
+    private static final long FIRST_SEED_USER_ID = 5;
     private static final int MAX_VERSES_PER_USER = 15;
     private static final int MAX_TAGS_PER_VERSE = 3;
 

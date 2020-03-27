@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 public class SecurityController {
-        
+    
+    private static final String ATTR_IMPACTED = "impacted";
+    
     @GetMapping("/")
     public String root() {
         return "redirect:/my";
@@ -23,7 +25,7 @@ public class SecurityController {
     @GetMapping(value = "/about", produces = MediaType.TEXT_HTML_VALUE)
     public String aboutPage(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         if (impactedUser != null) {
-            model.addAttribute("impacted", impactedUser);
+            model.addAttribute(ATTR_IMPACTED, impactedUser);
         }
         return "about";
     }
@@ -31,20 +33,20 @@ public class SecurityController {
     @GetMapping(value = "/privacy", produces = MediaType.TEXT_HTML_VALUE)
     public String privacyPage(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
         if (impactedUser != null) {
-            model.addAttribute("impacted", impactedUser);
+            model.addAttribute(ATTR_IMPACTED, impactedUser);
         }
         return "about";
     }
 
     @GetMapping(value = "/user", produces = MediaType.TEXT_HTML_VALUE)
     public String userIndex(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
-        model.addAttribute("impacted", impactedUser);
+        model.addAttribute(ATTR_IMPACTED, impactedUser);
         return "user/profile";
     }
     
     @GetMapping(value = "/admin", produces = MediaType.TEXT_HTML_VALUE)
     public String adminIndex(Model model, @AuthenticationPrincipal ImpactedUser impactedUser) {
-        model.addAttribute("impacted", impactedUser);
+        model.addAttribute(ATTR_IMPACTED, impactedUser);
         return "admin/profile";
     }
 

@@ -13,8 +13,8 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class PoetrydbHealthIndicator implements HealthIndicator {
 
-    private final RestTemplate restTemplate = new RestTemplate();
-    private final String poetryDbUrl = "http://poetrydb.org/author";
+    private static final RestTemplate REST_TEMPLATE = new RestTemplate();
+    private static final String POETRY_DB_URL = "http://poetrydb.org/author";
         
     @Override
     public Health health() {
@@ -30,7 +30,7 @@ public class PoetrydbHealthIndicator implements HealthIndicator {
     }
 
     private boolean isRemoteServiceUp() {
-        ResponseEntity<String> response = restTemplate.getForEntity(poetryDbUrl, String.class);
+        ResponseEntity<String> response = REST_TEMPLATE.getForEntity(POETRY_DB_URL, String.class);
         return (response.getStatusCode() == HttpStatus.OK);
     }
 }

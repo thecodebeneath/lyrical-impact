@@ -36,7 +36,7 @@ public class ImpactedUser implements OidcUser, Serializable {
     private String locale;
     private String roles;
     private Instant lastLogin;
-    private Map<String, Object> attributes;
+    private transient Map<String, Object> attributes;
     
     protected ImpactedUser() {
         this.roles = ROLE_USER;

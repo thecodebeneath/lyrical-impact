@@ -41,13 +41,13 @@ public class VersesRestController {
         List<Verse> verses;
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Order.desc("id")));
         if (tag != null && query != null) {
-            verses = (List<Verse>) vRepo.findByTagsAndTextContainsIgnoreCase(tag, query.trim(), pageable);
+            verses = vRepo.findByTagsAndTextContainsIgnoreCase(tag, query.trim(), pageable);
         } else if (tag != null) {
             verses = vRepo.findByTags(tag, pageable);
         } else if (query != null) {
-            verses = (List<Verse>) vRepo.findByTextContainsIgnoreCase(query.trim(), pageable);
+            verses = vRepo.findByTextContainsIgnoreCase(query.trim(), pageable);
         } else {
-            verses = (List<Verse>) vRepo.findAll(pageable);
+            verses = vRepo.findAll(pageable);
         }
         return verses;
     }
@@ -72,11 +72,11 @@ public class VersesRestController {
         List<Verse> verses;
         Pageable pageable = PageRequest.of(page, PAGE_SIZE, Sort.by(Sort.Order.desc("id")));
         if (tag != null && query != null) {
-            verses = (List<Verse>) vRepo.findByImpactedIdAndTagsAndTextContainsIgnoreCase(impactedId, tag, query.trim(), pageable);
+            verses = vRepo.findByImpactedIdAndTagsAndTextContainsIgnoreCase(impactedId, tag, query.trim(), pageable);
         } else if (tag != null) {
             verses = vRepo.findByImpactedIdAndTags(impactedId, tag, pageable);
         } else if (query != null) {
-            verses = (List<Verse>) vRepo.findByImpactedIdAndTextContainsIgnoreCase(impactedId, query.trim(), pageable);
+            verses = vRepo.findByImpactedIdAndTextContainsIgnoreCase(impactedId, query.trim(), pageable);
         } else {
             verses = vRepo.findByImpactedId(impactedId, pageable);
         }

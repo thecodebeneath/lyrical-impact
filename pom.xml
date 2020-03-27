@@ -6,7 +6,6 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <!--<version>2.2.4.RELEASE</version>-->
         <version>2.3.0.M3</version>
         <relativePath/>
     </parent>
@@ -84,13 +83,26 @@
 
     <build>
         <pluginManagement>
-          <plugins>
-            <plugin>
-              <groupId>com.google.cloud.tools</groupId>
-              <artifactId>jib-maven-plugin</artifactId>
-              <version>2.1.0</version>
-            </plugin>
-          </plugins>
+            <plugins>
+                <plugin>
+                    <groupId>com.google.cloud.tools</groupId>
+                    <artifactId>jib-maven-plugin</artifactId>
+                    <version>2.1.0</version>
+                </plugin>
+            </plugins>
         </pluginManagement>
+        <plugins>
+            <!-- mvn sonar:sonar -->
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.7.0.1746</version>
+                <configuration>
+                    <sonar.host.url>http://myserver:9000</sonar.host.url>
+                    <sonar.projectKey>${project.groupId}:${project.build.finalName}</sonar.projectKey>
+                    <sonar.login>a714009a740dd41d56d1f5c3cbd14fc4ac8c0c17</sonar.login>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

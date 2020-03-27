@@ -4,12 +4,14 @@ import java.io.StringReader;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.lookup.songs.chartlyrics.ArrayOfSearchLyricResult;
 
 /**
  *
  * @author black
  */
+@Slf4j
 public class JaxbExperiment {
 
     public static void main(String[] args) {
@@ -52,9 +54,9 @@ public class JaxbExperiment {
 //            ArrayOfSearchLyricResult result = (ArrayOfSearchLyricResult) unmarshaller.unmarshal(xsr);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             ArrayOfSearchLyricResult result = (ArrayOfSearchLyricResult) jaxbUnmarshaller.unmarshal(new StringReader(xmlStringWorks));
-            System.out.println(result);
+            log.info("{}", result);
         } catch (JAXBException e) {
-            e.printStackTrace();
+            log.error("{}", e.getMessage());
         }
     }
 

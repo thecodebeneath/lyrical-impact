@@ -1,7 +1,6 @@
 package org.codebeneath.lyrics.verses;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,7 +33,7 @@ public class Verse {
     private String reaction;
     @ElementCollection
     private List<String> tags;
-    public Long impactedId;
+    private Long impactedId;
 
     protected Verse() {
     }

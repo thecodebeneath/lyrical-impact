@@ -1,6 +1,7 @@
 package org.codebeneath.lyrics.lookup.songs.musixmatch;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import javax.xml.bind.annotation.XmlElement;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,6 +16,7 @@ import lombok.ToString;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Lyrics {
 
-    private String lyrics_body;
+    @XmlElement(name = "lyrics_body")
+    private String lyricsBody;
 
 }

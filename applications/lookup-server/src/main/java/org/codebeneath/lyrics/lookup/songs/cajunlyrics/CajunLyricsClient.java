@@ -3,7 +3,6 @@ package org.codebeneath.lyrics.lookup.songs.cajunlyrics;
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.lookup.LookupSuggestion;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -17,7 +16,7 @@ public class CajunLyricsClient {
     public static final String URL = "http://api.cajunlyrics.com/LyricDirectSearch.php?artist={artist}&title={title}";
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public LookupSuggestion lookup(String lyrics) throws RestClientException {
+    public LookupSuggestion lookup(String lyrics) {
         String cajun = restTemplate.getForObject(URL, String.class, "Buckwheat Zydeco", "Tee Nah Nah");
         log.info("Cajun as Str: {}", cajun);
 

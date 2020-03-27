@@ -69,7 +69,7 @@ public class ImpactedVerse {
       if (tags.isEmpty()) {
           tags = new ArrayList<>(1);
       }    
-      tags.add(text);
+      tags.add(label);
     }
     
     // intent is to replace \r\n with just \n, such as when text comes from a <textarea> form element

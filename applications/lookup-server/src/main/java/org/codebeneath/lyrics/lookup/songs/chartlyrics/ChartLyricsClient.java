@@ -6,7 +6,6 @@ import javax.xml.bind.Unmarshaller;
 import lombok.extern.slf4j.Slf4j;
 import org.codebeneath.lyrics.lookup.LookupSuggestion;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 /**
@@ -24,7 +23,7 @@ public class ChartLyricsClient {
         log.info("" + e.lookup("dark side of the moon"));
     }
 
-    public LookupSuggestion lookup(String lyrics) throws RestClientException {
+    public LookupSuggestion lookup(String lyrics) {
 //        lyrics = "dark side of the moon";        
         // unmarshalls to null because namespace in xml document root element...
         // ArrayOfSearchLyricResult chartLyrics = restTemplate.getForObject(URL, ArrayOfSearchLyricResult.class, lyrics);

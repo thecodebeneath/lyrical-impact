@@ -29,7 +29,7 @@ public class ImpactedRestController {
     }
 
     @GetMapping(path = "/byRole/{role}", produces = MediaType.APPLICATION_JSON_VALUE)    
-    List<Impacted> findByRolesContains(@PathVariable String role) {
+    public List<Impacted> findByRolesContains(@PathVariable String role) {
         return iRepo.findByRolesContains(role);
     }
     
@@ -39,7 +39,7 @@ public class ImpactedRestController {
     }
 
     @GetMapping(path = "/byUniqueId/{uid}", produces = MediaType.APPLICATION_JSON_VALUE)
-    Optional<Impacted> findByUniqueId(@PathVariable String uid) {
+    public Optional<Impacted> findByUniqueId(@PathVariable String uid) {
         return iRepo.findByUniqueId(uid);
     }
 }

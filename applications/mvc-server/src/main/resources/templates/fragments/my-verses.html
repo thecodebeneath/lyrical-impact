@@ -16,8 +16,8 @@
                         <span class="w3-right-tags">
                             <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
                         </span>
-                        <h5 class="w3-theme-l3" th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|">Title</h5>
-                        <h6 th:utext="*{verse.author != ''}? 'By: ' + *{#strings.escapeXml(verse.author)} : 'By: Unknown Author'">Author</h6>
+                        <h5 class="w3-theme-l3" th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|"></h5>
+                        <h6 th:utext="*{verse.author != ''}? 'By: ' + *{#strings.escapeXml(verse.author)} : 'By: Unknown Author'"></h6>
                         <hr class="w3-clear"/>
                         <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
                         <hr class="w3-clear"/>

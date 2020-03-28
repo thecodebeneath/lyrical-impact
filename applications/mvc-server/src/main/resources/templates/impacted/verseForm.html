@@ -28,49 +28,50 @@
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
 
-                                    <h3>Add a verse that impacted you!</h3>
-                                    <h6 class="w3-opacity">The verse, title, author and tags will be <b>public</b>.</h6>
-                                    <h6 class="w3-opacity">Your identity and reaction text are always <b>private</b>.</h6>
+                                    <h3 th:text="#{form.header}"></h3>
+                                    <h4 th:utext="#{form.intro.1}"></h4>
+                                    <h4 th:utext="#{form.intro.1}"></h4>
                                     
                                     <form th:method="*{id > 0} ? put : post" th:object="${verse}">
                                         <span class="w3-right">
-                                            <span class="w3-red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">text error</span>
+                                            <span th:errors="*{text}" class="w3-red" th:if="${#fields.hasErrors('text')}">text error</span>
                                         </span>
-                                        <h5>* Verse:</h5>
+                                        <h5 th:text="#{form.verse}"></h5>
                                         <textarea th:field="*{text}" th:placeholder="'Just the punchy, important bits that impacted you the most, not the whole thing. This could be part of a poem or a song...'" style="width: 100%; height: 200px" tabindex="1"/>
 
                                         <span class="w3-right">
-                                            <span class="w3-red" th:if="${#fields.hasErrors('reaction')}" th:errors="*{reaction}">reaction error</span>
+                                            <span th:errors="*{reaction}" class="w3-red" th:if="${#fields.hasErrors('reaction')}">reaction error</span>
                                         </span>
-                                        <h5>Your reaction:</h5>
+                                        <h5 th:text="#{form.reaction}"></h5>
                                         <textarea th:field="*{reaction}" th:placeholder="'You can come back later if you want to think about it more...'" style="width: 100%; height: 95px" tabindex="2"/>
 
                                         <span class="w3-right">
-                                            <span class="w3-red" th:if="${#fields.hasErrors('title')}" th:errors="*{title}">title error</span>
+                                            <span th:errors="*{title}" class="w3-red" th:if="${#fields.hasErrors('title')}">title error</span>
                                         </span>
-                                        <h5>Title this verse is part of: <button type="button" class="w3-button w3-amber w3-right" id="lookup-verse" >Try to lookup Title and Author</button> </h5>
+                                        <h5 th:text="#{form.title}"></h5>
+                                        <button th:text="#{form.lookup.try}" type="button" class="w3-button w3-amber w3-right" style="margin-top: -38px;" id="lookup-verse"></button>
                                         <input type="text" th:field="*{title}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="3"/>
 
                                         <span class="w3-right">
-                                            <span class="w3-red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">author error</span>
+                                            <span th:errors="*{author}" class="w3-red" th:if="${#fields.hasErrors('author')}">author error</span>
                                         </span>
-                                        <h5>Author who wrote this verse:</h5>
+                                        <h5 th:text="#{form.author}"></h5>
                                         <input type="text" th:field="*{author}" th:placeholder="'It\'s fine if you don\'t know...'" style="width: 100%" tabindex="4"/>
                                         
-                                        <h5>Tag this verse so that you can find similar impacts later:</h5>
+                                        <h5 th:text="#{form.tag}"></h5>
                                         <select th:field="*{tags}" data-placeholder="Tags..." class="chosen-select-width" multiple="true" tabindex="5">
-                                            <option th:each="tag: ${allTags}" th:value="${tag.label}" th:text="${tag.label}"/>
+                                            <option th:text="${tag.label}" th:each="tag: ${allTags}" th:value="${tag.label}"/>
                                         </select>
   
                                         <hr class="w3-clear"/>
                                         <input type="hidden" th:if="*{id > 0}" th:field="*{id}"/>
                                         <input type="hidden" th:if="${gvid > 0}" th:name="gvid" th:value="${gvid}"/>
-                                        <button type="submit" class="w3-button w3-theme" name="save"   th:if="${gvid > 0}" th:text="'Save impacted verse'" th:formaction="@{/verses}" tabindex="6">Save</button>
-                                        <button type="submit" class="w3-button w3-theme" name="save"   th:if="${verse.id == null && gvid == null}" th:text="'Save impacted verse'" tabindex="6">Save</button>
-                                        <button type="submit" class="w3-button w3-theme" name="update" th:if="*{id > 0}"  th:text="'Update impacted verse'" tabindex="6">Update</button>
+                                        <button th:text="#{form.save}" type="submit" class="w3-button w3-theme" name="save" th:if="${gvid > 0}" th:formaction="@{/verses}" tabindex="6"></button>
+                                        <button th:text="#{form.save}" type="submit" class="w3-button w3-theme" name="save" th:if="${verse.id == null && gvid == null}" tabindex="6"></button>
+                                        <button th:text="#{form.update}" type="submit" class="w3-button w3-theme" name="update" th:if="*{id > 0}" tabindex="6"></button>
                                     </form>
                                     <form th:method="delete" th:if="${verse.id > 0}" th:action="@{'/verses/' + ${verse.id} + '/delete'}">
-                                        <button type="delete" class="w3-button w3-red w3-right" style="margin-top: -38px;" name="delete" th:text="'Delete impacted verse'" tabindex="7">Delete</button>
+                                        <button th:text="#{form.delete}" type="delete" class="w3-button w3-red w3-right" style="margin-top: -38px;" name="delete" tabindex="7"></button>
                                     </form>
                                 </div>
                             </div>
@@ -181,22 +182,22 @@
         </script>
         
         <div id="dialog-form" class="w3-container w3-display-container w3-round w3-border w3-theme-border w3-theme-d2 w3-margin-bottom w3-hide-small" title="Verse Lookup">
-            <h3 class="w3-bar">Let's make an educated guess.</h3>
+            <h3 th:text="#{form.lookup.header}" class="w3-bar"></h3>
             
             <fieldset class="w3-theme-l3">
-                <h4>Maybe your verse is from this Song?</h4>
-                <label for="song-title">Title</label>
-                <div id="song-title" class="text ui-widget-content ui-corner-all">searching...</div>
-                <label for="song-author">Author</label>
-                <div id="song-author" class="text ui-widget-content ui-corner-all">searching...</div>
+                <h4 th:text="#{form.lookup.maybe.song}"></h4>
+                <label th:text="#{title}" for="song-title"></label>
+                <div th:text="#{form.lookup.searching}" id="song-title" class="text ui-widget-content ui-corner-all"></div>
+                <label th:text="#{author}" for="song-author"></label>
+                <div th:text="#{form.lookup.searching}" id="song-author" class="text ui-widget-content ui-corner-all"></div>
             </fieldset>
             <br/>
             <fieldset class="w3-theme-l3">
-                <h4>Maybe your verse is from this Poem?</h4>
-                <label for="poem-title">Title</label>
-                <div id="poem-title" class="text ui-widget-content ui-corner-all">searching...</div>
-                <label for="poem-author">Author</label>
-                <div id="poem-author" class="text ui-widget-content ui-corner-all">searching...</div>
+                <h4 th:text="#{form.lookup.maybe.poem}"></h4>
+                <label th:text="#{title}" for="poem-title"></label>
+                <div th:text="#{form.lookup.searching}" id="poem-title" class="text ui-widget-content ui-corner-all"></div>
+                <label th:text="#{author}" for="poem-author"></label>
+                <div th:text="#{form.lookup.searching}" id="poem-author" class="text ui-widget-content ui-corner-all"></div>
             </fieldset>
         </div>
 

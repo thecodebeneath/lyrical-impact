@@ -23,20 +23,20 @@
                     <!-- Tags --> 
                     <div class="w3-card w3-round w3-white w3-hide-small">
                         <div class="w3-container">
-                            <h3>Filter: My verses by tag</h3>
+                            <h3 th:text="#{m.filter.header}"></h3>
                             <p>
-                                <a class="w3-tag w3-small" th:classappend="${#strings.isEmpty(tag)}? 'w3-theme-l4' : 'w3-theme'" href="/my">[Show All]</a>
-                                <a class="w3-tag w3-small" th:classappend="${tag == t.label}? 'w3-theme-l4' : 'w3-theme'" th:each="t : ${allTags}" th:text="${t.label}" th:href="|?tag=${t.label}|"/>
+                                <a th:text="#{filter.show.all}" class="w3-tag w3-small" th:classappend="${#strings.isEmpty(tag)}? 'w3-theme-l4' : 'w3-theme'" href="/my"></a>
+                                <a th:text="${t.label}" class="w3-tag w3-small" th:classappend="${tag == t.label}? 'w3-theme-l4' : 'w3-theme'" th:each="t : ${allTags}" th:href="|?tag=${t.label}|"/>
                             </p>
                         </div>
                     </div>
                     <br/>
                     <!-- Suggestion -->
                     <div class="w3-container w3-display-container w3-round w3-theme-l4 w3-border w3-theme-border w3-margin-bottom w3-hide-small">
-                        <h3>So random...</h3>
-                        <h5>Someone in the world was impacted by this verse. If you are too, then try</h5>
-                        <button type="button" class="w3-button w3-theme"><a th:href="@{'/verses?randomVerseId=' + ${randomVerse.id}}">Add as my verse</a></button>
-                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(randomVerse.text), newLineChar, '&lt;br /&gt;')}"/>
+                        <h3 th:text="#{m.random.header}"></h3>
+                        <h5 th:text="#{m.random.intro}"></h5>
+                        <button type="button" class="w3-button w3-theme"><a th:utext="#{add.verse}" th:href="@{'/verses?randomVerseId=' + ${randomVerse.id}}"></a></button>
+                        <pre th:utext="${#strings.replace( #strings.escapeXml(randomVerse.text), newLineChar, '&lt;br /&gt;')}" class="w3-rest" />
                     </div>
                 </div>
                 <!-- Verses Column -->
@@ -47,7 +47,7 @@
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
                                     <h3 th:text="'How were you impacted today ' + ${impacted.displayName} + '?'"/>
-                                    <button type="button" class="w3-button w3-theme"><a href="/verses">Add impacted verse</a></button>
+                                    <button type="button" class="w3-button w3-theme"><a th:text="#{m.add.verse}" href="/verses"></a></button>
                                 </div>
                             </div>
                         </div>
@@ -55,11 +55,11 @@
 
                     <!-- no verses to show -->
                     <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
-                        <h3 class="w3-opacity" th:if="${(param.q != null)}" th:text="'No verses match your search term &quot;' + ${param.q} + '&quot;.'">empty message</h3>
-                        <h4 class="w3-opacity" th:if="${(param.q != null)}" th:text="'Try searching for something else or filtering with a tag.'">empty message</h4>
-                        <h3 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'You don\'t have any verses tagged as &quot;' + ${param.tag} + '&quot;.'">empty message</h3>
-                        <h4 class="w3-opacity" th:if="${(param.tag != null)}" th:text="'Try tagging some verses or change your tag filter.'">empty message</h4>
-                        <h3 class="w3-opacity" th:if="${(param.q == null) && (param.tag == null)}" th:text="'You haven\'t added any verses. Add some when you are ready.'">empty message</h3>
+                        <h3 th:if="${(param.q != null)}" th:text="'No verses match your search term &quot;' + ${param.q} + '&quot;.'">empty message</h3>
+                        <h4 th:if="${(param.q != null)}" th:text="'Try searching for something else or filtering with a tag.'">empty message</h4>
+                        <h3 th:if="${(param.tag != null)}" th:text="'You don\'t have any verses tagged as &quot;' + ${param.tag} + '&quot;.'">empty message</h3>
+                        <h4 th:if="${(param.tag != null)}" th:text="'Try tagging some verses or change your tag filter.'">empty message</h4>
+                        <h3 th:if="${(param.q == null) && (param.tag == null)}" th:text="'You haven\'t added any verses. Add some when you are ready.'">empty message</h3>
                     </div>
 
                     <!-- verses to show -->

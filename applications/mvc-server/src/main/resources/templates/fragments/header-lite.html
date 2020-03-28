@@ -13,26 +13,26 @@
     <body class="w3-theme-l5">
         <div th:fragment="header-lite" class="w3-top">
             <div class="w3-bar w3-theme-d2 w3-left-align w3-large">
-                <a href="/my" class="w3-bar-item w3-button w3-padding-large w3-theme-d4">Lyrical Impact</a>
-                <a href="/global" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Global Impact</a>
-                <a href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About</a>
+                <a th:text="#{limpact}" href="/my" class="w3-bar-item w3-button w3-padding-large w3-theme-d4"></a>
+                <a th:text="#{gimpact}" href="/global" class="w3-bar-item w3-button w3-padding-large w3-hover-white"></a>
+                <a th:text="#{about}" href="/about" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white"></a>
                 <div class="w3-right">
                     <span></span>
                     <div sec:authorize="isAuthenticated()" class="w3-dropdown-hover w3-right">
-                        <button class="w3-button w3-padding-large" title="My Profile">
+                        <button th:title="#{my.profile}" class="w3-button w3-padding-large">
                             <span th:text="'' + ${impacted.displayName}"/>
-                            <img th:if="${!#strings.isEmpty(impacted.picture)}" th:src="${impacted.picture}" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
-                            <img th:if="${#strings.isEmpty(impacted.picture)}" src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px" alt="Avatar"/>
+                            <img th:alt="#{avatar}" th:if="${!#strings.isEmpty(impacted.picture)}" th:src="${impacted.picture}" class="w3-circle" style="height:23px;width:23px"/>
+                            <img th:alt="#{avatar}" th:if="${#strings.isEmpty(impacted.picture)}" src="/img/avatar2.png" class="w3-circle" style="height:23px;width:23px"/>
                         </button>
                         <div class="w3-dropdown-content w3-card-4 w3-bar-block" style="width:300px">
-                            <a href="/admin" sec:authorize="hasRole('ADMIN')" class="w3-bar-item w3-button" th:text="'Profile'">admin profile</a>
-                            <a href="/user" sec:authorize="!hasRole('ADMIN')" class="w3-bar-item w3-button" th:text="'Profile'">user profile</a>
-                            <a href="/logout" class="w3-bar-item w3-button" th:text="'Logout'">logout</a>
+                            <a th:text="#{profile}" href="/admin" sec:authorize="hasRole('ADMIN')" class="w3-bar-item w3-button"></a>
+                            <a th:text="#{profile}" href="/user" sec:authorize="!hasRole('ADMIN')" class="w3-bar-item w3-button"></a>
+                            <a th:text="#{logout}" href="/logout" class="w3-bar-item w3-button"></a>
                         </div>
                     </div>
                     <div sec:authorize="!isAuthenticated()" class="w3-dropdown-hover w3-right">
-                        <a href="/login" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Log in</a>
-                        <a href="/signup" class="w3-bar-item w3-button w3-padding-large w3-hover-white">Sign up</a>
+                        <a th:text="#{login}" href="/login" class="w3-bar-item w3-button w3-padding-large w3-hover-white"></a>
+                        <a th:text="#{signup}" href="/signup" class="w3-bar-item w3-button w3-padding-large w3-hover-white"></a>
                     </div>
                 </div>
              </div>

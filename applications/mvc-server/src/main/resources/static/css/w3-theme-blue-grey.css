@@ -24,5 +24,7 @@
 .w3-button-header{border:none;display:inline-block;padding:3px 8px;vertical-align:middle;overflow:hidden;text-decoration:none;color:inherit;background-color:inherit;text-align:center;cursor:pointer;white-space:nowrap}
 .w3-right-tags {float: right!important; margin-right: 15px;}
 h5 {margin-top: -2px;}
-hr{border:0; border-top:5px solid #becbd2; margin:20px 0}
+hr {border:0; border-top:5px solid #becbd2; margin:20px 0}
 
+label {display: block; font-size:18px; margin-top:10px;}
+label {font-family:"Segoe UI",Arial,sans-serif;font-weight:400;}

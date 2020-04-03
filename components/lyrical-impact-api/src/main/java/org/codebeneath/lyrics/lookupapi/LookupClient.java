@@ -22,14 +22,13 @@ public interface LookupClient {
     
     @Component
     static class LookupClientFallback implements LookupClient {
-        private final LookupSuggestion notFoundSuggestion = new LookupSuggestion("No suggestion", "No suggestion");
         @Override
         public LookupSuggestion lookupSongLyrics(@RequestParam(name = "lyrics", required = true) String lyrics) {
-            return notFoundSuggestion;
+            return LookupSuggestion.noSuggestionResult();
         }        
         @Override
         public LookupSuggestion lookupPoemLyrics(@RequestParam(name = "lyrics", required = true) String lyrics) {
-            return notFoundSuggestion;
+            return LookupSuggestion.noSuggestionResult();
         }
     }
 }

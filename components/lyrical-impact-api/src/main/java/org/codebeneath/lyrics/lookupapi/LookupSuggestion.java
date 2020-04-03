@@ -9,8 +9,8 @@ import lombok.ToString;
 @ToString
 public class LookupSuggestion {
 
+    private static final String NONE = "No suggestion";
     private String title;
-
     private String author;
 
     public LookupSuggestion(String title, String author) {
@@ -18,4 +18,7 @@ public class LookupSuggestion {
         this.author = author;
     }
 
+    public static LookupSuggestion noSuggestionResult() {
+        return new LookupSuggestion(NONE, NONE);
+    }
 }

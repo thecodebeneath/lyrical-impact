@@ -74,7 +74,7 @@ public class ImpactedVerse {
     
     // intent is to replace \r\n with just \n, such as when text comes from a <textarea> form element
     private String replaceLinefeed(String txt) {
-        return txt.replaceAll("[\r]", "");
+        return txt != null ? txt.replaceAll("[\r]", "") : txt;
     }   
     
     public ImpactedVerse anonymizeVerse() {

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="en" xml:lang="en">
+    <head>
+        <title>Template :: Profile Side Info</title>
+        <meta charset="UTF-8"></meta>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"></meta>
+        <link rel="stylesheet" href="../../static/css/w3.css"/>
+        <link rel="stylesheet" href="../../static/css/w3-theme-blue-grey.css"/>
+        <style>
+            html,body,h1,h2,h3,h4,h5 {font-family: "Open Sans", sans-serif}
+        </style>
+    </head>
+    <body>
+                    <!-- profile side -->
+                    <div th:fragment="side-info" class="w3-card w3-round w3-white w3-hide-medium">
+                        <div class="w3-container">
+                            <h3 th:text="#{profile.side.header}"></h3>
+                            <div class="w3-center">
+                                <hr/>
+                                <h4 th:utext="${impacted.displayName}"></h4>
+                                <img th:if="${!#strings.isEmpty(impacted.picture)}" th:src="${impacted.picture}" class="w3-circle" style="height:150px;width:150px" alt="Avatar"/>
+                                <img th:if="${#strings.isEmpty(impacted.picture)}" src="/img/avatar2.png" class="w3-circle" style="height:150px;width:150x" alt="Avatar"/>
+                                <hr/>
+                                <h5 th:text="'Last log in: ' + ${impacted.lastLogin}"></h5>
+                                <hr/>
+                            </div>
+                            <div class="w3-theme-l2">
+                                <h6>Principal name:</h6>
+                                <h6 sec:authentication="name"></h6>
+                                <h6>Principal roles:</h6>
+                                <h6 sec:authentication="principal.authorities"></h6>
+                            </div>
+                        </div>
+                    </div>
+    </body>
+</html>

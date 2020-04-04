@@ -19,27 +19,10 @@
             <div class="w3-row">
                 <!-- Left Column -->
                 <div class="w3-col m3">
-                    <!-- Info --> 
-                    <div class="w3-card w3-round w3-white w3-hide-medium">
-                        <div class="w3-container">
-                            <h3 th:text="#{profile.side.header}"></h3>
-                            <div class="w3-center">
-                                <h4 th:utext="${impacted.displayName}"></h4>
-                                <img th:if="${!#strings.isEmpty(impacted.picture)}" th:src="${impacted.picture}" class="w3-circle" style="height:150px;width:150px" alt="Avatar"/>
-                                <img th:if="${#strings.isEmpty(impacted.picture)}" src="/img/avatar2.png" class="w3-circle" style="height:150px;width:150x" alt="Avatar"/>
-                                <h5 th:text="'Last log in: ' + ${impacted.lastLogin}"></h5>
-                            </div>
-                            <br/>
-                            <div class="w3-theme-l2">
-                                <h6>Principal name:</h6>
-                                <h6 sec:authentication="name"></h6>
-                                <h6>Principal roles:</h6>
-                                <h6 sec:authentication="principal.authorities"></h6>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- User Profile Info -->
+                    <div th:replace="fragments/profile :: side-info"></div>
                 </div>
-                <!-- Profile Column -->
+                <!-- User Settings -->
                 <div class="w3-col m9">
                     <div class="w3-row-padding">
                         <div class="w3-col m12">

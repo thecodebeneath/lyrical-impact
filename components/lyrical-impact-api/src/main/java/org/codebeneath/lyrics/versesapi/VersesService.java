@@ -74,7 +74,11 @@ public class VersesService {
     }   
     
     public ImpactedVerse getRandomVerse() {
-        return versesClient.getRandomVerse();
+        ImpactedVerse randomVerse = versesClient.getRandomVerse();
+        if (randomVerse == null) {
+            randomVerse = new ImpactedVerse("", null, null, null);
+        }
+        return randomVerse;
     }
     
     @Cacheable("tagCounts")

@@ -12,20 +12,22 @@
     </head>
     <body>
                     <!-- verses to show -->
-                    <div th:fragment="verses" class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
-                        <span class="w3-right-tags">
-                            <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
-                        </span>
-                        <h5 class="w3-theme-l3" th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|"></h5>
-                        <h6 th:utext="*{verse.author != ''}? 'By: ' + *{#strings.escapeXml(verse.author)} : 'By: Unknown Author'"></h6>
-                        <hr class="w3-clear"/>
-                        <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
-                        <hr class="w3-clear"/>
-                        <p>My reaction is:</p>
-                        <p th:utext="*{verse.reaction != ''}? *{#strings.replace( #strings.escapeXml(verse.reaction), newLineChar, '&lt;br /&gt;')} : 'I haven\'t put my reaction into words yet.'"/>
-                        <form>
-                            <button th:formaction="@{'/verses/' + ${verse.id}}" class="w3-button w3-theme-d1 w3-margin-bottom"><i class="fa fa-thumbs-up"></i>  Edit</button>
-                        </form>
-                    </div>  
+                    <div th:fragment="verses" class="w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
+                        <div class="w3-container w3-padding">
+                            <span class="w3-right-tags">
+                                <a class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:utext="${tag}" th:href="|?tag=${tag}|"/>
+                            </span>
+                            <h5 class="w3-theme-l3" th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|"></h5>
+                            <h6 th:utext="*{verse.author != ''}? 'By: ' + *{#strings.escapeXml(verse.author)} : 'By: Unknown Author'"></h6>
+                            <hr class="w3-clear"/>
+                            <pre class="w3-rest" th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}"/>
+                            <hr class="w3-clear"/>
+                            <p>My reaction is:</p>
+                            <p th:utext="*{verse.reaction != ''}? *{#strings.replace( #strings.escapeXml(verse.reaction), newLineChar, '&lt;br /&gt;')} : 'I haven\'t put my reaction into words yet.'"/>
+                            <form>
+                                <button th:formaction="@{'/verses/' + ${verse.id}}" class="w3-button w3-theme-d1">Edit</button>
+                            </form>
+                        </div>
+                    </div>
     </body>
 </html>

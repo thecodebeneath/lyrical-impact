@@ -47,6 +47,8 @@
                             <div class="w3-card w3-round w3-white">
                                 <div class="w3-container w3-padding">
                                     <h3 th:text="#{g.header}"/>
+                                    <h4 th:text="#{g.intro.1}"/>
+                                    <h4 th:text="#{g.intro.2}"/>
                                     <button type="button" class="w3-button w3-theme"><a th:text="#{g.return.to.my}" href="/my"></a></button>
                                 </div>
                             </div>
@@ -54,12 +56,12 @@
                     </div>
 
                     <!-- no verses to show -->
-                    <div class="w3-container w3-card w3-white w3-round w3-margin" th:if="${#lists.isEmpty(verses)}">
-                        <h3 th:if="${(param.q != null)}" th:text="'No verses match your search term &quot;' + ${param.q} + '&quot;.'">empty message</h3>
-                        <h4 th:if="${(param.q != null)}" th:text="'Try searching for something else or filtering with a tag.'">empty message</h4>
-                        <h3 th:if="${(param.tag != null)}" th:text="'Nobody has tagged any verses as &quot;' + ${param.tag} + '&quot;.'">empty message</h3>
-                        <h4 th:if="${(param.tag != null)}" th:text="'Try filtering for verses with another tag.'">empty message</h4>
-                        <h3 th:if="${(param.q == null) && (param.tag == null)}" th:text="'Nobody has added any verses. Add some of your own when you are ready.'">empty message</h3>
+                    <div class="w3-container w3-card w3-white w3-round w3-margin w3-theme-l3" th:if="${#lists.isEmpty(verses)}">
+                        <h3 th:if="${(param.q != null)}" th:text="#{no.match.search.1} + '&quot;' + ${param.q} + '&quot;.'">no match</h3>
+                        <h4 th:if="${(param.q != null)}" th:text="#{no.match.search.2}">no match</h4>
+                        <h3 th:if="${(param.tag != null)}" th:text="#{no.match.tag.1} + ' &quot;' + ${param.tag} + '&quot;.'">no match</h3>
+                        <h4 th:if="${(param.tag != null)}" th:text="#{no.match.tag.2">no match</h4>
+                        <h3 th:if="${(param.q == null) && (param.tag == null)}" th:text="#{no.g.verses}">no match</h3>
                     </div>
 
                     <!-- verses to show -->

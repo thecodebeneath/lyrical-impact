@@ -12,16 +12,16 @@
     </head>
     <body>
                     <!-- verses to show -->
-                    <div th:fragment="verses" class="w3-container w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
-                        <span class="w3-right-tags">
-                            <a th:utext="${tag}" class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:href="|?tag=${tag}|"/>
-                        </span>
-                        <h5 th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|" class="w3-theme-l3"></h5>
-                        <h6 th:utext="*{verse.author != ''}? *{#strings.escapeXml(verse.author)} : 'Unknown Author'"></h6>
-                        <hr class="w3-clear"/>
-                        <pre th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}" class="w3-rest" />
-                        <hr class="w3-clear"/>
-                        <div class="w3-margin">
+                    <div th:fragment="verses" class="w3-card w3-white w3-round w3-margin" th:each="verse : ${verses}"><br/>
+                        <div class="w3-container w3-padding">
+                            <span class="w3-right-tags">
+                                <a th:utext="${tag}" class="w3-tag w3-small w3-theme" th:each="tag : *{verse.tags}" th:href="|?tag=${tag}|"/>
+                            </span>
+                            <h5 th:utext="*{verse.title != ''}? |'*{#strings.escapeXml(verse.title)}'| : 'Unknown Title'|" class="w3-theme-l3"></h5>
+                            <h6 th:utext="*{verse.author != ''}? *{#strings.escapeXml(verse.author)} : 'Unknown Author'"></h6>
+                            <hr class="w3-clear"/>
+                            <pre th:utext="${#strings.replace( #strings.escapeXml(verse.text), newLineChar, '&lt;br /&gt;')}" class="w3-rest" />
+                            <hr class="w3-clear"/>
                             <h5 th:utext="#{g.your.verse}" th:if="*{impacted != null && verse.impactedId == impacted.id}" class="w3-button w3-disabled w3-theme"></h5>
                             <button type="button" th:unless="*{impacted != null && verse.impactedId == impacted.id}" class="w3-button w3-theme">
                                 <a th:utext="#{add.verse}" th:href="@{'/verses/global/' + ${verse.id}}"></a>

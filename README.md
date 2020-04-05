@@ -1,4 +1,6 @@
 [![Build Status](https://travis-ci.org/thecodebeneath/lyrical-impact.svg?branch=master)](https://travis-ci.org/thecodebeneath/lyrical-impact)
+[![Releases](https://img.shields.io/github/release/thecodebeneath/lyrical-impact)](https://github.com/thecodebeneath/lyrical-impact/releases)
+[![Tags](https://img.shields.io/github/v/tag/thecodebeneath/lyrical-impact)](https://github.com/thecodebeneath/lyrical-impact/tags)
 
 # Lyrical Impact
 A webapp that allows people to remember the lyrical verses that have impacted them in some way.

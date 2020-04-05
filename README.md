@@ -23,17 +23,22 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 
 [1]: /images/screenshot.png
 
+## Objectives
+1. Great a fun web site that scratches a personal itch. I'm hoping to actually go-live with this.
+2. Get personally caught up on modern tech stack, including Spring Boot & Data/JPA & MVC and Docker Compose & Kubernetes
+
 ## Architecture
 General goals:
-1. Run the app stack on a Windows desktop in each of these deployment configs with the same source code:
-   - Spring Boot plugin direct on the host
-   - Docker run, using basic Dockerfile(s)
-   - Docker-compose, development-like mode using basic Dockerfiles(s), in-memory H2 databases
-   - Docker-compose, production-like mode using images created various from helper frameworks, mariadb databases
-   - Minikube, production-like mode using images created from Google Jib plugin and running with `skaffold dev`
-2. Modeled after the design guidance from:
+1. Be able to run the app stack on a Windows desktop in each of these deployment configs with the same source code:
+   - Spring Boot plugin direct on the host (same as java -jar ...)
+   - Docker run - using custom/basic Dockerfile(s)
+   - Docker-compose - development-like mode using the basic Dockerfiles(s) & in-memory H2 databases
+   - Docker-compose - production-like mode using images created from various from helper frameworks & a MariaDB database
+   - Minikube - production-like mode using k8s resource files, images created from the Google Jib plugin and running in a live-reload mode with `skaffold dev`
+2. The app stack, including several microservices, are modeled after the design guidance from:
    - https://12factor.net/
    - https://www.appcontinuum.io/
+3. Use existing social media login via OpenID Connect (OICD)/OAuth2 so that I can avoid storage of usernames and passwords
 
 ## Localhost Config
 When running with docker-compose:
@@ -116,7 +121,7 @@ minikube service mvc-service
 ```
 
 ## Keycloak
-Keycloak, v9.0.0, is a local OIDC server. Create a service for local user accounts that can login to the application.
+Keycloak, v9.0.2, is a local OIDC server. Create a service for local user accounts that can login to the application.
 
 ### Config Overview
 To automated the creation of a Keycloak realm, client, roles and users, you must:

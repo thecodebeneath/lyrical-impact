@@ -26,7 +26,7 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 [1]: /images/screenshot.png
 
 ## Objectives
-1. Great a fun web site that scratches a personal itch. I'm hoping to actually go-live with this.
+1. Create a fun web site that scratches a personal itch. I'm hoping to actually go-live with this.
 2. Get personally caught up on modern tech stack, including Spring Boot, JPA, MVC, Eureka/Ribbon/Feign and Docker Compose & Kubernetes
 
 ## Architecture

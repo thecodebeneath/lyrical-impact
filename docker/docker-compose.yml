@@ -7,7 +7,7 @@ services:
     environment:
       - SPRING_PROFILES_ACTIVE=k8s
       - EUREKA_URI=http://eureka:8761/eureka
-      - KEYCLOAK_HOST_PORT=http://192.168.1.107:8080
+      - KEYCLOAK_HOST_PORT=http://192.168.1.103:8080
 #      - JAVA_TOOL_OPTIONS=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:61000
     env_file:
       - secrets-app.env
@@ -99,7 +99,7 @@ services:
     networks:
       - appnet
   db:
-    image: mariadb:10.5.1
+    image: mariadb:10.5.2
     restart: always
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     environment:
@@ -115,7 +115,7 @@ services:
     networks:
       - appnet
   keycloak.net:
-    image: jboss/keycloak:9.0.0
+    image: jboss/keycloak:9.0.2
     environment:
       - DB_VENDOR=h2
       - KEYCLOAK_IMPORT=/tmp/keycloak-lyrical-realm.json

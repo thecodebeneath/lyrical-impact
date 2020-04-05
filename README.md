@@ -25,7 +25,7 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 
 ## Objectives
 1. Great a fun web site that scratches a personal itch. I'm hoping to actually go-live with this.
-2. Get personally caught up on modern tech stack, including Spring Boot & Data/JPA & MVC and Docker Compose & Kubernetes
+2. Get personally caught up on modern tech stack, including Spring Boot, JPA, MVC, Eureka/Ribbon/Feign and Docker Compose & Kubernetes
 
 ## Architecture
 General goals:
@@ -38,7 +38,7 @@ General goals:
 2. The app stack, including several microservices, are modeled after the design guidance from:
    - https://12factor.net/
    - https://www.appcontinuum.io/
-3. Use existing social media login via OpenID Connect (OICD)/OAuth2 so that I can avoid storage of usernames and passwords
+3. Use existing social media logins, via OpenID Connect (OICD)/OAuth2, so that I can avoid storage of usernames and passwords
 
 ## Localhost Config
 When running with docker-compose:

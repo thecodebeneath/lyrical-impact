@@ -18,6 +18,8 @@ services:
 #      - "61000:61000"
     networks:
       - appnet
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:9090"]
     depends_on:
       - tags
       - verses

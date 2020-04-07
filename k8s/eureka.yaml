@@ -43,3 +43,9 @@ spec:
           ports:
             - name: http
               containerPort: 8761
+          readinessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8761

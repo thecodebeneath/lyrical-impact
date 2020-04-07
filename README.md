@@ -51,8 +51,14 @@ When running with docker-compose:
 
 When running with minikube:
 - edit 'hosts' file
-  - `192.168.78.119   lyricalimpact.net   keycloak.net`
+  - `172.17.228.199   lyricalimpact.net   keycloak.net`
   - where this IP address is `minikube ip`
+- k8s/configmap-base.yaml
+  - `KEYCLOAK_HOST_PORT: http://172.17.228.199:8080`
+- k8s/mvc.yaml
+  - `externalIPs: 172.17.228.199`
+- k8s/keycloak.yaml
+  - `externalIPs: 172.17.228.199`
 
 ## Docker-compose
 Service orchestration is using docker-compose in one of several ways (in order of preference):

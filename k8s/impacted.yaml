@@ -48,3 +48,9 @@ spec:
           ports:
             - name: http
               containerPort: 8383
+          readinessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8383

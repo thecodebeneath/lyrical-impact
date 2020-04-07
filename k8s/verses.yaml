@@ -19,7 +19,7 @@ metadata:
   labels:
     app: lyrical-impact
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: lyrical-impact
@@ -48,3 +48,9 @@ spec:
           ports:
             - name: http
               containerPort: 8282
+          readinessProbe:
+            initialDelaySeconds: 30
+            periodSeconds: 30
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8282

@@ -50,15 +50,16 @@ When running with docker-compose:
   - `KEYCLOAK_HOST_PORT` is the set to actual host IP & port
 
 When running with minikube:
+- deploy all resource yamls
+- `minikube tunnel`
+- `kubectl get service mvc-service`, copy the external IP address
+- `kubectl get service keycloak`, copy the external IP address
 - edit 'hosts' file
-  - `172.17.228.199   lyricalimpact.net   keycloak.net`
-  - where this IP address is `minikube ip`
-- k8s/configmap-base.yaml
-  - `KEYCLOAK_HOST_PORT: http://172.17.228.199:8080`
-- k8s/mvc.yaml
-  - `externalIPs: 172.17.228.199`
-- k8s/keycloak.yaml
-  - `externalIPs: 172.17.228.199`
+  - `172.17.228.199   lyricalimpact.net`
+  - `172.17.228.205   keycloak.net`
+- edit `k8s/configmap-base.yaml`
+  - `KEYCLOAK_HOST_PORT: http://172.17.228.205:8080`
+- rescale deployment `mvc-service` so pod picks up the new configmap
 
 ## Docker-compose
 Service orchestration is using docker-compose in one of several ways (in order of preference):
@@ -103,6 +104,7 @@ Deployment using Minikube + Skaffold. Download CLIs for Skaffold and Minikube an
 ### Startup
 - Powershell (as admin):
 ```
+minikube config set cpu 4
 minikube config set memory 6144
 minikube config set disk-size 40000
 minikube config set vm-driver hyperv

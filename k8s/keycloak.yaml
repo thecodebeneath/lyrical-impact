@@ -5,13 +5,11 @@ metadata:
   labels:
     app: lyrical-impact
 spec:
+  # minikube tunnel
   type: LoadBalancer
-  externalIPs:
-    - 172.17.228.199
   ports:
     - protocol: TCP
       port: 8080
-      nodePort: 30080
       targetPort: 8080
   selector:
     app: lyrical-impact

@@ -36,7 +36,7 @@ spec:
       containers:
         - name: lyrical-impact-mvc-pod
           image: gcr.io/lyrical-impact/li/mvc-server:1.0-SNAPSHOT
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 500Mi

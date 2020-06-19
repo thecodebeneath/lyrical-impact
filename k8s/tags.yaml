@@ -32,7 +32,7 @@ spec:
       containers:
         - name: lyrical-impact-tags-pod
           image: gcr.io/lyrical-impact/li/tags-server:1.0-SNAPSHOT
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 256Mi

@@ -32,7 +32,7 @@ spec:
       containers:
         - name: lyrical-impact-lookup-pod
           image: gcr.io/lyrical-impact/li/lookup-server:1.0-SNAPSHOT
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 256Mi

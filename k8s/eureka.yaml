@@ -34,7 +34,7 @@ spec:
       containers:
         - name: lyrical-impact-eureka-pod
           image: gcr.io/lyrical-impact/li/eureka:1.0-SNAPSHOT
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 256Mi

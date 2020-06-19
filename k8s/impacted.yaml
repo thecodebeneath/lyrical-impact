@@ -32,7 +32,7 @@ spec:
       containers:
         - name: lyrical-impact-impacted-pod
           image: gcr.io/lyrical-impact/li/impacted-server:1.0-SNAPSHOT
-          imagePullPolicy: Never
+          imagePullPolicy: IfNotPresent
           resources:
             limits:
               memory: 512Mi

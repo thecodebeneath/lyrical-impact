@@ -53,7 +53,8 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
                     <to>
-                        <image>li/lookup-server</image>
+                        <image>gcr.io/lyrical-impact/li/lookup-server</image>
+                        <tags>${project.version}</tags>
                     </to>
                     <container>
                         <mainClass>org.codebeneath.lyrics.lookup.LookupServiceApplication</mainClass>

@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: lyrical-impact-verses-pod
-          image: li/verses-server
+          image: gcr.io/lyrical-impact/li/verses-server:1.0-SNAPSHOT
           imagePullPolicy: Never
           resources:
             limits:

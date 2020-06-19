@@ -40,7 +40,8 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
                     <to>
-                        <image>li/eureka</image>
+                        <image>gcr.io/lyrical-impact/li/eureka</image>
+                        <tags>${project.version}</tags>
                     </to>
                     <container>
                         <jvmFlags>

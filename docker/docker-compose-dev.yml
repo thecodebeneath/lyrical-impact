@@ -9,7 +9,7 @@ services:
     mem_reservation: 512m
     environment:
       - EUREKA_URI=http://eureka:8761/eureka
-      - KEYCLOAK_HOST_PORT=http://192.168.1.107:8080
+      - KEYCLOAK_HOST_PORT=http://192.168.1.103:8080
     env_file:
       - secrets-app.env
     expose:

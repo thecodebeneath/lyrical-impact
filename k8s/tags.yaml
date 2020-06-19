@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: lyrical-impact-tags-pod
-          image: li/tags-server
+          image: gcr.io/lyrical-impact/li/tags-server:1.0-SNAPSHOT
           imagePullPolicy: Never
           resources:
             limits:

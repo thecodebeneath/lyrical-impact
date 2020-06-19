@@ -49,7 +49,8 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
                     <to>
-                        <image>li/verses-server</image>
+                        <image>gcr.io/lyrical-impact/li/verses-server</image>
+                        <tags>${project.version}</tags>
                     </to>
                     <container>
                         <jvmFlags>

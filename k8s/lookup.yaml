@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: lyrical-impact-lookup-pod
-          image: li/lookup-server
+          image: gcr.io/lyrical-impact/li/lookup-server:1.0-SNAPSHOT
           imagePullPolicy: Never
           resources:
             limits:

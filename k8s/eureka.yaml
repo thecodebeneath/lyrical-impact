@@ -33,7 +33,7 @@ spec:
     spec:
       containers:
         - name: lyrical-impact-eureka-pod
-          image: li/eureka
+          image: gcr.io/lyrical-impact/li/eureka:1.0-SNAPSHOT
           imagePullPolicy: Never
           resources:
             limits:

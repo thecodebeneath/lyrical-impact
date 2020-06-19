@@ -1,7 +1,7 @@
 version: "2.4"
 services:
   app:
-    image: li/mvc-server:latest
+    image: gcr.io/lyrical-impact/li/mvc-server:latest
     mem_limit: 512m
     mem_reservation: 512m
     environment:
@@ -27,7 +27,7 @@ services:
       - lookup
       - eureka
   tags:
-    image: li/tags-server:latest
+    image: gcr.io/lyrical-impact/li/tags-server:latest
     mem_limit: 256m
     mem_reservation: 256m
     environment:
@@ -44,7 +44,7 @@ services:
       - db
       - eureka
   verses:
-    image: li/verses-server:latest
+    image: gcr.io/lyrical-impact/li/verses-server:latest
     mem_limit: 512m
     mem_reservation: 512m
     environment:
@@ -61,7 +61,7 @@ services:
       - db
       - eureka
   impacted:
-    image: li/impacted-server:latest
+    image: gcr.io/lyrical-impact/li/impacted-server:latest
     mem_limit: 512m
     mem_reservation: 512m
     environment:
@@ -78,7 +78,7 @@ services:
       - db
       - eureka
   lookup:
-    image: li/lookup-server:latest
+    image: gcr.io/lyrical-impact/li/lookup-server:latest
     mem_limit: 256m
     mem_reservation: 256m
     environment:
@@ -91,7 +91,7 @@ services:
     depends_on:
       - eureka
   eureka:
-    image: li/eureka:latest
+    image: gcr.io/lyrical-impact/li/eureka:latest
     mem_limit: 256m
     mem_reservation: 256m
     expose:

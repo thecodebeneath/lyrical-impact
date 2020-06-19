@@ -45,7 +45,8 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
                     <to>
-                        <image>li/tags-server</image>
+                        <image>gcr.io/lyrical-impact/li/tags-server</image>
+                        <tags>${project.version}</tags>
                     </to>
                     <container>
                         <jvmFlags>

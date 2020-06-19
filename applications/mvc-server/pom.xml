@@ -76,7 +76,8 @@
                 <artifactId>jib-maven-plugin</artifactId>
                 <configuration>
                     <to>
-                        <image>li/mvc-server</image>
+                        <image>gcr.io/lyrical-impact/li/mvc-server</image>
+                        <tags>${project.version}</tags>
                     </to>
                     <from>
                       <image>gcr.io/distroless/java:11-debug</image>

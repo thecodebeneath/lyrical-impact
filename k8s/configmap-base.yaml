@@ -8,4 +8,4 @@ data:
   SPRING_PROFILES_ACTIVE: k8s
   EUREKA_URI: http://eureka-service:8761/eureka
   KEYCLOAK_REDIRECT_HOST_PORT: http://lyricalimpact.net:9090
-  KEYCLOAK_HOST_PORT: http://10.107.73.3:8080
+  KEYCLOAK_HOST_PORT: http://keycloak.lyricalimpact.net:8080

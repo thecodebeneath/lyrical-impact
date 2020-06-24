@@ -44,10 +44,8 @@ General goals:
 
 ## Localhost Config
 When running with docker-compose:
-- edit 'hosts' file
-  - `127.0.0.1   lyricalimpact.net   keycloak.net`
-- docker-compose.yml
-  - `KEYCLOAK_HOST_PORT` is the set to actual host IP & port
+- edit 'hosts' file to have an entry for host's actual IP address
+  - `192.168.1.103   lyricalimpact.net   keycloak.lyricalimpact.net`
 
 When running with minikube:
 - deploy all resource yamls
@@ -56,9 +54,7 @@ When running with minikube:
 - `kubectl get service keycloak`, copy the external IP address
 - edit 'hosts' file
   - `172.17.228.199   lyricalimpact.net`
-  - `172.17.228.205   keycloak.net`
-- edit `k8s/configmap-base.yaml`
-  - `KEYCLOAK_HOST_PORT: http://172.17.228.205:8080`
+  - `172.17.228.205   keycloak.lyricalimpact.net`
 - rescale deployment `mvc-service` so pod picks up the new configmap
 
 ## Docker-compose

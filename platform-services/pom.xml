@@ -18,7 +18,6 @@
 
     <modules>
         <module>eureka</module>
-        <!--<module>oauth2</module>-->
     </modules>
 
     <build>

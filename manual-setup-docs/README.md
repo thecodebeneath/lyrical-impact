@@ -15,7 +15,7 @@ docker-compose up -d keycloak
 
 ### First time manual setup
 
-- Open http://localhost:9090 > Admin Console > Log in
+- Open http://localhost:8080 > Admin Console > Log in
 - Add "Realm":
   - Name: "lyrical"
 - Configure > Create "Client":
@@ -24,8 +24,10 @@ docker-compose up -d keycloak
   - Settings > Valid Redirect URIs: "http://lyricalimpact.net:9090/*"
   - Save
 - Configure > Add "Roles:
-  - Role Name: "li_admin"
-  - Role Name: "li_user"
+  - Role Name: "ROLE_ADMIN"
+  - Role Name: "ROLE_USER"
+- Configure > Client Scopes > roles > Mappers > realm roles:
+  - Add to ID token: ON
 - Manage > Add "Users:
   1. Local admin user
      - Username: "liadmin"
@@ -33,28 +35,32 @@ docker-compose up -d keycloak
      - First Name: "Keycloak"
      - Last Name: "Admin"
      - Save
-     - Attributes > Add
-       - Key: "picture" / Value: "https://vignette.wikia.nocookie.net/westworld/images/d/d8/Maeve_Les_Ecorches.jpg/revision/latest/scale-to-width-down/310"
      - Credentials > Set Password
        - Password: ***
        - Temporary: OFF
        - Set Password
      - Role Mapping > Assigned Roles
-       - li_admin
+       - ROLE_ADMIN
+     - Attributes > Add
+       - Key: "picture" / Value: "https://i.pinimg.com/236x/16/14/d4/1614d4717ae3e19db55917a883098364--westworld-cast-westworld-tv-series.jpg"
+       - Add
+       - Save
   2. Local user
      - Username: "liuser"
      - Email: "liuser@gmail.com"
      - First Name: "Keycloak"
      - Last Name: "User"
      - Save
-     - Attributes > Add
-       - Key: "picture" / Value: "https://vignette.wikia.nocookie.net/westworld/images/d/dd/Dolores_Chesnut_ep.jpg/revision/latest/scale-to-width-down/310"
      - Credentials > Set Password
        - Password: ***
        - Temporary: OFF
        - Set Password
      - Role Mapping > Assigned Roles
-       - li_user
+       - ROLE_USER
+     - Attributes > Add
+       - Key: "picture" / Value: "https://news.berkeley.edu/wp-content/uploads/2016/11/Dolores300.jpg"
+       - Add
+       - Save
 - Manage Sessions > Realm Sessions > Logout all
 
 ### Export realm

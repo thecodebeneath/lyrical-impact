@@ -122,7 +122,7 @@ services:
     networks:
       - appnet
   keycloak:
-    image: jboss/keycloak:9.0.2
+    image: jboss/keycloak:11.0.3
     environment:
       - DB_VENDOR=h2
       - KEYCLOAK_IMPORT=/tmp/keycloak-lyrical-realm.json

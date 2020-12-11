@@ -5,6 +5,7 @@ version: "2.4"
 #
 services:
   app:
+    image: dev/lyrical-impact/li/mvc-server:2.0-SNAPSHOT
     build:
       context: ../applications/mvc-server
       args:
@@ -29,6 +30,7 @@ services:
       - lookup
       - eureka
   tags:
+    image: dev/lyrical-impact/li/tags-server:2.0-SNAPSHOT
     build:
       context: ../applications/tags-server
       args:
@@ -46,6 +48,7 @@ services:
     depends_on:
       - eureka
   verses:
+    image: dev/lyrical-impact/li/verses-server:2.0-SNAPSHOT
     build:
       context: ../applications/verses-server
       args:
@@ -63,6 +66,7 @@ services:
     depends_on:
       - eureka
   impacted:
+    image: dev/lyrical-impact/li/impacted-server:2.0-SNAPSHOT
     build:
       context: ../applications/impacted-server
       args:
@@ -80,6 +84,7 @@ services:
     depends_on:
       - eureka
   lookup:
+    image: dev/lyrical-impact/li/lookup-server:2.0-SNAPSHOT
     build:
       context: ../applications/lookup-server
       args:
@@ -97,6 +102,7 @@ services:
     depends_on:
       - eureka
   eureka:
+    image: dev/lyrical-impact/li/eureka:2.0-SNAPSHOT
     build:
       context: ../platform-services/eureka
       args:

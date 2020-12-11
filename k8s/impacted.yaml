@@ -31,7 +31,7 @@ spec:
     spec:
       containers:
         - name: lyrical-impact-impacted-pod
-          image: gcr.io/lyrical-impact/li/impacted-server:1.0-SNAPSHOT
+          image: gcr.io/lyrical-impact/li/impacted-server:2.0-SNAPSHOT
           imagePullPolicy: IfNotPresent
           resources:
             limits:

@@ -122,7 +122,6 @@ services:
     networks:
       - appnet
   keycloak:
-#    image: jboss/keycloak:11.0.3
     image: jboss/keycloak:13.0.1
     environment:
       - DB_VENDOR=h2

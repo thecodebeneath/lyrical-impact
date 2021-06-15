@@ -35,7 +35,7 @@ spec:
     spec:
       containers:
         - name: keycloak
-          image: jboss/keycloak:9.0.2
+          image: jboss/keycloak:13.0.1
           resources:
             limits:
               memory: 512Mi

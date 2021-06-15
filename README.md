@@ -131,7 +131,7 @@ minikube service mvc-service
 ```
 
 ## Keycloak
-Keycloak, v11.0.3, is a local OIDC server. Create a service for local user accounts that can login to the application.
+Keycloak, v13.0.1, is a local OIDC server. Create a service for local user accounts that can login to the application.
 
 ### Config Overview
 To automated the creation of a Keycloak realm, client, roles and users, you must:

@@ -8,15 +8,14 @@ import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.codebeneath.lyrics.versesapi.VersesService;
 import static org.hamcrest.Matchers.hasSize;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -25,7 +24,6 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 /**
  * Controller test (no security + no view rendering)
  */
-@RunWith(SpringRunner.class)
 @WebMvcTest(GlobalController.class)
 public class NoAuthGlobalControllerTest {
 
@@ -41,7 +39,7 @@ public class NoAuthGlobalControllerTest {
     @MockBean
     private VerseTagsService tagsService;
     
-    @Before
+    @BeforeEach
     public void setUp() {
         final GlobalController controller = new GlobalController(versesService, tagsService);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)

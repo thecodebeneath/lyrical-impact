@@ -9,24 +9,29 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class VerseTest {
 
     static final String problematicText = "aaa\r\nbbb\r\nccc";
     static final String convertedText = "aaa\nbbb\nccc";
     static final Lorem lorem = LoremIpsum.getInstance();
-    Validator validator;
+    static Validator validator;
+    static Verse populatedVerse;
     Verse defaultVerse;
-    Verse populatedVerse;
     
-    @Before
-    public void setUp() {
-        defaultVerse = new Verse();
+    @BeforeAll
+    public static void setUpAll() {
         populatedVerse = EnhancedRandom.random(Verse.class);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
+    }
+
+    @BeforeEach
+    public void setUp() {
+        defaultVerse = new Verse();
     }
     
     @Test

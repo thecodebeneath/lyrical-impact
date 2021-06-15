@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
 import org.springframework.data.domain.Pageable;
 
@@ -18,13 +18,13 @@ public class VersesRestControllerTest {
     private static final String TAG_TEXT = "tag";
     private static final String QUERY_TEXT = "search";
 
-    List<Verse> noVerses = Collections.emptyList();
-    List<Verse> matchedVerses = new ArrayList<>(1);
-    List<Verse> randomVerses = new ArrayList<>();
-    Verse randomVerse;
+    static List<Verse> noVerses = Collections.emptyList();
+    static List<Verse> matchedVerses = new ArrayList<>(1);
+    static List<Verse> randomVerses = new ArrayList<>();
+    static Verse randomVerse;
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setUpBeforeAll() {
         randomVerse = EnhancedRandom.random(Verse.class);
         matchedVerses.add(randomVerse);
         randomVerses.addAll(matchedVerses);

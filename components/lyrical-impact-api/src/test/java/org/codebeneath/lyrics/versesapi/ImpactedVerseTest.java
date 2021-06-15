@@ -9,8 +9,9 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import static org.assertj.core.api.Assertions.assertThat;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class ImpactedVerseTest {
 
@@ -21,7 +22,7 @@ public class ImpactedVerseTest {
     ImpactedVerse defaultVerse;
     ImpactedVerse populatedVerse;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         defaultVerse = new ImpactedVerse();
         populatedVerse = EnhancedRandom.random(ImpactedVerse.class);

@@ -5,8 +5,9 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.*;
 import org.codebeneath.lyrics.tagsapi.VerseTag;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -15,13 +16,13 @@ public class VersesServiceTest {
     
     private VersesClient vClient = mock(VersesClient.class);
     private VerseTagsService tService = mock(VerseTagsService.class);
-    List<VerseTag> allTags;
-    VerseTag happyTag = new VerseTag("happy");
-    VerseTag sadTag = new VerseTag("sad");
-    VerseTag noneTag = new VerseTag("none");
+    static List<VerseTag> allTags;
+    static VerseTag happyTag = new VerseTag("happy");
+    static VerseTag sadTag = new VerseTag("sad");
+    static VerseTag noneTag = new VerseTag("none");
 
-    @Before
-    public void setUp() {
+    @BeforeAll
+    public static void setUpBeforeAll() {
         allTags = asList(happyTag, sadTag, noneTag);
     }
     

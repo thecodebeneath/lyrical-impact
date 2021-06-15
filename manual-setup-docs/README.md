@@ -7,7 +7,7 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 
 ## Keycloak
 
-Keycloak, v9.0.2, is a local OIDC server. Create a service for local user accounts that can login to the application.
+Keycloak, v11.0.3, is a local OIDC server. Create a service for local user accounts that can login to the application.
 ```
 cd docker
 docker-compose up -d keycloak

@@ -43,6 +43,10 @@ General goals:
 3. Use existing social media logins, via OpenID Connect (OICD)/OAuth2, so that I can avoid storage of usernames and passwords
 
 ## Localhost Config
+When running from IDE or CLI:
+- edit 'hosts' file to have aliases for localhost
+  - `127.0.0.1   localhost   lyricalimpact.net   keycloak.lyricalimpact.net`
+
 When running with docker-compose:
 - edit 'hosts' file to have an entry for host's actual IP address
   - `192.168.1.103   lyricalimpact.net   keycloak.lyricalimpact.net`

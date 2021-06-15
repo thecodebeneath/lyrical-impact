@@ -6,9 +6,8 @@ import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import static org.hamcrest.Matchers.*;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +25,6 @@ import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oidcLogin;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -34,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Controller test (full context w/ security + view rendering)
  */
-@RunWith(SpringRunner.class)
 @WebMvcTest(VersesController.class)
 public class VersesControllerTest {
 
@@ -74,7 +71,7 @@ public class VersesControllerTest {
         }
     }
     
-    @Before
+    @BeforeEach
     public void setUp() {
         testUser = EnhancedRandom.random(ImpactedUser.class);
         randomVerse = EnhancedRandom.random(ImpactedVerse.class);

@@ -78,10 +78,12 @@
                     <to>
                         <image>gcr.io/lyrical-impact/li/mvc-server</image>
                         <tags>${project.version}</tags>
-                    </to>
+                    </to>                    
+                    <!-- the default jib distroless image does not have a shell, so force this image for debugging
                     <from>
                       <image>gcr.io/distroless/java:11-debug</image>
                     </from>
+                    -->
                     <container>
                         <jvmFlags>
                             <jvmFlag>-Djava.security.egd=file:/dev/./urandom</jvmFlag>

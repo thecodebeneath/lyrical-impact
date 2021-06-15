@@ -58,6 +58,7 @@
         <maven.compiler.release>11</maven.compiler.release>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <repositories>
@@ -87,8 +88,7 @@
                 <plugin>
                     <groupId>com.google.cloud.tools</groupId>
                     <artifactId>jib-maven-plugin</artifactId>
-                    <version>2.7.0</version>
-                    <!--<version>3.1.1</version>-->
+                    <version>3.1.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>

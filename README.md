@@ -62,7 +62,7 @@ When running with minikube:
 - rescale deployment `mvc-service` so pod picks up the new configmap
 
 ## Docker-compose
-Service orchestration is using docker-compose in one of several ways (in order of preference):
+Service orchestration using `docker-compose` (or the new `docker compose` command) in one of several ways (in order of preference):
 
 ![Screenshot][2]
 
@@ -70,6 +70,7 @@ Service orchestration is using docker-compose in one of several ways (in order o
 
 ### Google Jib
 Google container tools, the maven plugin can create the docker images for Boot apps.
+Use case: Production-like stack deployment. Runs with pre-built containers and a MariaDB service.
 
 ```
 mvn clean install
@@ -81,6 +82,7 @@ docker-compose up -d --scale tags=3
 
 ### Spring Boot Java Buildpack
 Starting with Spring Boot 2.3.0M2, the maven plugin can create the docker images for Boot apps.
+Use case: Production-like stack deployment. Runs with pre-built containers and a MariaDB service.
 
 ```
 mvn clean install
@@ -91,11 +93,13 @@ docker-compose up -d --scale tags=3
 ```
 
 ### Plain Dockerfiles
+Use case: Fast developer stack deployment. Runs with local directory Dockerfiles and in-memory H2 database services
+
 ```
 cd docker
 docker-compose -f docker-compose-dev.yml build
 docker-compose -f docker-compose-dev.yml up -d
-services are not scalable because all ports are exposed to host
+note: services are not scalable because all service ports are exposed to host for debugging purposes
 ```
 
 ## Kubernetes

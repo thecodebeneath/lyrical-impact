@@ -16,9 +16,10 @@ A webapp that allows people to remember the lyrical verses that have impacted th
   * [Startup](#startup)
   * [Deploy](#deploy)
   * [Access the App](#access-the-app)
-* [Keycloak](#keycloak)
-  * [Config Overview](#config-overview)
-  * [Config Details](manual-setup-docs#keycloak)
+* [Identity Providers](#identity-providers)
+  * [Google](#google)
+  * [Okta](#okta)
+  * [Keycloak](#keycloak)
 
 ## Screenshot
 ![Screenshot][1]
@@ -134,15 +135,31 @@ skaffold dev
 minikube service mvc-service
 ```
 
-## Keycloak
+## Identity Providers
+The app uses OAUTH2/OpenID Connection (OIDC) to allow for flexible user management, externalized from the app itself. There
+are three identity provider integrations that I prioritized for working with: Google, Okta and Keycloak.
+
+### Google
+Use the Google Cloud Platform developer `Console` > `APIs & Services` to create `Credentials` > `OAuth2.0 Clients`. The 
+`Client ID`, `Client Secret` and `Authorized URIs` are made available to the app via externalized properties.
+
+- https://console.cloud.google.com/
+
+### Okta
+Use the Okta developer console to create `Applications` > `Applications`. The 
+`Client ID`, `Client Secret` and `Authorized URIs` are made available to the app via externalized properties.
+
+- https://developer.okta.com/
+
+### Keycloak
 Keycloak, v13.0.1, is a local OIDC server. Create a service for local user accounts that can login to the application.
 
-### Config Overview
+#### Keycloak Config Overview
 To automated the creation of a Keycloak realm, client, roles and users, you must:
 1. Start Keycloak in its unconfigured state
 2. Create the Keycloak resources via the admin UI
 3. Export the realm to json file
 4. Mount the json file to the docker container so that Keycloak will automatically import the config on startup
 
-### Config Details
+#### Keycloak Config Details
 [Keycloak Config Details](manual-setup-docs#keycloak)

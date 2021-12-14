@@ -141,18 +141,19 @@ are three identity provider integrations that I prioritized for working with: Go
 
 ### Google
 Use the Google Cloud Platform developer `Console` > `APIs & Services` to create `Credentials` > `OAuth2.0 Clients`. The 
-`Client ID`, `Client Secret` and `Authorized URIs` are made available to the app via externalized properties.
+`Client ID`, `Client Secret` and `Authorized URIs` are made available to the app via externalized env properties.
 
 - https://console.cloud.google.com/
 
 ### Okta
 Use the Okta developer console to create `Applications` > `Applications`. The 
-`Client ID`, `Client Secret` and `Authorized URIs` are made available to the app via externalized properties.
+`Client ID`, `Client Secret` and `Authorized URIs` are made available to the app via externalized env properties.
 
 - https://developer.okta.com/
 
 ### Keycloak
 Keycloak, v13.0.1, is a local OIDC server. Create a service for local user accounts that can login to the application.
+The `Client ID`, `Client Secret` and `Authorized URIs` are made available to the app via externalized env properties.
 
 #### Keycloak Config Overview
 To automated the creation of a Keycloak realm, client, roles and users, you must:

@@ -1,10 +1,10 @@
 package org.codebeneath.lyrics.verses;
 
-import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import static org.mockito.Mockito.*;
@@ -25,11 +25,12 @@ public class VersesRestControllerTest {
 
     @BeforeAll
     public static void setUpBeforeAll() {
-        randomVerse = EnhancedRandom.random(Verse.class);
+        EasyRandom randomGen = new EasyRandom();
+        randomVerse = randomGen.nextObject(Verse.class);
         matchedVerses.add(randomVerse);
         randomVerses.addAll(matchedVerses);
         for (int i = 1; i <= 10; i++) {
-            randomVerses.add(EnhancedRandom.random(Verse.class));
+            randomVerses.add(randomGen.nextObject(Verse.class));
         }
     }
 

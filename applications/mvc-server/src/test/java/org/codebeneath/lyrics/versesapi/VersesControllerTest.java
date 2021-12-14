@@ -1,11 +1,11 @@
 package org.codebeneath.lyrics.versesapi;
 
-import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.Optional;
 import org.codebeneath.lyrics.authn.LoggingAccessDeniedHandler;
 import org.codebeneath.lyrics.impactedapi.ImpactedUser;
 import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import static org.hamcrest.Matchers.*;
+import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.*;
@@ -73,9 +73,10 @@ public class VersesControllerTest {
     
     @BeforeEach
     public void setUp() {
-        testUser = EnhancedRandom.random(ImpactedUser.class);
-        randomVerse = EnhancedRandom.random(ImpactedVerse.class);
-        myImpactedVerse = EnhancedRandom.random(ImpactedVerse.class);
+        EasyRandom randomGen = new EasyRandom();
+        testUser = randomGen.nextObject(ImpactedUser.class);
+        randomVerse = randomGen.nextObject(ImpactedVerse.class);
+        myImpactedVerse = randomGen.nextObject(ImpactedVerse.class);
         myImpactedVerse.setImpactedId(testUser.getId());
     }
 

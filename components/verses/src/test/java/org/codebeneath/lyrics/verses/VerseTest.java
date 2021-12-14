@@ -2,13 +2,13 @@ package org.codebeneath.lyrics.verses;
 
 import com.thedeanda.lorem.Lorem;
 import com.thedeanda.lorem.LoremIpsum;
-import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.Set;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import static org.assertj.core.api.Assertions.assertThat;
+import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,7 +24,8 @@ public class VerseTest {
     
     @BeforeAll
     public static void setUpAll() {
-        populatedVerse = EnhancedRandom.random(Verse.class);
+        EasyRandom randomGen = new EasyRandom();
+        populatedVerse = randomGen.nextObject(Verse.class);
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
     }

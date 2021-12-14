@@ -1,6 +1,5 @@
 package org.codebeneath.lyrics.home;
 
-import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.ArrayList;
 import java.util.List;
 import org.codebeneath.lyrics.StandaloneMvcTestViewResolver;
@@ -8,6 +7,7 @@ import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.codebeneath.lyrics.versesapi.VersesService;
 import static org.hamcrest.Matchers.hasSize;
+import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,7 +46,8 @@ public class NoAuthGlobalControllerTest {
                     .setViewResolvers(new StandaloneMvcTestViewResolver())
                     .build();
         
-        randomVerse = EnhancedRandom.random(ImpactedVerse.class);
+        EasyRandom randomGen = new EasyRandom();
+        randomVerse = randomGen.nextObject(ImpactedVerse.class);
         globalVerses.add(randomVerse);
     }
 

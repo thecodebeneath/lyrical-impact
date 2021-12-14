@@ -1,6 +1,5 @@
 package org.codebeneath.lyrics.home;
 
-import io.github.benas.randombeans.api.EnhancedRandom;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -10,6 +9,7 @@ import org.codebeneath.lyrics.tagsapi.VerseTagsService;
 import org.codebeneath.lyrics.versesapi.ImpactedVerse;
 import org.codebeneath.lyrics.versesapi.VersesService;
 import static org.hamcrest.Matchers.*;
+import org.jeasy.random.EasyRandom;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.*;
@@ -80,7 +80,8 @@ public class GlobalControllerTest {
     public void setUp() {
         testUser = new ImpactedUser("testname", "okta", "testdisplayname");
         testUser.setId(-1L);
-        randomVerse = EnhancedRandom.random(ImpactedVerse.class);
+        EasyRandom randomGen = new EasyRandom();
+        randomVerse = randomGen.nextObject(ImpactedVerse.class);
         globalVerses.add(randomVerse);
     }
 

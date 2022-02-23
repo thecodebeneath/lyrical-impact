@@ -106,31 +106,36 @@ note: services are not scalable because all service ports are exposed to host fo
 ## Kubernetes
 Deployment using Minikube + Skaffold. Download CLIs for Skaffold and Minikube and put each on PATH env var.
 
-### Startup
+### One-Time Config
 - Powershell (as admin):
 ```
-minikube config set cpu 4
+minikube config set cpus 4
 minikube config set memory 6144
 minikube config set disk-size 40000
-minikube config set vm-driver hyperv
+skaffold config set --global local-cluster true
+```
+
+### Start Minikube & UI
+- Powershell (as admin):
+```
 minikube start
 ```
 
-- Git Bash:
+- Powershell:
 ```
 minikube dashboard
 ```
 
 ### Deploy
-- Git Bash:
+- Powershell (as admin):
 ```
-eval $(minikube -p minikube docker-env)
+& minikube -p minikube docker-env | Invoke-Expression
 mvn clean install
 skaffold dev
 ```
 
 ### Access the App
-- Git Bash:
+- Powershell (as admin):
 ```
 minikube service mvc-service
 ```

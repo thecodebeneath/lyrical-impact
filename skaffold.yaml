@@ -1,23 +1,23 @@
-apiVersion: skaffold/v2beta1
+apiVersion: skaffold/v2beta26
 kind: Config
 build:
   artifacts:
-    - image: li/impacted-server
+    - image: gcr.io/lyrical-impact/li/impacted-server
       jib:
         project: applications/impacted-server
-    - image: li/lookup-server
+    - image: gcr.io/lyrical-impact/li/lookup-server
       jib:
         project: applications/lookup-server
-    - image: li/mvc-server
+    - image: gcr.io/lyrical-impact/li/mvc-server
       jib:
         project: applications/mvc-server
-    - image: li/tags-server
+    - image: gcr.io/lyrical-impact/li/tags-server
       jib:
         project: applications/tags-server
-    - image: li/verses-server
+    - image: gcr.io/lyrical-impact/li/verses-server
       jib:
         project: applications/verses-server
-    - image: li/eureka
+    - image: gcr.io/lyrical-impact/li/eureka
       jib:
         project: platform-services/eureka
 deploy:

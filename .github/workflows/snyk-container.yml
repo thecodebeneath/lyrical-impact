@@ -27,8 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Build a Docker image
-      run: mvn install jib:dockerBuild
+    - name: Compile app to containerize
+      run: mvn install -Dmaven.test.skip=true
+    - name: Build Docker images 
+      run: mvn jib:dockerBuild
     - name: Run Snyk to check Docker image for vulnerabilities
       # Snyk can be used to break the build when it detects vulnerabilities.
       # In this case we want to upload the issues to GitHub Code Scanning
@@ -41,7 +43,7 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         image: gcr.io/lyrical-impact/li/tags-server:2.0-SNAPSHOT
-        args: --file=Dockerfile
+        # args: --file=Dockerfile
     - name: Upload result to GitHub Code Scanning
       uses: github/codeql-action/upload-sarif@v1
       with:

@@ -8,13 +8,14 @@ A webapp that allows people to remember the lyrical verses that have impacted th
 ## Table of Contents
 * [Screenshot](#screenshot)
 * [Architecture](#architecture)
-* [Docker-compose](#docker-compose)
+* [Docker-compose Deployment](#docker-compose-deployment)
   * [Google Jib](#google-jib)
   * [Spring Boot Java Buildpack](#spring-boot-java-buildpack)
   * [Plain Dockerfiles](#plain-dockerfiles)
-* [Kubernetes](#kubernetes)
+* [Kubernetes Deployment](#kubernetes-deployment)
   * [Startup](#startup)
-  * [Deploy](#deploy)
+  * [Deploy via Skaffold](#deploy-via-skaffold)
+  * [Deploy via Helm](#deploy-via-helm)
   * [Access the App](#access-the-app)
 * [Identity Providers](#identity-providers)
   * [Google](#google)
@@ -37,7 +38,7 @@ General goals:
    - Docker run - using custom/basic Dockerfile(s)
    - Docker-compose - development-like mode using the basic Dockerfiles(s) & in-memory H2 databases
    - Docker-compose - production-like mode using images created from various from helper frameworks & a MariaDB database
-   - Minikube - production-like mode using k8s resource files, images created from the Google Jib plugin and running in a live-reload mode with `skaffold dev`
+   - Kubernetes (via Docker Desktop) - production-like mode using k8s resource files, images created from the Google Jib plugin and running in a live-reload mode provided by `skaffold dev`
 2. The app stack, including several microservices, are modeled after the design guidance from:
    - https://12factor.net/
    - https://www.appcontinuum.io/
@@ -48,96 +49,100 @@ When running from IDE or CLI:
 - edit 'hosts' file to have aliases for localhost
   - `127.0.0.1   localhost   lyricalimpact.net   keycloak.lyricalimpact.net`
 
-When running with docker-compose:
+When running from docker-compose, skaffold or helm:
 - edit 'hosts' file to have an entry for host's actual IP address
   - `192.168.1.103   lyricalimpact.net   keycloak.lyricalimpact.net`
 
-When running with minikube:
-- deploy all resource yamls
-- `minikube tunnel`
-- `kubectl get service mvc-service`, copy the external IP address
-- `kubectl get service keycloak`, copy the external IP address
-- edit 'hosts' file
-  - `172.17.228.199   lyricalimpact.net`
-  - `172.17.228.205   keycloak.lyricalimpact.net`
-- rescale deployment `mvc-service` so pod picks up the new configmap
-
-## Docker-compose
+## Docker-compose Deployment
 Service orchestration using `docker-compose` (or the new `docker compose` command) in one of several ways (in order of preference):
 
 ![Screenshot][2]
 
-[2]: /docker/docker-compose.png
+[2]: /docker/lyrical-impact-topology.png
 
 ### Google Jib
 Google container tools, the maven plugin can create the docker images for Boot apps.
 Use case: Production-like stack deployment. Runs with pre-built containers and a MariaDB service.
 
-```
-mvn clean install
-mvn jib:dockerBuild
-cd docker
-docker-compose up -d
-docker-compose up -d --scale tags=3
+``` console
+  mvn clean install
+  mvn jib:dockerBuild
+  
+  cd docker
+  docker-compose up -d
+  docker-compose up -d --scale tags=3
 ```
 
 ### Spring Boot Java Buildpack
 Starting with Spring Boot 2.3.0M2, the maven plugin can create the docker images for Boot apps.
 Use case: Production-like stack deployment. Runs with pre-built containers and a MariaDB service.
 
-```
-mvn clean install
-mvn spring-boot:build-image -Dmaven.test.skip=true
-cd docker
-docker-compose up -d
-docker-compose up -d --scale tags=3
+``` console
+  mvn clean install
+  mvn spring-boot:build-image -Dmaven.test.skip=true
+  
+  cd docker
+  docker-compose up -d
+  docker-compose up -d --scale tags=3
 ```
 
 ### Plain Dockerfiles
 Use case: Fast developer stack deployment. Runs with local directory Dockerfiles and in-memory H2 database services
 
-```
-cd docker
-docker-compose -f docker-compose-dev.yml build
-docker-compose -f docker-compose-dev.yml up -d
-note: services are not scalable because all service ports are exposed to host for debugging purposes
+``` console
+  cd docker
+  docker-compose -f docker-compose-dev.yml build
+  docker-compose -f docker-compose-dev.yml up -d
+  
+  note: services are not scalable because all service ports are exposed to host for debugging purposes
 ```
 
-## Kubernetes
-Deployment using Minikube + Skaffold. Download CLIs for Skaffold and Minikube and put each on PATH env var.
+## Kubernetes Deployment
+Deployment using Kubernetes and either Skaffold or Helm. Docker Desktop can manage a single-node Kubernetes instance, so enable
+that option. Download CLIs for Skaffold, Helm and Kubectl and put each on PATH env var.
 
 ### One-Time Config
-- Powershell (as admin):
-```
-minikube config set cpus 4
-minikube config set memory 6144
-minikube config set disk-size 40000
-skaffold config set --global local-cluster true
-```
-
-### Start Minikube & UI
-- Powershell (as admin):
-```
-minikube start
+- Enable the WLS2 option for Docker and then set resource limits. Create, or edit, the file "~/.wslconfig" file to include:
+``` console
+  [wsl2]
+  memory=9GB
+  processors=4
 ```
 
-- Powershell:
-```
-minikube dashboard
+### Enable the Kubernetes Dashboard module
+Reference: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/
+
+Powershell (as admin):
+``` console
+  kubectl proxy
+  http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/deployment?namespace=default
 ```
 
-### Deploy
-- Powershell (as admin):
+### Deploy via Skaffold
+
+Powershell:
+``` console
+  mvn clean install
+  skaffold dev
+  ctrl+c to undeploy
 ```
-& minikube -p minikube docker-env | Invoke-Expression
-mvn clean install
-skaffold dev
+
+### Deploy via Helm
+Reference full instructions in the [Helm README file](k8s/helm/lyrical-impact/README.md)
+
+Powershell:
+``` console
+  cd ./k8s/helm/lyrical-impact
+  helm install lyrical-impact ./
+  helm list
+  helm uninstall lyrical-impact
 ```
 
 ### Access the App
-- Powershell (as admin):
-```
-minikube service mvc-service
+- The two external accessible services are LoadBalanced and accessible via localhost aliases.
+``` console
+  Application: http://lyricalimpact.net:9090/
+  Keycloak Admin: http://keycloak.net:8080/
 ```
 
 ## Identity Providers

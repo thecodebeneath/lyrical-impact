@@ -1,0 +1,12 @@
+apiVersion: v2
+name: lyrical-impact
+description: A Helm chart for Kubernetes deployment of the Lyrical Impact app
+
+type: application
+
+# This is the chart version.
+version: 1.0.0
+
+# This is the version number of the application being deployed.
+appVersion: "2.0-SNAPSHOT"
+icon: https://vignette.wikia.nocookie.net/westworld/images/d/d8/Maeve_Les_Ecorches.jpg/revision/latest/scale-to-width-down/310

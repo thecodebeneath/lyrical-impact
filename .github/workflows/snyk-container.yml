@@ -43,10 +43,8 @@ jobs:
         SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
       with:
         image: gcr.io/lyrical-impact/li/tags-server:2.0-SNAPSHOT
-        # args: --file=Dockerfile
-        args: --sarif-file-output=snyk.sarif
-        sarif: true
-    # - uses: garethr/snyk-to-sarif@master
+        # feed unreleated Dockerfile to get the sarif output file...
+        args: --sarif-file-output=snyk.sarif --file=./applications/tags-server/Dockerfile
     - uses: actions/upload-artifact@v2
       with:
         name: SARIF

@@ -13,7 +13,6 @@ A webapp that allows people to remember the lyrical verses that have impacted th
   * [Spring Boot Java Buildpack](#spring-boot-java-buildpack)
   * [Plain Dockerfiles](#plain-dockerfiles)
 * [Kubernetes Deployment](#kubernetes-deployment)
-  * [Startup](#startup)
   * [Deploy via Skaffold](#deploy-via-skaffold)
   * [Deploy via Helm](#deploy-via-helm)
   * [Access the App](#access-the-app)
@@ -115,8 +114,8 @@ Reference: https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-da
 Powershell (as admin):
 ``` console
   kubectl proxy
-  http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/deployment?namespace=default
 ```
+Browse to: http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/#/deployment?namespace=default
 
 ### Deploy via Skaffold
 
@@ -140,10 +139,8 @@ Powershell:
 
 ### Access the App
 - The two external accessible services are LoadBalanced and accessible via localhost aliases.
-``` console
-  Application: http://lyricalimpact.net:9090/
-  Keycloak Admin: http://keycloak.net:8080/
-```
+  - Application: http://lyricalimpact.net:9090/
+  - Keycloak Admin: http://keycloak.lyricalimpact.net:8080/
 
 ## Identity Providers
 The app uses OAUTH2/OpenID Connection (OIDC) to allow for flexible user management, externalized from the app itself. There

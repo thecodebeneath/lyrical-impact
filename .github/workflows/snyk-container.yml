@@ -44,6 +44,7 @@ jobs:
       with:
         image: gcr.io/lyrical-impact/li/tags-server:2.0-SNAPSHOT
         # args: --file=Dockerfile
+        args: --sarif-file-output=snyk.sarif
         sarif: true
     # - uses: garethr/snyk-to-sarif@master
     - uses: actions/upload-artifact@v2

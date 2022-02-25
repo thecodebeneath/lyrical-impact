@@ -44,8 +44,8 @@ jobs:
       with:
         image: gcr.io/lyrical-impact/li/tags-server:2.0-SNAPSHOT
         # args: --file=Dockerfile
-        json: true
-    - uses: garethr/snyk-to-sarif@master
+        sarif: true
+    # - uses: garethr/snyk-to-sarif@master
     - uses: actions/upload-artifact@v2
       with:
         name: SARIF

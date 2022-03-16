@@ -35,9 +35,9 @@ spec:
           imagePullPolicy: IfNotPresent
           resources:
             limits:
-              memory: 256Mi
+              memory: 384Mi
             requests:
-              memory: 256Mi
+              memory: 384Mi
           envFrom:
             - configMapRef:
                 name: configmap-base
